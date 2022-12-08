@@ -1,0 +1,16 @@
+import React, { useContext, createContext, useState } from "react";
+
+export const DataContext = createContext({});
+
+export const DataProvider = (props) => {
+  const [data, setData] = useState("hay");
+  const [judul, setJudul] = useState("");
+  const [deskripsi, setDeskripsi] = useState("");
+
+  return (
+    <DataContext.Provider
+      value={{ data, setData, judul, setJudul, deskripsi, setDeskripsi }}
+      {...props}
+    />
+  );
+};
