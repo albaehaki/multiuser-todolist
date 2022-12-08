@@ -37,7 +37,8 @@ export const Card = () => {
   return (
     <List
       sx={{
-        my: "auto",
+        // my: "auto",
+        mt: "100px",
         ml: "10px",
         width: "300px",
         px: "10px",

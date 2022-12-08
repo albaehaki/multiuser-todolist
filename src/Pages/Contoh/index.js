@@ -24,17 +24,34 @@ import { useState } from "react";
 const data = [
   {
     name: "Close",
-    icon: <Close />,
+    icon: <Close sx={{ width: "36px", height: "36px" }} />,
   },
   {
     name: "Home",
-    icon: <HomeOutlined />,
+    icon: <HomeOutlined sx={{ width: "36px", height: "36px" }} />,
   },
-  { name: "Inbox", icon: <InboxOutlined /> },
-  { name: "Outbox", icon: <CheckBoxOutlineBlankOutlined /> },
-  { name: "Sent mail", icon: <MailOutline /> },
-  { name: "Draft", icon: <DraftsOutlined /> },
-  { name: "Trash", icon: <ReceiptOutlined /> },
+  {
+    name: "Inbox",
+    icon: <InboxOutlined sx={{ width: "36px", height: "36px" }} />,
+  },
+  {
+    name: "Outbox",
+    icon: (
+      <CheckBoxOutlineBlankOutlined sx={{ width: "36px", height: "36px" }} />
+    ),
+  },
+  {
+    name: "Sent mail",
+    icon: <MailOutline sx={{ width: "36px", height: "36px" }} />,
+  },
+  {
+    name: "Draft",
+    icon: <DraftsOutlined sx={{ width: "36px", height: "36px" }} />,
+  },
+  {
+    name: "Trash",
+    icon: <ReceiptOutlined sx={{ width: "36px", height: "36px" }} />,
+  },
 ];
 
 function App() {
@@ -49,7 +66,7 @@ function App() {
         <Close sx={{ width: 36, height: 36 }} />
       </IconButton>
       {data?.map((item, index) => (
-        <ListItem sx={{ px: "10px" }} button key={index}>
+        <ListItem sx={{ px: "20px", pb: "20px" }} button key={index}>
           <ListItemIcon>{item.icon}</ListItemIcon>
           <ListItemText primary={item.name} />
         </ListItem>

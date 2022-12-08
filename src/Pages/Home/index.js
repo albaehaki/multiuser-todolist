@@ -53,105 +53,26 @@ const Home = () => {
           height: "100vh",
           display: "flex",
           flexDirection: "row",
-          justifyContent: "center",
+          // justifyContent: "center",
           backgroundColor: "lightcoral",
           overflowX: "auto",
+          px: "10px",
+          pt: "10px",
           overflowY: "hidden",
           width: "100%",
         }}
       >
-        <List
+        <Grid
           sx={{
-            my: "auto",
-            width: "300px",
-            px: "10px",
-            backgroundColor: "rgb(255,255,255,0.5)",
-            borderRadius: "10px",
+            display: "flex",
+            flexDirection: "row",
             alignItems: "flex-start",
           }}
         >
-          <ListItem sx={{ backgroundColor: "", px: "0px" }}>
-            <ListItemText>
-              <Typography>Halo</Typography>
-            </ListItemText>
-            {/* <ListItemIcon sx={{ m: "" }}> */}
-            <IconButton sx={{ ml: "0px", display: "", padding: "0px" }}>
-              <MoreVert sx={{ ml: "0px", display: "grid", padding: "0px" }} />
-            </IconButton>
-            {/* </ListItemIcon> */}
-          </ListItem>
-          {[0, 1, 2].map((x, i) => (
-            <ListItem
-              sx={{ backgroundColor: "", mb: "10px", padding: "0px" }}
-              key={i}
-            >
-              <ListItemButton
-                onClick={() => {
-                  setOpenDialog(true);
-                }}
-                sx={{
-                  backgroundColor: "white",
-                  borderRadius: "10px",
-                  // boxShadow: "0px 0px 2px gray",
-                }}
-              >
-                <ListItemText>
-                  <Typography>
-                    Lorem ipsum dolor sit, amet consectetur
-                  </Typography>
-                </ListItemText>
-              </ListItemButton>
-            </ListItem>
+          {[1, 2, 3].map((x, i) => (
+            <Card />
           ))}
-
-          {openField ? (
-            <TextField
-              sx={{
-                pb: "10px",
-                "& .MuiOutlinedInput-root": { borderRadius: "10px" },
-              }}
-              size="small"
-              multiline
-              rows={3}
-              fullWidth
-            ></TextField>
-          ) : (
-            ""
-          )}
-
-          <ListItemButton
-            onClick={() => {
-              setOpenField(!openField);
-            }}
-            sx={{
-              borderRadius: "10px",
-              backgroundColor: "white",
-              padding: "0px",
-            }}
-          >
-            <ListItem>
-              <ListItemIcon
-                sx={{ m: "auto", backgroundColor: "", padding: "0px" }}
-              >
-                {/* {!openField ? (
-                  <Add sx={{ m: "auto", display: "grid", padding: "0px" }} />
-                ) : (
-                  <Close sx={{ m: "auto", display: "grid" }} />
-                )} */}
-                <Add sx={{ m: "auto", display: "grid", padding: "0px" }} />
-              </ListItemIcon>
-              <ListItemText sx={{ backgroundColor: "" }}>
-                {/* {!openField ? "Add list" : "Close"} */}
-                Add list
-              </ListItemText>
-            </ListItem>
-          </ListItemButton>
-        </List>
-        <Card />
-        <Card />
-
-        <Card />
-        <Card />
+        </Grid>
       </Box>
 
       {/* Dialog */}
