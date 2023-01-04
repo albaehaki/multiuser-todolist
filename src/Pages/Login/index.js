@@ -39,22 +39,33 @@ const Login = () => {
   return (
     <>
       <Container
+        maxWidth={"100vw"}
         sx={{
-          display: "grid",
+          display: "flex",
           height: "100vh",
-          width: "100vw",
-          alignItems: "center",
+          width: "100",
+          // alignItems: "center",
           justifyContent: "center",
+          backgroundColor: "lightcoral",
         }}
       >
-        <form onSubmit={handleSubmit(OnSubmit)}>
+        <form
+          style={{
+            display: "flex",
+            width: "600px",
+            margin: "auto",
+            backgroundColor: "rgb(255,255,255,0.5)",
+            height: "100vh",
+          }}
+          onSubmit={handleSubmit(OnSubmit)}
+        >
           <Grid
             sx={{
               margin: "auto",
-              gap: 2,
+              gap: 0,
               // width: "450px",
-              pr: "50px",
-              pl: "50px",
+              px: "100px",
+              // pl: "50px",
             }}
             // alignContent="center"
             direction="row"
@@ -65,7 +76,8 @@ const Login = () => {
                 sx={{
                   fontSize: "40px",
                   fontWeight: 600,
-                  mb: "20px",
+                  mb: "50px",
+                  color: "GrayText",
                 }}
                 align="center"
                 variant="h1"
@@ -75,6 +87,12 @@ const Login = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "20px",
+                    backgroundColor: "white",
+                  },
+                }}
                 label="Email"
                 fullWidth
                 type="email"
@@ -82,9 +100,11 @@ const Login = () => {
                 // onChange={OnChangeEmail}
                 {...register("email", { required: true })}
               />
-              {errors?.email?.type === "required" && <p>harus diisi</p>}
+              {errors?.email?.type === "required" && (
+                <Typography>harus diisi</Typography>
+              )}
             </Grid>
-            <Grid item xs={12}>
+            <Grid sx={{ pt: "30px" }} item xs={12}>
               <Stack
                 sx={{
                   display: "felx",
@@ -93,7 +113,12 @@ const Login = () => {
                 }}
               >
                 <TextField
-                  // sx={{ pr: "20px" }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "20px",
+                      backgroundColor: "white",
+                    },
+                  }}
                   label="Password"
                   type={typeViewPassword ? "text" : "Password"}
                   fullWidth
@@ -113,9 +138,11 @@ const Login = () => {
                   <Password />
                 </IconButton>
               </Stack>
-              {errors?.password?.type === "required" && <p>harus diisi</p>}
+              {errors?.password?.type === "required" && (
+                <Typography>harus diisi</Typography>
+              )}
             </Grid>
-            <Grid item xs={12}>
+            <Grid sx={{ pt: "30px" }} item xs={12}>
               <Typography>
                 <span
                   style={{
@@ -146,6 +173,9 @@ const Login = () => {
                   border: "1px solid lightgray",
                   padding: "10px",
                   fontSize: "25px",
+                  backgroundColor: "white",
+                  borderRadius: "20px",
+                  color: "GrayText",
                 }}
               >
                 Login

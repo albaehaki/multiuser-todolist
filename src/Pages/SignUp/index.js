@@ -35,28 +35,33 @@ const Login = () => {
   return (
     <>
       <Container
+        maxWidth={"100vw"}
         sx={{
-          display: "grid",
+          display: "flex",
           height: "100vh",
-          width: "100vw",
-          alignItems: "center",
+          width: "100",
+          // alignItems: "center",
           justifyContent: "center",
+          backgroundColor: "lightcoral",
         }}
       >
         {/* <Typography variant="h2">Selamat Datang</Typography> */}
         <form
-          // sx={{
-          //   margin: "auto",
-          // }}
+          style={{
+            display: "flex",
+            width: "600px",
+            margin: "auto",
+            backgroundColor: "rgb(255,255,255,0.5)",
+            height: "100vh",
+          }}
           onSubmit={handleSubmit(OnSubmit)}
         >
           <Grid
             sx={{
               margin: "auto",
-              gap: 2,
+              gap: 0,
               // width: "450px",
-              pr: "50px",
-              pl: "50px",
+              px: "100px",
             }}
             // alignContent="center"
             direction="row"
@@ -68,6 +73,7 @@ const Login = () => {
                   fontSize: "40px",
                   fontWeight: 600,
                   mb: "20px",
+                  color: "GrayText",
                 }}
                 align="center"
                 variant="h1"
@@ -77,13 +83,19 @@ const Login = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "20px",
+                    backgroundColor: "white",
+                  },
+                }}
                 label="Email"
                 fullWidth
                 {...register("email", { required: true })}
               />
             </Grid>
             {/* Password */}
-            <Grid item xs={12}>
+            <Grid sx={{ pt: "10px" }} item xs={12}>
               <Stack
                 sx={{
                   display: "felx",
@@ -92,7 +104,12 @@ const Login = () => {
                 }}
               >
                 <TextField
-                  // sx={{ pr: "20px" }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "20px",
+                      backgroundColor: "white",
+                    },
+                  }}
                   label="Password"
                   type={typeViewPassword ? "text" : "Password"}
                   fullWidth
@@ -115,7 +132,7 @@ const Login = () => {
             </Grid>
             {/* Akhir Password */}
             {/* Confirm Password */}
-            <Grid item xs={12}>
+            <Grid sx={{ pt: "10px" }} item xs={12}>
               <Stack
                 sx={{
                   display: "felx",
@@ -124,7 +141,12 @@ const Login = () => {
                 }}
               >
                 <TextField
-                  // sx={{ pr: "20px" }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "20px",
+                      backgroundColor: "white",
+                    },
+                  }}
                   label="Confirm Password"
                   type={typeViewConfirmPassword ? "text" : "Password"}
                   fullWidth
@@ -149,7 +171,7 @@ const Login = () => {
               </Stack>
             </Grid>
             {/* Akhir Confirm Password */}
-            <Grid item xs={12}>
+            <Grid sx={{ pt: "30px" }} item xs={12}>
               <Button
                 fullWidth
                 type="submit"
@@ -157,9 +179,12 @@ const Login = () => {
                   border: "1px solid lightgray",
                   padding: "10px",
                   fontSize: "25px",
+                  backgroundColor: "white",
+                  borderRadius: "20px",
+                  color: "GrayText",
                 }}
               >
-                Login
+                Daftar
               </Button>
             </Grid>
           </Grid>

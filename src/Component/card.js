@@ -19,9 +19,16 @@ import {
   Checkbox,
 } from "@mui/material";
 import { Add, Close, MoreVert } from "@mui/icons-material";
+import { Popup } from "./popup";
 
-export const Card = () => {
-  const [openDialog, setOpenDialog] = useState(false);
+export const Card = ({
+  handleClickOpen,
+  data,
+  openDialog,
+  handleCloseDialog,
+  index,
+}) => {
+  // const [openDialog, setOpenDialog] = useState(false);
   const [openField, setOpenField] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -31,85 +38,95 @@ export const Card = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
+  // const handleCloseDialog = () => {
+  //   setOpenDialog(false);
+  // };
+  console.log(index);
   return (
-    <List
-      sx={{
-        // my: "auto",
-        mt: "100px",
-        ml: "10px",
-        width: "300px",
-        px: "10px",
-        backgroundColor: "rgb(255,255,255,0.5)",
-        borderRadius: "10px",
-        // height: "100%
-      }}
-    >
-      <ListItem sx={{ backgroundColor: "", px: "0px" }}>
-        <ListItemText>
-          <Typography>Halo</Typography>
-        </ListItemText>
-
-        <IconButton sx={{ ml: "0px", display: "", padding: "0px" }}>
-          <MoreVert sx={{ ml: "0px", display: "grid", padding: "0px" }} />
-        </IconButton>
-      </ListItem>
-      {[0, 1, 2].map((x, i) => (
-        <ListItem
-          sx={{ backgroundColor: "", mb: "10px", padding: "0px" }}
-          key={i}
-        >
-          <ListItemButton
-            onClick={() => {
-              setOpenDialog(true);
-            }}
-            sx={{
-              backgroundColor: "white",
-              borderRadius: "10px",
-              // boxShadow: "0px 0px 2px gray",
-            }}
-          >
-            <ListItemText>
-              <Typography>Lorem ipsum dolor sit, amet consectetur</Typography>
-            </ListItemText>
-          </ListItemButton>
-        </ListItem>
-      ))}
-
-      {openField ? (
-        <TextField
-          sx={{
-            pb: "10px",
-            "& .MuiOutlinedInput-root": { borderRadius: "10px" },
-          }}
-          size="small"
-          multiline
-          rows={3}
-          fullWidth
-        ></TextField>
-      ) : (
-        ""
-      )}
-
-      <ListItemButton
-        onClick={() => {
-          setOpenField(!openField);
-        }}
+    <>
+      <List
         sx={{
+          // my: "auto",
+          mt: "100px",
+          ml: "10px",
+          width: "300px",
+          px: "10px",
+          backgroundColor: "rgb(255,255,255,0.5)",
           borderRadius: "10px",
-          backgroundColor: "white",
-          padding: "0px",
+          // height: "100%
         }}
       >
-        <ListItem>
-          <ListItemIcon sx={{ m: "auto", backgroundColor: "", padding: "0px" }}>
-            <Add sx={{ m: "auto", display: "grid", padding: "0px" }} />
-          </ListItemIcon>
-          <ListItemText sx={{ backgroundColor: "" }}>Add list</ListItemText>
+        <ListItem sx={{ backgroundColor: "", px: "0px" }}>
+          <ListItemText>
+            <Typography>Halo</Typography>
+          </ListItemText>
+
+          <IconButton sx={{ ml: "0px", display: "", padding: "0px" }}>
+            <MoreVert sx={{ ml: "0px", display: "grid", padding: "0px" }} />
+          </IconButton>
         </ListItem>
-      </ListItemButton>
-    </List>
+        {[0, 1, 2].map((x, i) => (
+          <ListItem
+            sx={{ backgroundColor: "", mb: "10px", padding: "0px" }}
+            key={i}
+          >
+            <ListItemButton
+              onClick={handleClickOpen}
+              sx={{
+                backgroundColor: "white",
+                borderRadius: "10px",
+                // boxShadow: "0px 0px 2px gray",
+              }}
+            >
+              <ListItemText>
+                <Typography>{data.id}</Typography>
+              </ListItemText>
+            </ListItemButton>
+          </ListItem>
+        ))}
+
+        {openField ? (
+          <TextField
+            sx={{
+              pb: "10px",
+              "& .MuiOutlinedInput-root": { borderRadius: "10px" },
+            }}
+            size="small"
+            multiline
+            rows={3}
+            fullWidth
+          ></TextField>
+        ) : (
+          ""
+        )}
+
+        <ListItemButton
+          onClick={() => {
+            setOpenField(!openField);
+          }}
+          sx={{
+            borderRadius: "10px",
+            backgroundColor: "white",
+            padding: "0px",
+          }}
+        >
+          <ListItem>
+            <ListItemIcon
+              sx={{ m: "auto", backgroundColor: "", padding: "0px" }}
+            >
+              <Add sx={{ m: "auto", display: "grid", padding: "0px" }} />
+            </ListItemIcon>
+            <ListItemText sx={{ backgroundColor: "" }}>Add list</ListItemText>
+          </ListItem>
+        </ListItemButton>
+      </List>
+      <Popup
+        data={data}
+        handleClickOpen={handleClickOpen}
+        openDialog={openDialog}
+        handleCloseDialog={handleCloseDialog}
+        index={index}
+      />
+    </>
   );
 };

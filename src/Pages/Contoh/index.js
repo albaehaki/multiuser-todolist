@@ -7,50 +7,51 @@ import {
   IconButton,
   Box,
   fabClasses,
+  Avatar,
 } from "@mui/material";
 import {
-  CheckBoxOutlineBlankOutlined,
-  DraftsOutlined,
+  CheckBoxOutlineBlank,
+  Drafts,
   HomeOutlined,
-  InboxOutlined,
-  MailOutline,
-  ReceiptOutlined,
+  Inbox,
+  Mail,
+  Receipt,
   Close,
   MoreVert,
   Notes,
+  Home,
 } from "@mui/icons-material";
 import { useState } from "react";
 
 const data = [
   {
-    name: "Close",
-    icon: <Close sx={{ width: "36px", height: "36px" }} />,
-  },
-  {
     name: "Home",
-    icon: <HomeOutlined sx={{ width: "36px", height: "36px" }} />,
+    icon: <Home sx={{ width: "36px", height: "36px" }} />,
   },
   {
     name: "Inbox",
-    icon: <InboxOutlined sx={{ width: "36px", height: "36px" }} />,
+    icon: <Inbox sx={{ width: "36px", height: "36px" }} />,
   },
   {
     name: "Outbox",
-    icon: (
-      <CheckBoxOutlineBlankOutlined sx={{ width: "36px", height: "36px" }} />
-    ),
+    icon: <CheckBoxOutlineBlank sx={{ width: "36px", height: "36px" }} />,
   },
   {
     name: "Sent mail",
-    icon: <MailOutline sx={{ width: "36px", height: "36px" }} />,
+    icon: <Mail sx={{ width: "36px", height: "36px" }} />,
   },
   {
     name: "Draft",
-    icon: <DraftsOutlined sx={{ width: "36px", height: "36px" }} />,
+    icon: <Drafts sx={{ width: "36px", height: "36px" }} />,
   },
   {
     name: "Trash",
-    icon: <ReceiptOutlined sx={{ width: "36px", height: "36px" }} />,
+    icon: <Receipt sx={{ width: "36px", height: "36px" }} />,
+  },
+  {
+    name: "Close",
+    icon: <Close sx={{ width: "36px", height: "36px" }} />,
+    // function: setOpen(false),
   },
 ];
 
@@ -58,15 +59,16 @@ function App() {
   const [open, setOpen] = useState(false);
 
   const getList = () => (
-    <div style={{ width: 250 }}>
-      <IconButton
-        sx={{ color: "lightcoral", my: "10px", ml: "185px" }}
-        onClick={() => setOpen(false)}
-      >
-        <Close sx={{ width: 36, height: 36 }} />
-      </IconButton>
+    <div style={{ width: "300px", mt: "20px" }}>
       {data?.map((item, index) => (
-        <ListItem sx={{ px: "20px", pb: "20px" }} button key={index}>
+        <ListItem
+          sx={{ px: "20px", py: "20px", mt: index === 0 ? "70px" : "0px" }}
+          button
+          key={index}
+          onClick={() => {
+            item.name === "Close" ? setOpen(false) : setOpen(true);
+          }}
+        >
           <ListItemIcon>{item.icon}</ListItemIcon>
           <ListItemText primary={item.name} />
         </ListItem>
@@ -80,8 +82,11 @@ function App() {
           backgroundColor: "rgb(255,255,255,0.5)",
           width: "100vw",
           // height: "5vw",
+          // pt: "20px",
           margin: "auto",
           position: "fixed",
+          display: "flex",
+          justifyContent: "flex-start",
         }}
       >
         <IconButton
@@ -97,17 +102,42 @@ function App() {
             }}
           />
         </IconButton>
+        <IconButton
+          sx={{
+            position: "absolute",
+            my: "20px",
+            mx: "20px",
+            padding: 0,
+            // justifySelf: "self-end",
+            right: "0px",
+            backgroundColor: "white",
+          }}
+        >
+          <Avatar
+            sx={{
+              // padding: "0px",
+              width: 52,
+              height: 52,
+              // color: "lightgray",
+              backgroundColor: "white",
+              color: "lightcoral",
+              "&:hover": { color: "white", backgroundColor: "lightcoral" },
+            }}
+          >
+            M
+          </Avatar>
+        </IconButton>
       </Box>
-      <div>
+      <Box>
         <Drawer
-          // sx={{ backgroundColor: "rgb(255,255,255,0.5)" }}
+          sx={{ pt: "50px" }}
           open={open}
           anchor={"left"}
           onClose={() => setOpen(false)}
         >
           {getList()}
         </Drawer>
-      </div>
+      </Box>
     </>
   );
 }
