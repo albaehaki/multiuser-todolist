@@ -41,7 +41,7 @@ export const Card = ({
   // const handleCloseDialog = () => {
   //   setOpenDialog(false);
   // };
-  console.log(index);
+  // console.log(index);
   return (
     <>
       <List
@@ -71,7 +71,7 @@ export const Card = ({
             key={i}
           >
             <ListItemButton
-              onClick={handleClickOpen}
+              onClick={() => handleClickOpen(data.id)}
               sx={{
                 backgroundColor: "white",
                 borderRadius: "10px",

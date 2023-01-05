@@ -7,6 +7,7 @@ export const DataProvider = (props) => {
   const [judul, setJudul] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [userId, setUserId] = useState();
+  const [taskId, setTaskId] = useState([]);
 
   return (
     <DataContext.Provider
@@ -19,6 +20,8 @@ export const DataProvider = (props) => {
         setDeskripsi,
         userId,
         setUserId,
+        taskId,
+        setTaskId,
       }}
       {...props}
     />

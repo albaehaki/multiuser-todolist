@@ -1,5 +1,12 @@
 import React from "react";
-import { Box, Typography, IconButton, Grid, Dialog } from "@mui/material";
+import {
+  Box,
+  Typography,
+  IconButton,
+  Grid,
+  Dialog,
+  Button,
+} from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useHome } from "../Hooks/Home/useHome";
 
@@ -17,8 +24,11 @@ export const Popup = ({
     judul,
     deskripsi,
     GetData,
+    taskId,
+    setTaskId,
+    Menghapus,
   } = useHome();
-  console.log(data, index);
+  //   console.log(data, index);
   return (
     <>
       {/* Dialog */}
@@ -56,7 +66,7 @@ export const Popup = ({
             boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
           }}
         >
-          {/* {data[index].name} */}
+          {taskId[0]?.name}
         </Typography>
         <Typography
           sx={{
@@ -69,9 +79,9 @@ export const Popup = ({
             boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
           }}
         >
-          {/* {data[index].id}
+          {taskId[0]?.id}
           <br />
-          {data[index].email} */}
+          {taskId[0]?.email}
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum
           aspernatur qui iste deserunt natus at autem ipsa amet beatae
           consequuntur laboriosam possimus eaque commodi atque voluptas
@@ -118,6 +128,19 @@ export const Popup = ({
         >
           Comment
         </Typography>
+        <Button
+          sx={{
+            backgroundColor: "white",
+            borderRadius: "10px",
+            color: "black",
+          }}
+          onClick={() => {
+            Menghapus();
+            handleCloseDialog();
+          }}
+        >
+          Delete
+        </Button>
       </Dialog>
     </>
   );

@@ -10,22 +10,6 @@ import Navigasi from "../Contoh/index";
 import { Card } from "../../Component/card";
 
 const Home = () => {
-  const [openDialog, setOpenDialog] = useState(false);
-  const [openField, setOpenField] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClickOpen = () => {
-    setOpenDialog(true);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
   const {
     data,
     setData,
@@ -34,13 +18,34 @@ const Home = () => {
     judul,
     deskripsi,
     GetData,
+    taskId,
+    setTaskId,
   } = useHome();
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openField, setOpenField] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClickOpen = (e) => {
+    console.log(e);
+    setTaskId(data.filter((a) => a.id === e));
+    console.log(data.filter((a) => a.id === e));
+    setOpenDialog(true);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleCloseDialog = (e) => {
+    setOpenDialog(false);
+  };
 
   useEffect(() => {
     GetData();
-    console.log(GetData());
+    // console.log(GetData());
   }, []);
-  console.log(data);
+  // console.log(data);
   return (
     <>
       <Navigasi sx={{ zIndex: "999" }} />
