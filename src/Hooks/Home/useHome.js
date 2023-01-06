@@ -6,7 +6,16 @@ import {
   getFirestore,
   deleteDoc,
   doc,
+  addDoc,
 } from "firebase/firestore";
+import {
+  ref,
+  onValue,
+  set,
+  remove,
+  update,
+  getDatabase,
+} from "firebase/database";
 import app from "../../Services/firebase";
 import { DataContext } from "../../Context";
 import { async } from "@firebase/util";
@@ -24,6 +33,7 @@ export const useHome = () => {
     setTaskId,
   } = useContext(DataContext);
   const db = getFirestore(app);
+  const realtimedb = getDatabase(app);
   const getCollection = collection(db, "apa");
   const OnChangeJudul = (e) => {
     setJudul(e.target.value);
@@ -32,14 +42,25 @@ export const useHome = () => {
     setDeskripsi(e.target.value);
   };
   const GetData = (e) => {
-    const dapatDB = async () => {
-      const sudahDapatDB = await getDocs(getCollection);
-      setData(sudahDapatDB.docs?.map((x) => ({ ...x.data(), id: x.id })));
-      // return sudahDapatDB.docs?.map((x) => ({ ...x.data(), id: x.id }));
-      // return console.log(sudahDapatDB);
-    };
-    return dapatDB();
+    // console.log(onValue());
+    setData([]);
+    onValue(ref(realtimedb), (snapshot) => {
+      const databd = snapshot.val();
+      if (databd !== null) {
+        Object.values(databd.todolist).map((todo) => {
+          setData((oldArray) => [...oldArray, todo]);
+        });
+      }
+    });
   };
+  // const dapatDB = async () => {
+  //   const sudahDapatDB = await getDocs(getCollection);
+  //   setData(sudahDapatDB.docs?.map((x) => ({ ...x.data(), id: x.id })));
+  //   // return sudahDapatDB.docs?.map((x) => ({ ...x.data(), id: x.id }));
+  //   // return console.log(sudahDapatDB);
+  // };
+  // return dapatDB();
+
   const Menghapus = async (e) => {
     console.log(taskId[0].id);
     try {

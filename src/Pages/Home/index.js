@@ -45,7 +45,7 @@ const Home = () => {
     GetData();
     // console.log(GetData());
   }, []);
-  // console.log(data);
+  console.log(data);
   return (
     <>
       <Navigasi sx={{ zIndex: "999" }} />
