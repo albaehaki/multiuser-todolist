@@ -6,6 +6,7 @@ import {
   Grid,
   Dialog,
   Button,
+  Avatar,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useHome } from "../Hooks/Home/useHome";
@@ -28,7 +29,7 @@ export const Popup = ({
     setTaskId,
     Menghapus,
   } = useHome();
-  console.log(taskId[0]);
+  console.log(taskId);
   return (
     <>
       {/* Dialog */}
@@ -66,7 +67,7 @@ export const Popup = ({
             boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
           }}
         >
-          {taskId[0]}
+          {taskId.judul_task}
         </Typography>
         <Typography
           sx={{
@@ -79,21 +80,9 @@ export const Popup = ({
             boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
           }}
         >
-          {taskId[0]?.id}
+          {taskId.uid}
           <br />
-          {taskId[0]?.email}
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum
-          aspernatur qui iste deserunt natus at autem ipsa amet beatae
-          consequuntur laboriosam possimus eaque commodi atque voluptas
-          accusamus deleniti hic temporibus vitae, iusto repellendus quis esse
-          facilis? Error commodi cupiditate tenetur pariatur ipsum vero impedit
-          at quam placeat quos, possimus incidunt voluptatibus nihil. Quia
-          repudiandae labore eaque? Sunt maiores labore vero expedita
-          repudiandae porro sed culpa qui debitis. Maiores doloribus numquam
-          veniam. Inventore distinctio a vero vel harum placeat numquam quasi
-          voluptates cum perferendis similique nesciunt, obcaecati deleniti
-          quibusdam nihil recusandae sint fugit, asperiores voluptatum
-          necessitatibus excepturi sapiente alias. Distinctio, expedita?
+          {taskId.deskripsi}
         </Typography>
         {/* <Box
           sx={{
@@ -109,7 +98,23 @@ export const Popup = ({
           }}
         ></Box> */}
         <IconButton sx={{ m: "5px", padding: "0px", width: 32, height: 32 }}>
-          <Add sx={{ m: "auto", padding: "0px", width: 32, height: 32 }} />
+          {!taskId.tag ? (
+            <Add sx={{ m: "auto", padding: "0px", width: 32, height: 32 }} />
+          ) : (
+            <Avatar
+              sx={{
+                // padding: "0px",
+                width: 32,
+                height: 32,
+                // color: "lightgray",
+                backgroundColor: "white",
+                color: "lightcoral",
+                "&:hover": { color: "white", backgroundColor: "lightcoral" },
+              }}
+            >
+              {taskId.tag[0]}
+            </Avatar>
+          )}
         </IconButton>
         <Typography
           sx={{

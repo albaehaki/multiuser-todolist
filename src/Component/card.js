@@ -43,9 +43,9 @@ export const Card = ({
   // };
   // console.log(index);
   // console.log(data, "from card js");
-  console.log(data, "ini task");
+  // console.log(data, "ini task");
   const dataTask = data.task;
-  console.log(dataTask);
+  // console.log(dataTask);
   return (
     <>
       <List

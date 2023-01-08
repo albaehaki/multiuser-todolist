@@ -32,8 +32,37 @@ const Home = () => {
     console.log(e, "dari popup");
     // setTaskId(data.filter((a) => a.id === e));
     // console.log(
-    //   data.task.filter((a) => a.id === e),
-    //   "ini pop up"
+    // data.filter((a) => {
+    //   if (a.task.uid === "wkdjdbiwvedvi3") {
+    //     // console.log(a);
+    //     console.log(a.task.uid === "wkdjdbiwvedvi3");
+    //     console.log("berhasil");
+    //   }
+    // }),
+    //  if (a.task.uid === "wkdjdbiwvedvi3") {
+    //    // console.log(a);
+    //    console.log(a.task.uid === "wkdjdbiwvedvi3");
+    //    console.log("berhasil");
+    //  }
+    data.map((x) => {
+      // if (x.task) {
+      console.log(x.task, "bagaimana");
+      // console.log(x.task, "bagaimana");
+      // setTaskId(Object.values(x).filter((a) => a.uid === e));
+      x.task.map((item) => {
+        // console.log(item, "masih mencoba");
+        // console.log(item.uid === "kwdjbiwekbbuw86", "apakah benar");
+        // console.log(item.uid === "kwdjbiwekbbuw86", "apakah benar");
+        if (item.uid === e) {
+          console.log(item, "ini hasilnya");
+          setTaskId(item);
+        }
+      });
+      // console.log(x.task.uid === "wkdjdbiwvedvi3", "apakah benar");
+      // } else {
+      //   console.log("ternyata tidak ada");
+      // }
+    });
     // );
     setOpenDialog(true);
   };
@@ -83,7 +112,7 @@ const Home = () => {
           }}
         >
           {/* ini mapping card */}
-          {data.map((item, i) => (
+          {data?.map((item, i) => (
             <>
               <Card
                 key={i}

@@ -59,7 +59,7 @@ export const useHome = () => {
         // }
         // setData((oldArray) => [...oldArray, val]);
         Object.entries(val).map(([key, value], i) => {
-          console.log(value, key, i);
+          // console.log(value, key, i);
           if (key === "card") {
             console.log(value, "ini if");
             setData(value);
