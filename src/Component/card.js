@@ -42,6 +42,10 @@ export const Card = ({
   //   setOpenDialog(false);
   // };
   // console.log(index);
+  // console.log(data, "from card js");
+  console.log(data, "ini task");
+  const dataTask = data.task;
+  console.log(dataTask);
   return (
     <>
       <List
@@ -58,20 +62,23 @@ export const Card = ({
       >
         <ListItem sx={{ backgroundColor: "", px: "0px" }}>
           <ListItemText>
-            <Typography>Halo</Typography>
+            <Typography>{data.judul_card}</Typography>
           </ListItemText>
 
           <IconButton sx={{ ml: "0px", display: "", padding: "0px" }}>
             <MoreVert sx={{ ml: "0px", display: "grid", padding: "0px" }} />
           </IconButton>
         </ListItem>
-        {[0, 1, 2].map((x, i) => (
+        {/* ini mapping task */}
+        {/* // console.log(data.task[item]); // Object.entries(item).map(([x, i]) =>
+        ( */}
+        {dataTask?.map((item, index) => (
           <ListItem
             sx={{ backgroundColor: "", mb: "10px", padding: "0px" }}
-            key={i}
+            key={item.uid}
           >
             <ListItemButton
-              onClick={() => handleClickOpen(data.id)}
+              onClick={() => handleClickOpen(item.uid)}
               sx={{
                 backgroundColor: "white",
                 borderRadius: "10px",
@@ -79,12 +86,12 @@ export const Card = ({
               }}
             >
               <ListItemText>
-                <Typography>{data.id}</Typography>
+                {/* <Typography>test</Typography> */}
+                <Typography>{item.judul_task}</Typography>
               </ListItemText>
             </ListItemButton>
           </ListItem>
         ))}
-
         {openField ? (
           <TextField
             sx={{
@@ -99,7 +106,6 @@ export const Card = ({
         ) : (
           ""
         )}
-
         <ListItemButton
           onClick={() => {
             setOpenField(!openField);

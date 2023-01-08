@@ -29,9 +29,12 @@ const Home = () => {
     setAnchorEl(event.currentTarget);
   };
   const handleClickOpen = (e) => {
-    console.log(e);
-    setTaskId(data.filter((a) => a.id === e));
-    console.log(data.filter((a) => a.id === e));
+    console.log(e, "dari popup");
+    // setTaskId(data.filter((a) => a.id === e));
+    // console.log(
+    //   data.task.filter((a) => a.id === e),
+    //   "ini pop up"
+    // );
     setOpenDialog(true);
   };
   const handleClose = () => {
@@ -45,7 +48,15 @@ const Home = () => {
     GetData();
     // console.log(GetData());
   }, []);
-  console.log(data);
+  // console.log(
+  //   data.map((ent, i) => {
+  //     return ent.map((index) => {
+  //       return "TEST";
+  //     });
+  //   })
+  // );
+  console.log(data, "DATA MENTAHAN");
+  // console.log(Object.entries(data));
   return (
     <>
       <Navigasi sx={{ zIndex: "999" }} />
@@ -71,15 +82,18 @@ const Home = () => {
             alignItems: "flex-start",
           }}
         >
-          {data.map((x, i) => (
-            <Card
-              key={i}
-              data={x}
-              index={i}
-              handleClickOpen={handleClickOpen}
-              openDialog={openDialog}
-              handleCloseDialog={handleCloseDialog}
-            />
+          {/* ini mapping card */}
+          {data.map((item, i) => (
+            <>
+              <Card
+                key={i}
+                data={item}
+                index={i}
+                handleClickOpen={handleClickOpen}
+                openDialog={openDialog}
+                handleCloseDialog={handleCloseDialog}
+              />
+            </>
           ))}
         </Grid>
       </Box>

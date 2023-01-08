@@ -28,7 +28,7 @@ export const Popup = ({
     setTaskId,
     Menghapus,
   } = useHome();
-  //   console.log(data, index);
+  console.log(taskId[0]);
   return (
     <>
       {/* Dialog */}
@@ -66,7 +66,7 @@ export const Popup = ({
             boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
           }}
         >
-          {taskId[0]?.name}
+          {taskId[0]}
         </Typography>
         <Typography
           sx={{
