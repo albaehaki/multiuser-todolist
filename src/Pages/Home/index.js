@@ -20,6 +20,8 @@ const Home = () => {
     GetData,
     taskId,
     setTaskId,
+    isLoading,
+    setIsLoading,
   } = useHome();
   const [openDialog, setOpenDialog] = useState(false);
   const [openField, setOpenField] = useState(false);
@@ -75,8 +77,9 @@ const Home = () => {
 
   useEffect(() => {
     GetData();
+    console.log("render home");
     // console.log(GetData());
-  }, []);
+  }, [isLoading]);
   // console.log(
   //   data.map((ent, i) => {
   //     return ent.map((index) => {
@@ -126,7 +129,7 @@ const Home = () => {
           ))}
           <Card
             // key={i}
-            // data={item}
+            ListCard={data}
             // index={i}
             handleClickOpen={handleClickOpen}
             openDialog={openDialog}

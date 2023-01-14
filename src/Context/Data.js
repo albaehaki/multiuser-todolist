@@ -10,6 +10,7 @@ export const DataProvider = (props) => {
   const [taskId, setTaskId] = useState({});
   const [judulCard, setJudulCard] = useState("");
   const [judulTask, setJudulTask] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <DataContext.Provider
@@ -28,6 +29,8 @@ export const DataProvider = (props) => {
         setJudulCard,
         judulTask,
         setJudulTask,
+        isLoading,
+        setIsLoading,
       }}
       {...props}
     />

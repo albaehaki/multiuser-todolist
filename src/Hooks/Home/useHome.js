@@ -37,6 +37,8 @@ export const useHome = () => {
     setJudulCard,
     judulTask,
     setJudulTask,
+    isLoading,
+    setIsLoading,
   } = useContext(DataContext);
   const [urutan, setUrutan] = useState(0);
   const db = getFirestore(app);
@@ -51,6 +53,7 @@ export const useHome = () => {
   const GetData = (e) => {
     // console.log(onValue());
     setData([]);
+    setIsLoading(true);
     onValue(ref(realtimedb), (snapshot) => {
       const databd = snapshot.val();
       setData([]);
@@ -68,10 +71,11 @@ export const useHome = () => {
         Object.entries(val).map(([key, value], i) => {
           // console.log(value, key, i);
           if (key === "card") {
-            console.log(value, "ini if");
+            // console.log(value, "ini if");
             setData(value);
+            setIsLoading(false);
           } else {
-            console.log("ini kalau gagal");
+            // console.log("ini kalau gagal");
           }
         });
         // Object.values(val).map((todo) => {
@@ -102,10 +106,10 @@ export const useHome = () => {
     console.log(taskId[0].id);
     try {
       await deleteDoc(doc(db, "apa", taskId[0].id));
-      console.log("berhasil");
+      // console.log("berhasil");
       GetData();
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
   // add judul card
@@ -115,20 +119,24 @@ export const useHome = () => {
   };
   const addJudulCard = (e) => {
     const uuid = uid(16);
-    // console.log(uid(16));
-    const coba = 1;
+    // console.log(Object.keys(e).length);
+    // const coba = 1;
     if (judulCard.length > 0) {
-      set(ref(realtimedb, `todolist/card/${coba}`), {
+      setIsLoading(true);
+      set(ref(realtimedb, `todolist/card/${e ? Object.keys(e).length : 0}`), {
         judul_card: judulCard,
         id_card: uuid,
+        no_urut: e ? Object.keys(e).length : 0,
       })
         .then((res) => {
           setJudulCard("");
-          return console.log(res, "berhasil");
+          setIsLoading(false);
+          // return console.log(res, "berhasil");
         })
         .catch((error) => {
           setJudulCard("");
           console.log(error);
+          setIsLoading(false);
         });
     }
   };
@@ -142,17 +150,18 @@ export const useHome = () => {
     // console.log(uid(16));
     // console.log(e ? "a" : "b");
     // console.log(e);
-    if (e.task) {
-      console.log(e.task.length, "bisa");
-      setUrutan(e.task.length);
-    }
-    console.log(urutan);
+    // if (e.task) {
+    //   console.log(e.task.length, "bisa");
+    //   setUrutan(e.task.length);
+    // }
+    // console.log(urutan);
     if (judulTask.length > 0) {
+      setIsLoading(true);
       set(
         ref(
           realtimedb,
           // `todolist/card/${e.id_card}/task/${urutan}`
-          `todolist/card/${e.id_card}/task/${e.task ? e.task.length : 0}`
+          `todolist/card/${e.no_urut}/task/${e.task ? e.task.length : 0}`
         ),
 
         {
@@ -161,12 +170,14 @@ export const useHome = () => {
         }
       )
         .then((res) => {
-          setJudulCard("");
-          return console.log(res, "berhasil");
+          setJudulTask("");
+          setIsLoading(false);
+          // return console.log(res, "berhasil");
         })
         .catch((error) => {
-          setJudulCard("");
-          console.log(error);
+          setJudulTask("");
+          setIsLoading(false);
+          // console.log(error);
         });
     }
   };
@@ -189,5 +200,7 @@ export const useHome = () => {
     setJudulTask,
     onChangeTask,
     addJudulTask,
+    isLoading,
+    setIsLoading,
   };
 };

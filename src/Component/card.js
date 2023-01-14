@@ -30,6 +30,7 @@ export const Card = ({
   openDialog,
   handleCloseDialog,
   index,
+  ListCard,
 }) => {
   const {
     onChangeJudulCard,
@@ -40,6 +41,8 @@ export const Card = ({
     judulTask,
     setJudulTask,
     addJudulTask,
+    isLoading,
+    setIsLoading,
   } = useHome();
   // const {
   //   register,
@@ -72,7 +75,8 @@ export const Card = ({
     // if (data.task === undefined) {
     //   console.log(data.task, "ini undefined");
     // }
-  }, []);
+    console.log("render card");
+  }, [isLoading]);
 
   // console.log(data);
   // console.log(Object.values(data));
@@ -152,7 +156,7 @@ export const Card = ({
                 type="submit"
                 onClick={() => {
                   if (data == undefined) {
-                    addJudulCard();
+                    addJudulCard(ListCard);
                     console.log("ini kosong");
                     setOpenField(!openField);
                   } else {
