@@ -29,7 +29,7 @@ const Home = () => {
     setAnchorEl(event.currentTarget);
   };
   const handleClickOpen = (e) => {
-    console.log(e, "dari popup");
+    // console.log(e, "dari popup");
     // setTaskId(data.filter((a) => a.id === e));
     // console.log(
     // data.filter((a) => {
@@ -46,7 +46,7 @@ const Home = () => {
     //  }
     data.map((x) => {
       // if (x.task) {
-      console.log(x.task, "bagaimana");
+      // console.log(x.task, "bagaimana");
       // console.log(x.task, "bagaimana");
       // setTaskId(Object.values(x).filter((a) => a.uid === e));
       x.task.map((item) => {
@@ -84,7 +84,7 @@ const Home = () => {
   //     });
   //   })
   // );
-  console.log(data, "DATA MENTAHAN");
+  // console.log(data, "DATA MENTAHAN");
   // console.log(Object.entries(data));
   return (
     <>
@@ -112,7 +112,7 @@ const Home = () => {
           }}
         >
           {/* ini mapping card */}
-          {data?.map((item, i) => (
+          {Object.values(data).map((item, i) => (
             <>
               <Card
                 key={i}
@@ -124,6 +124,14 @@ const Home = () => {
               />
             </>
           ))}
+          <Card
+            // key={i}
+            // data={item}
+            // index={i}
+            handleClickOpen={handleClickOpen}
+            openDialog={openDialog}
+            handleCloseDialog={handleCloseDialog}
+          />
         </Grid>
       </Box>
     </>

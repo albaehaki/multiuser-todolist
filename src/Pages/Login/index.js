@@ -32,7 +32,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { typeViewPassword, setTypeViewPassword, SignIn } = useLogin();
   const OnSubmit = (e) => {
-    console.log(e);
+    // console.log(e);
     SignIn(e);
   };
   console.log({ errors });

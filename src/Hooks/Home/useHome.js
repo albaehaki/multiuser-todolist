@@ -19,6 +19,8 @@ import {
 import app from "../../Services/firebase";
 import { DataContext } from "../../Context";
 import { async } from "@firebase/util";
+import { uid } from "uid";
+import { unstable_renderSubtreeIntoContainer } from "react-dom";
 
 export const useHome = () => {
   const {
@@ -31,7 +33,12 @@ export const useHome = () => {
     userId,
     taskId,
     setTaskId,
+    judulCard,
+    setJudulCard,
+    judulTask,
+    setJudulTask,
   } = useContext(DataContext);
+  const [urutan, setUrutan] = useState(0);
   const db = getFirestore(app);
   const realtimedb = getDatabase(app);
   const getCollection = collection(db, "apa");
@@ -101,7 +108,68 @@ export const useHome = () => {
       console.log(e);
     }
   };
+  // add judul card
+  const onChangeJudulCard = (e) => {
+    // console.log(e.target.value);
+    setJudulCard(e.target.value);
+  };
+  const addJudulCard = (e) => {
+    const uuid = uid(16);
+    // console.log(uid(16));
+    const coba = 1;
+    if (judulCard.length > 0) {
+      set(ref(realtimedb, `todolist/card/${coba}`), {
+        judul_card: judulCard,
+        id_card: uuid,
+      })
+        .then((res) => {
+          setJudulCard("");
+          return console.log(res, "berhasil");
+        })
+        .catch((error) => {
+          setJudulCard("");
+          console.log(error);
+        });
+    }
+  };
+  // add judul card
+  const onChangeTask = (e) => {
+    // console.log(e.target.value);
+    setJudulTask(e.target.value);
+  };
+  const addJudulTask = (e) => {
+    const uuid = uid(16);
+    // console.log(uid(16));
+    // console.log(e ? "a" : "b");
+    // console.log(e);
+    if (e.task) {
+      console.log(e.task.length, "bisa");
+      setUrutan(e.task.length);
+    }
+    console.log(urutan);
+    if (judulTask.length > 0) {
+      set(
+        ref(
+          realtimedb,
+          // `todolist/card/${e.id_card}/task/${urutan}`
+          `todolist/card/${e.id_card}/task/${e.task ? e.task.length : 0}`
+        ),
 
+        {
+          judul_task: judulTask,
+          id_task: uuid,
+        }
+      )
+        .then((res) => {
+          setJudulCard("");
+          return console.log(res, "berhasil");
+        })
+        .catch((error) => {
+          setJudulCard("");
+          console.log(error);
+        });
+    }
+  };
   return {
     data,
     setData,
@@ -113,5 +181,13 @@ export const useHome = () => {
     taskId,
     setTaskId,
     Menghapus,
+    onChangeJudulCard,
+    judulCard,
+    setJudulCard,
+    addJudulCard,
+    judulTask,
+    setJudulTask,
+    onChangeTask,
+    addJudulTask,
   };
 };

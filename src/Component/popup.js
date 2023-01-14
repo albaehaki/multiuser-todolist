@@ -7,6 +7,9 @@ import {
   Dialog,
   Button,
   Avatar,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useHome } from "../Hooks/Home/useHome";
@@ -29,7 +32,7 @@ export const Popup = ({
     setTaskId,
     Menghapus,
   } = useHome();
-  console.log(taskId);
+  // console.log(taskId);
   return (
     <>
       {/* Dialog */}
@@ -61,7 +64,8 @@ export const Popup = ({
             backgroundColor: "white",
             py: "5px",
             px: "5px",
-            m: "5px",
+            // m: "5px",
+            mb: "5px",
             borderRadius: "5px",
             // boxShadow: "1px 1px 1px gray",
             boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
@@ -74,7 +78,7 @@ export const Popup = ({
             backgroundColor: "white",
             py: "5px",
             px: "5px",
-            m: "5px",
+            // m: "5px",
             borderRadius: "5px",
             // boxShadow: "1px 1px 1px gray",
             boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
@@ -97,6 +101,31 @@ export const Popup = ({
             boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
           }}
         ></Box> */}
+        <Typography
+          sx={{
+            backgroundColor: "white",
+            py: "5px",
+            px: "5px",
+            // m: "5px",
+            my: "15px",
+            borderRadius: "5px",
+            fontWeight: "800",
+            // boxShadow: "1px 1px 1px gray",
+            boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
+          }}
+        >
+          Checkbox
+        </Typography>
+        <FormGroup sx={{ mx: "15px" }}>
+          {taskId.todo?.map((item) => (
+            <>
+              <FormControlLabel
+                control={<Checkbox checked={item.kondisi} />}
+                label={item.nama_todo}
+              />
+            </>
+          ))}
+        </FormGroup>
         <IconButton sx={{ m: "5px", padding: "0px", width: 32, height: 32 }}>
           {!taskId.tag ? (
             <Add sx={{ m: "auto", padding: "0px", width: 32, height: 32 }} />
@@ -122,7 +151,8 @@ export const Popup = ({
             maxWidth: "200px",
             py: "5px",
             px: "5px",
-            m: "5px",
+            // mx: "5px",
+            my: "15px",
             borderRadius: "5px",
             // boxShadow: "1px 1px 1px gray",
             boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
@@ -133,6 +163,22 @@ export const Popup = ({
         >
           Comment
         </Typography>
+        {taskId.komentar?.map((item) => (
+          <Typography
+            sx={{
+              backgroundColor: "white",
+              py: "5px",
+              px: "5px",
+              mx: "5px",
+              mb: "15px",
+              borderRadius: "5px",
+              // boxShadow: "1px 1px 1px gray",
+              boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
+            }}
+          >
+            {item.nama} :{item.komentar}
+          </Typography>
+        ))}
         <Button
           sx={{
             backgroundColor: "white",
@@ -145,6 +191,20 @@ export const Popup = ({
           }}
         >
           Delete
+        </Button>
+        <Button
+          sx={{
+            backgroundColor: "white",
+            borderRadius: "10px",
+            color: "black",
+            mt: "10px",
+          }}
+          onClick={() => {
+            // Menghapus();
+            handleCloseDialog();
+          }}
+        >
+          Close
         </Button>
       </Dialog>
     </>

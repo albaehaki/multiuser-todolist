@@ -18,8 +18,11 @@ import {
   ListItemIcon,
   Checkbox,
 } from "@mui/material";
+// import { useForm } from "react-hook-form";
 import { Add, Close, MoreVert } from "@mui/icons-material";
 import { Popup } from "./popup";
+//data context
+import { useHome } from "../Hooks/Home/useHome";
 
 export const Card = ({
   handleClickOpen,
@@ -28,9 +31,26 @@ export const Card = ({
   handleCloseDialog,
   index,
 }) => {
+  const {
+    onChangeJudulCard,
+    onChangeTask,
+    judulCard,
+    setJudulCard,
+    addJudulCard,
+    judulTask,
+    setJudulTask,
+    addJudulTask,
+  } = useHome();
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   watch,
+  //   formState: { errors },
+  // } = useForm();
   // const [openDialog, setOpenDialog] = useState(false);
   const [openField, setOpenField] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [dataTask, setDataTask] = useState([]);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -44,7 +64,18 @@ export const Card = ({
   // console.log(index);
   // console.log(data, "from card js");
   // console.log(data, "ini task");
-  const dataTask = data.task;
+
+  useEffect(() => {
+    if (data) {
+      setDataTask(data.task);
+    }
+    // if (data.task === undefined) {
+    //   console.log(data.task, "ini undefined");
+    // }
+  }, []);
+
+  // console.log(data);
+  // console.log(Object.values(data));
   // console.log(dataTask);
   return (
     <>
@@ -62,7 +93,7 @@ export const Card = ({
       >
         <ListItem sx={{ backgroundColor: "", px: "0px" }}>
           <ListItemText>
-            <Typography>{data.judul_card}</Typography>
+            <Typography>{data ? data.judul_card : ""}</Typography>
           </ListItemText>
 
           <IconButton sx={{ ml: "0px", display: "", padding: "0px" }}>
@@ -72,59 +103,110 @@ export const Card = ({
         {/* ini mapping task */}
         {/* // console.log(data.task[item]); // Object.entries(item).map(([x, i]) =>
         ( */}
-        {dataTask?.map((item, index) => (
-          <ListItem
-            sx={{ backgroundColor: "", mb: "10px", padding: "0px" }}
-            key={item.uid}
-          >
-            <ListItemButton
-              onClick={() => handleClickOpen(item.uid)}
-              sx={{
-                backgroundColor: "white",
-                borderRadius: "10px",
-                // boxShadow: "0px 0px 2px gray",
-              }}
-            >
-              <ListItemText>
-                {/* <Typography>test</Typography> */}
-                <Typography>{item.judul_task}</Typography>
-              </ListItemText>
-            </ListItemButton>
-          </ListItem>
-        ))}
+
+        {dataTask === undefined
+          ? ""
+          : Object.values(dataTask)?.map((item, index) => (
+              <ListItem
+                sx={{ backgroundColor: "", mb: "10px", padding: "0px" }}
+                key={item.uid}
+              >
+                <ListItemButton
+                  onClick={() => handleClickOpen(item.uid)}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "10px",
+                    // boxShadow: "0px 0px 2px gray",
+                  }}
+                >
+                  <ListItemText>
+                    {/* <Typography>test</Typography> */}
+                    <Typography>{dataTask ? item.judul_task : ""}</Typography>
+                  </ListItemText>
+                </ListItemButton>
+              </ListItem>
+            ))}
+
         {openField ? (
-          <TextField
-            sx={{
-              pb: "10px",
-              "& .MuiOutlinedInput-root": { borderRadius: "10px" },
-            }}
-            size="small"
-            multiline
-            rows={3}
-            fullWidth
-          ></TextField>
+          <>
+            <form>
+              <TextField
+                sx={{
+                  pb: "10px",
+                  "& .MuiOutlinedInput-root": { borderRadius: "10px" },
+                }}
+                size="small"
+                multiline
+                rows={3}
+                fullWidth
+                value={data == undefined ? judulCard : judulTask}
+                onChange={(e) => {
+                  if (data == undefined) {
+                    onChangeJudulCard(e);
+                  } else {
+                    onChangeTask(e);
+                  }
+                }}
+              ></TextField>
+              <ListItemButton
+                type="submit"
+                onClick={() => {
+                  if (data == undefined) {
+                    addJudulCard();
+                    console.log("ini kosong");
+                    setOpenField(!openField);
+                  } else {
+                    addJudulTask(data);
+                    console.log(data.id_card);
+                    console.log("ini ada isinya");
+                    setOpenField(!openField);
+                  }
+                }}
+                sx={{
+                  borderRadius: "10px",
+                  backgroundColor: "white",
+                  padding: "0px",
+                }}
+              >
+                <ListItem>
+                  <ListItemIcon
+                    sx={{ m: "auto", backgroundColor: "", padding: "0px" }}
+                  >
+                    <Add sx={{ m: "auto", display: "grid", padding: "0px" }} />
+                  </ListItemIcon>
+                  <ListItemText sx={{ backgroundColor: "" }}>
+                    Add list
+                  </ListItemText>
+                </ListItem>
+              </ListItemButton>
+            </form>
+          </>
         ) : (
           ""
         )}
-        <ListItemButton
-          onClick={() => {
-            setOpenField(!openField);
-          }}
-          sx={{
-            borderRadius: "10px",
-            backgroundColor: "white",
-            padding: "0px",
-          }}
-        >
-          <ListItem>
-            <ListItemIcon
-              sx={{ m: "auto", backgroundColor: "", padding: "0px" }}
-            >
-              <Add sx={{ m: "auto", display: "grid", padding: "0px" }} />
-            </ListItemIcon>
-            <ListItemText sx={{ backgroundColor: "" }}>Add list</ListItemText>
-          </ListItem>
-        </ListItemButton>
+        {!openField ? (
+          <ListItemButton
+            onClick={() => {
+              setOpenField(!openField);
+            }}
+            sx={{
+              borderRadius: "10px",
+              backgroundColor: "white",
+              padding: "0px",
+            }}
+          >
+            <ListItem>
+              <ListItemIcon
+                sx={{ m: "auto", backgroundColor: "", padding: "0px" }}
+              >
+                <Add sx={{ m: "auto", display: "grid", padding: "0px" }} />
+              </ListItemIcon>
+              <ListItemText sx={{ backgroundColor: "" }}>Add list</ListItemText>
+            </ListItem>
+          </ListItemButton>
+        ) : (
+          ""
+        )}
       </List>
       <Popup
         data={data}
@@ -136,3 +218,26 @@ export const Card = ({
     </>
   );
 };
+
+// {
+//   dataTask?.map((item, index) => (
+//     <ListItem
+//       sx={{ backgroundColor: "", mb: "10px", padding: "0px" }}
+//       key={item.uid}
+//     >
+//       <ListItemButton
+//         onClick={() => handleClickOpen(item.uid)}
+//         sx={{
+//           backgroundColor: "white",
+//           borderRadius: "10px",
+//           // boxShadow: "0px 0px 2px gray",
+//         }}
+//       >
+//         <ListItemText>
+//           {/* <Typography>test</Typography> */}
+//           <Typography>{dataTask ? item.judul_task : ""}</Typography>
+//         </ListItemText>
+//       </ListItemButton>
+//     </ListItem>
+//   ));
+// }
