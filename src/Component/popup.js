@@ -16,7 +16,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { Add } from "@mui/icons-material";
+import { Add, Edit } from "@mui/icons-material";
 import { useHome } from "../Hooks/Home/useHome";
 
 export const Popup = ({
@@ -42,6 +42,14 @@ export const Popup = ({
     addDeskripsiTask,
     isLoading,
     setIsLoading,
+    toggleEditDeskripsiTask,
+    setToggleEditDeskripsiTask,
+    toggleEditJudulTask,
+    setToggleEditJudulTask,
+    judulTask,
+    setJudulTask,
+    addJudulTask,
+    onChangeTask,
   } = useHome();
   // console.log(taskId);
   useEffect(() => {
@@ -80,8 +88,8 @@ export const Popup = ({
             // backdropFilter: "blur(10px)",
           },
           "& .MuiBackdrop-root": {
-            backgroundColor: "rgb(255,255,255,0.0)",
-            backdropFilter: "blur(10px)",
+            backgroundColor: "rgb(255,255,255,0.2)",
+            backdropFilter: "blur(1px)",
           },
         }}
         open={openDialog}
@@ -89,7 +97,7 @@ export const Popup = ({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <Typography
+        <Grid
           sx={{
             backgroundColor: "white",
             py: "5px",
@@ -100,9 +108,53 @@ export const Popup = ({
             // boxShadow: "1px 1px 1px gray",
             boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
           }}
+          container
         >
-          {taskId.judul_task}
-        </Typography>
+          <Grid item xs={10}>
+            {toggleEditJudulTask ? (
+              <TextField
+                sx={{
+                  pb: "10px",
+                  "& .MuiOutlinedInput-root": { borderRadius: "10px" },
+                }}
+                size="small"
+                multiline
+                rows={1}
+                fullWidth
+                value={judulTask}
+                onChange={(e) => {
+                  // if (data == undefined) {
+                  //   // onChangeJudulCard(e);
+                  // } else {
+                  //   // onChangeTask(e);
+                  // onChangeDeskripsiTask(e);
+                  // }
+                  onChangeTask(e);
+                }}
+              ></TextField>
+            ) : (
+              <Typography>{taskId.judul_task}</Typography>
+            )}
+            {/* <Typography>{taskId.judul_task}</Typography> */}
+          </Grid>
+          <Grid item xs={2}>
+            <IconButton
+              onClick={() => {
+                // console.log("test judul");
+                if (!toggleEditJudulTask) {
+                  setToggleEditJudulTask(true);
+                  setJudulTask(taskId.judul_task);
+                } else {
+                  setToggleEditJudulTask(false);
+                  addJudulTask(taskId);
+                }
+              }}
+            >
+              {toggleEditJudulTask ? <Add /> : <Edit />}
+            </IconButton>
+          </Grid>
+        </Grid>
+
         <Box
           sx={{
             backgroundColor: "white",
@@ -115,7 +167,79 @@ export const Popup = ({
           }}
         >
           {taskId.deskripsi_task ? (
-            taskId.deskripsi_task
+            toggleEditDeskripsiTask ? (
+              <>
+                <TextField
+                  sx={{
+                    pb: "10px",
+                    "& .MuiOutlinedInput-root": { borderRadius: "10px" },
+                  }}
+                  size="small"
+                  multiline
+                  rows={5}
+                  fullWidth
+                  value={deskripsiTask}
+                  onChange={(e) => {
+                    // if (data == undefined) {
+                    //   // onChangeJudulCard(e);
+                    // } else {
+                    //   // onChangeTask(e);
+                    onChangeDeskripsiTask(e);
+                    // }
+                  }}
+                ></TextField>
+                <ListItemButton
+                  type="submit"
+                  onClick={() => {
+                    setToggleEditDeskripsiTask(false);
+                    addDeskripsiTask(taskId);
+                  }}
+                  sx={{
+                    borderRadius: "10px",
+                    backgroundColor: "white",
+                    padding: "0px",
+                  }}
+                >
+                  <ListItem>
+                    <ListItemIcon
+                      sx={{ m: "auto", backgroundColor: "", padding: "0px" }}
+                    >
+                      <Add
+                        sx={{ m: "auto", display: "grid", padding: "0px" }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText sx={{ backgroundColor: "" }}>
+                      Add Deskripsi
+                    </ListItemText>
+                  </ListItem>
+                </ListItemButton>
+              </>
+            ) : (
+              <>
+                {" "}
+                <Typography>{taskId.deskripsi_task}</Typography>
+                <Button
+                  sx={{
+                    // backgroundColor: "lightcoral",
+                    borderRadius: "10px",
+                    // border: "2px",
+                    // borderColor: "lightcoral",
+                    color: "black",
+                    mt: "10px",
+                  }}
+                  fullWidth
+                  onClick={() => {
+                    // Menghapus();
+                    // handleCloseDialog();
+                    setDeskripsiTask(taskId.deskripsi_task);
+                    setToggleEditDeskripsiTask(true);
+                    console.log("open");
+                  }}
+                >
+                  Edit
+                </Button>
+              </>
+            )
           ) : (
             <>
               <TextField
@@ -150,6 +274,7 @@ export const Popup = ({
                   //   console.log("ini ada isinya");
                   //   setOpenField(!openField);
                   // }
+                  setToggleEditDeskripsiTask(false);
                   addDeskripsiTask(taskId);
                 }}
                 sx={{
@@ -265,9 +390,9 @@ export const Popup = ({
         ))}
         <Button
           sx={{
-            backgroundColor: "white",
+            backgroundColor: "#E0144C",
             borderRadius: "10px",
-            color: "black",
+            color: "white",
           }}
           onClick={() => {
             Menghapus();

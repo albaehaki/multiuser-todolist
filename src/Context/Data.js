@@ -12,6 +12,8 @@ export const DataProvider = (props) => {
   const [judulTask, setJudulTask] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [deskripsiTask, setDeskripsiTask] = useState("");
+  const [toggleEditDeskripsiTask, setToggleEditDeskripsiTask] = useState(false);
+  const [toggleEditJudulTask, setToggleEditJudulTask] = useState(false);
 
   return (
     <DataContext.Provider
@@ -34,6 +36,10 @@ export const DataProvider = (props) => {
         setIsLoading,
         deskripsiTask,
         setDeskripsiTask,
+        toggleEditDeskripsiTask,
+        setToggleEditDeskripsiTask,
+        toggleEditJudulTask,
+        setToggleEditJudulTask,
       }}
       {...props}
     />

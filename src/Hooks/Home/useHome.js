@@ -41,6 +41,10 @@ export const useHome = () => {
     setIsLoading,
     deskripsiTask,
     setDeskripsiTask,
+    toggleEditDeskripsiTask,
+    setToggleEditDeskripsiTask,
+    toggleEditJudulTask,
+    setToggleEditJudulTask,
   } = useContext(DataContext);
   const [urutan, setUrutan] = useState(0);
   const db = getFirestore(app);
@@ -170,7 +174,8 @@ export const useHome = () => {
 
         {
           judul_task: judulTask,
-          id_task: uuid,
+          deskripsi_task: e.deskripsi_task ? e.deskripsi_task : "",
+          id_task: e.id_task ? e.id_task : uuid,
           no_urut: e.task ? e.task.length : 0,
           no_urut_card: e.no_urut,
         }
@@ -245,5 +250,9 @@ export const useHome = () => {
     deskripsiTask,
     setDeskripsiTask,
     addDeskripsiTask,
+    toggleEditDeskripsiTask,
+    setToggleEditDeskripsiTask,
+    toggleEditJudulTask,
+    setToggleEditJudulTask,
   };
 };
