@@ -116,7 +116,10 @@ export const Card = ({
                 key={item.uid}
               >
                 <ListItemButton
-                  onClick={() => handleClickOpen(item.uid)}
+                  onClick={() => {
+                    handleClickOpen(item);
+                    // console.log(item);
+                  }}
                   sx={{
                     backgroundColor: "white",
                     borderRadius: "10px",

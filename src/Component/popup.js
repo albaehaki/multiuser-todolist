@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Typography,
@@ -10,6 +10,11 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
+  TextField,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useHome } from "../Hooks/Home/useHome";
@@ -31,8 +36,33 @@ export const Popup = ({
     taskId,
     setTaskId,
     Menghapus,
+    onChangeDeskripsiTask,
+    deskripsiTask,
+    setDeskripsiTask,
+    addDeskripsiTask,
+    isLoading,
+    setIsLoading,
   } = useHome();
   // console.log(taskId);
+  useEffect(() => {
+    console.log(data, "render pop up");
+    // console.log(Object.values(data), "render pop up obejek");
+    data.map((item, i) => {
+      // console.log(item);
+      item.task?.map((itemtask) => {
+        if (taskId.id_task === itemtask.id_task) {
+          // console.log(itemtask);
+          setTaskId(itemtask);
+        }
+      });
+    });
+    // if (data) {
+    //   console.log("data");
+    // } else {
+    //   console.log("tidak ada datanya");
+    // }
+  }, [data]);
+  // console.log("render pop up di luar use effect");
   return (
     <>
       {/* Dialog */}
@@ -73,7 +103,7 @@ export const Popup = ({
         >
           {taskId.judul_task}
         </Typography>
-        <Typography
+        <Box
           sx={{
             backgroundColor: "white",
             py: "5px",
@@ -84,10 +114,64 @@ export const Popup = ({
             boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
           }}
         >
-          {taskId.uid}
-          <br />
-          {taskId.deskripsi}
-        </Typography>
+          {taskId.deskripsi_task ? (
+            taskId.deskripsi_task
+          ) : (
+            <>
+              <TextField
+                sx={{
+                  pb: "10px",
+                  "& .MuiOutlinedInput-root": { borderRadius: "10px" },
+                }}
+                size="small"
+                multiline
+                rows={5}
+                fullWidth
+                value={deskripsiTask}
+                onChange={(e) => {
+                  // if (data == undefined) {
+                  //   // onChangeJudulCard(e);
+                  // } else {
+                  //   // onChangeTask(e);
+                  onChangeDeskripsiTask(e);
+                  // }
+                }}
+              ></TextField>
+              <ListItemButton
+                type="submit"
+                onClick={() => {
+                  // if (data == undefined) {
+                  //   addJudulCard(ListCard);
+                  //   console.log("ini kosong");
+                  //   setOpenField(!openField);
+                  // } else {
+                  //   addJudulTask(data);
+                  //   console.log(data.id_card);
+                  //   console.log("ini ada isinya");
+                  //   setOpenField(!openField);
+                  // }
+                  addDeskripsiTask(taskId);
+                }}
+                sx={{
+                  borderRadius: "10px",
+                  backgroundColor: "white",
+                  padding: "0px",
+                }}
+              >
+                <ListItem>
+                  <ListItemIcon
+                    sx={{ m: "auto", backgroundColor: "", padding: "0px" }}
+                  >
+                    <Add sx={{ m: "auto", display: "grid", padding: "0px" }} />
+                  </ListItemIcon>
+                  <ListItemText sx={{ backgroundColor: "" }}>
+                    Add Deskripsi
+                  </ListItemText>
+                </ListItem>
+              </ListItemButton>
+            </>
+          )}
+        </Box>
         {/* <Box
           sx={{
             backgroundColor: "white",

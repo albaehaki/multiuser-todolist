@@ -11,6 +11,7 @@ export const DataProvider = (props) => {
   const [judulCard, setJudulCard] = useState("");
   const [judulTask, setJudulTask] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [deskripsiTask, setDeskripsiTask] = useState("");
 
   return (
     <DataContext.Provider
@@ -31,6 +32,8 @@ export const DataProvider = (props) => {
         setJudulTask,
         isLoading,
         setIsLoading,
+        deskripsiTask,
+        setDeskripsiTask,
       }}
       {...props}
     />

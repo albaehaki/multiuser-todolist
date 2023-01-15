@@ -39,6 +39,8 @@ export const useHome = () => {
     setJudulTask,
     isLoading,
     setIsLoading,
+    deskripsiTask,
+    setDeskripsiTask,
   } = useContext(DataContext);
   const [urutan, setUrutan] = useState(0);
   const db = getFirestore(app);
@@ -52,11 +54,12 @@ export const useHome = () => {
   };
   const GetData = (e) => {
     // console.log(onValue());
+    // console.log("get data jalan");
     setData([]);
-    setIsLoading(true);
     onValue(ref(realtimedb), (snapshot) => {
       const databd = snapshot.val();
       setData([]);
+      // setIsLoading(true);
       // console.log(Object.keys(databd));
       Object.entries(databd).map(([key, val], i) => {
         // console.log(val, key, i);
@@ -73,7 +76,7 @@ export const useHome = () => {
           if (key === "card") {
             // console.log(value, "ini if");
             setData(value);
-            setIsLoading(false);
+            setIsLoading(true);
           } else {
             // console.log("ini kalau gagal");
           }
@@ -118,6 +121,7 @@ export const useHome = () => {
     setJudulCard(e.target.value);
   };
   const addJudulCard = (e) => {
+    // console.log("add judul jalan");
     const uuid = uid(16);
     // console.log(Object.keys(e).length);
     // const coba = 1;
@@ -135,7 +139,7 @@ export const useHome = () => {
         })
         .catch((error) => {
           setJudulCard("");
-          console.log(error);
+          // console.log(error);
           setIsLoading(false);
         });
     }
@@ -167,16 +171,51 @@ export const useHome = () => {
         {
           judul_task: judulTask,
           id_task: uuid,
+          no_urut: e.task ? e.task.length : 0,
+          no_urut_card: e.no_urut,
         }
       )
         .then((res) => {
           setJudulTask("");
           setIsLoading(false);
           // return console.log(res, "berhasil");
+          GetData();
         })
         .catch((error) => {
           setJudulTask("");
           setIsLoading(false);
+          // console.log(error);
+        });
+    }
+  };
+  //add deskripsi
+  const onChangeDeskripsiTask = (e) => {
+    // console.log(e);
+    setDeskripsiTask(e.target.value);
+  };
+  const addDeskripsiTask = (e) => {
+    if (deskripsiTask.length > 0) {
+      // setIsLoading(true);
+      set(
+        ref(realtimedb, `todolist/card/${e.no_urut_card}/task/${e.no_urut}`),
+
+        {
+          judul_task: e.judul_task,
+          deskripsi_task: deskripsiTask,
+          id_task: e.id_task,
+          no_urut: e.no_urut,
+          no_urut_card: e.no_urut_card,
+        }
+      )
+        .then((res) => {
+          setDeskripsiTask("");
+          // setIsLoading(false);
+          // return console.log(res, "berhasil");
+          GetData();
+        })
+        .catch((error) => {
+          setDeskripsiTask("");
+          // setIsLoading(false);
           // console.log(error);
         });
     }
@@ -202,5 +241,9 @@ export const useHome = () => {
     addJudulTask,
     isLoading,
     setIsLoading,
+    onChangeDeskripsiTask,
+    deskripsiTask,
+    setDeskripsiTask,
+    addDeskripsiTask,
   };
 };
