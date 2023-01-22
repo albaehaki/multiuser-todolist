@@ -21,6 +21,7 @@ import {
 // import { useForm } from "react-hook-form";
 import { Add, Close, MoreVert } from "@mui/icons-material";
 import { Popup } from "./popup";
+import { MenuCard } from "./menuCard";
 //data context
 import { useHome } from "../Hooks/Home/useHome";
 
@@ -54,6 +55,7 @@ export const Card = ({
   // } = useForm();
   // const [openDialog, setOpenDialog] = useState(false);
   const [openField, setOpenField] = useState(false);
+  const [openMenuCard, setMenuCard] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [dataTask, setDataTask] = useState([]);
   const open = Boolean(anchorEl);
@@ -102,9 +104,20 @@ export const Card = ({
             <Typography>{data ? data.judul_card : ""}</Typography>
           </ListItemText>
 
-          <IconButton sx={{ ml: "0px", display: "", padding: "0px" }}>
+          <IconButton
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            onClick={handleClick}
+          >
             <MoreVert sx={{ ml: "0px", display: "grid", padding: "0px" }} />
           </IconButton>
+          <MenuCard
+            data={data}
+            handleClick={handleClick}
+            openMenuCard={open}
+            handleClose={handleClose}
+            anchorEl={anchorEl}
+          />
         </ListItem>
         {/* ini mapping task */}
         {/* // console.log(data.task[item]); // Object.entries(item).map(([x, i]) =>

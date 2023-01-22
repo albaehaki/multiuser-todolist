@@ -289,29 +289,49 @@ export const useHome = () => {
       .filter((x, i) => i === noUrut[0].noUrutCard)[0]
       .task.filter((x, i) => i !== noUrut[0].noUrutTask);
 
-   
-      setIsLoading(true);
-      set(
-        ref(
-          realtimedb,
+    setIsLoading(true);
+    set(
+      ref(
+        realtimedb,
 
-          `todolist/card/${noUrut[0].noUrutCard}/task`
-        ),
+        `todolist/card/${noUrut[0].noUrutCard}/task`
+      ),
 
-        filteredTask
-      )
-        .then((res) => {
-          setJudulTask("");
-          setIsLoading(false);
+      filteredTask
+    )
+      .then((res) => {
+        setIsLoading(false);
+        GetData();
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
+  //menghapus card
+  const removeCard = (e) => {
+    // const noUrut = getId(e.id_card, "card");
+    // console.log(noUrut);
+    const filteredCard = data.filter((x, i) => x.id_card !== e.id_card);
 
-          GetData();
-        })
-        .catch((error) => {
-          setJudulTask("");
-          setIsLoading(false);
-          console.log(error);
-        });
-    
+    setIsLoading(true);
+    set(
+      ref(
+        realtimedb,
+
+        `todolist/card`
+      ),
+
+      filteredCard
+    )
+      .then((res) => {
+        setIsLoading(false);
+        console.log(res);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error);
+      });
   };
   return {
     data,
@@ -343,5 +363,6 @@ export const useHome = () => {
     toggleEditJudulTask,
     setToggleEditJudulTask,
     removeTask,
+    removeCard,
   };
 };
