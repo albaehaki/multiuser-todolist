@@ -109,121 +109,209 @@ export const useHome = () => {
   // };
   // return dapatDB();
 
-  const Menghapus = async (e) => {
-    console.log(taskId[0].id);
-    try {
-      await deleteDoc(doc(db, "apa", taskId[0].id));
-      // console.log("berhasil");
-      GetData();
-    } catch (e) {
-      // console.log(e);
+  //
+
+  //function untuk mendapatkan id card dan task
+  // const getId = (id, ket) => {
+  //   if (ket === "card") {
+  //     const hasil = data.findIndex((x) => x.id_card === id);
+  //     return hasil;
+  //   } else if (ket === "task") {
+  //     const hasil = data
+  //       .map((x) => x.task?.findIndex((y) => y.id_task === id))
+  //       .filter((x) => x >= 0)
+  //       .join();
+  //     return hasil;
+  //   } else if (ket === "keduanya") {
+  //     const hasil = data.map((x) =>
+  //       x.task?.map((y) => {
+  //         if (y.id_task === id) {
+  //           const no_urut_card = x?.findIndex(
+  //             (cardData) => cardData.id_card === x.id_card
+  //           );
+  //           const no_urut_task = x?.findIndex(
+  //             (cardTask) => cardTask.id_card === y.id_task
+  //           );
+  //           return {
+  //             id_card: no_urut_card,
+  //             id_task: no_urut_task,
+  //           };
+  //         }
+  //       })
+  //     );
+  //     return hasil;
+  //   }
+  // };
+
+  const getId = (id, ket) => {
+    if (ket === "card") {
+      const hasil = data.findIndex((x) => x.id_card === id);
+      return hasil;
+    } else if (ket === "task") {
+      const hasil = data
+        .map((x) => x.task?.findIndex((y) => y.id_task === id))
+        .filter((x) => x >= 0)
+        .join();
+      return hasil;
+    } else if (ket === "keduanya") {
+      let hasil = [];
+      data?.forEach((x, idxCard) => {
+        x.task?.forEach((y, idxTask) => {
+          if (y.id_task === id) {
+            hasil.push({
+              noUrutCard: idxCard,
+              noUrutTask: idxTask,
+            });
+          }
+        });
+      });
+      return hasil;
     }
   };
+
   // add judul card
   const onChangeJudulCard = (e) => {
-    // console.log(e.target.value);
     setJudulCard(e.target.value);
   };
   const addJudulCard = (e) => {
-    // console.log("add judul jalan");
     const uuid = uid(16);
-    // console.log(Object.keys(e).length);
-    // const coba = 1;
+
     if (judulCard.length > 0) {
       setIsLoading(true);
       set(ref(realtimedb, `todolist/card/${e ? Object.keys(e).length : 0}`), {
         judul_card: judulCard,
         id_card: uuid,
-        no_urut: e ? Object.keys(e).length : 0,
       })
         .then((res) => {
           setJudulCard("");
           setIsLoading(false);
-          // return console.log(res, "berhasil");
         })
         .catch((error) => {
           setJudulCard("");
-          // console.log(error);
+          console.log(error);
           setIsLoading(false);
         });
     }
   };
-  // add judul card
+  // add judul task
   const onChangeTask = (e) => {
-    // console.log(e.target.value);
     setJudulTask(e.target.value);
   };
   const addJudulTask = (e) => {
     const uuid = uid(16);
-    // console.log(uid(16));
-    // console.log(e ? "a" : "b");
-    // console.log(e);
-    // if (e.task) {
-    //   console.log(e.task.length, "bisa");
-    //   setUrutan(e.task.length);
-    // }
-    // console.log(urutan);
+    console.log(e, "ini dari props");
+
+    console.log(getId(e.id_task, "keduanya"), "ini dari get index ");
+    const noUrutCard = getId(e.id_card, "card");
+    const noUrut = getId(e.id_task, "keduanya");
+
     if (judulTask.length > 0) {
       setIsLoading(true);
       set(
         ref(
           realtimedb,
-          // `todolist/card/${e.id_card}/task/${urutan}`
-          `todolist/card/${e.no_urut}/task/${e.task ? e.task.length : 0}`
+
+          `todolist/card/${
+            e.id_task ? noUrut[0].noUrutCard : noUrutCard
+          }/task/${
+            e.task ? e.task.length : e.id_task ? noUrut[0].noUrutTask : 0
+          }`
         ),
 
         {
           judul_task: judulTask,
           deskripsi_task: e.deskripsi_task ? e.deskripsi_task : "",
           id_task: e.id_task ? e.id_task : uuid,
-          no_urut: e.task ? e.task.length : 0,
-          no_urut_card: e.no_urut,
         }
       )
         .then((res) => {
           setJudulTask("");
           setIsLoading(false);
-          // return console.log(res, "berhasil");
+
           GetData();
         })
         .catch((error) => {
           setJudulTask("");
           setIsLoading(false);
-          // console.log(error);
+          console.log(error);
         });
     }
+    // console.log(
+    //   e.task.filter((x) => x.id_task !== "1e2831215428afb2"),
+    //   "filter"
+    // );
   };
   //add deskripsi
   const onChangeDeskripsiTask = (e) => {
-    // console.log(e);
     setDeskripsiTask(e.target.value);
   };
   const addDeskripsiTask = (e) => {
+    const noUrut = getId(e.id_task, "keduanya");
     if (deskripsiTask.length > 0) {
-      // setIsLoading(true);
       set(
-        ref(realtimedb, `todolist/card/${e.no_urut_card}/task/${e.no_urut}`),
+        ref(
+          realtimedb,
+          `todolist/card/${noUrut[0].noUrutCard}/task/${noUrut[0].noUrutTask}`
+        ),
 
         {
           judul_task: e.judul_task,
           deskripsi_task: deskripsiTask,
           id_task: e.id_task,
-          no_urut: e.no_urut,
-          no_urut_card: e.no_urut_card,
         }
       )
         .then((res) => {
           setDeskripsiTask("");
-          // setIsLoading(false);
-          // return console.log(res, "berhasil");
+
           GetData();
         })
         .catch((error) => {
           setDeskripsiTask("");
-          // setIsLoading(false);
-          // console.log(error);
+
+          console.log(error);
         });
     }
+  };
+  //menghapus task
+  const removeTask = (e) => {
+    const noUrut = getId(e.id_task, "keduanya");
+
+    console.log(e);
+    console.log(noUrut);
+    console.log(
+      data
+        .filter((x, i) => i === noUrut[0].noUrutCard)[0]
+        .task.filter((x, i) => i !== noUrut[0].noUrutTask)
+      // task.filter((x) => x.id_task !== "1e2831215428afb2"),
+      // "filter"
+    );
+    const filteredTask = data
+      .filter((x, i) => i === noUrut[0].noUrutCard)[0]
+      .task.filter((x, i) => i !== noUrut[0].noUrutTask);
+
+   
+      setIsLoading(true);
+      set(
+        ref(
+          realtimedb,
+
+          `todolist/card/${noUrut[0].noUrutCard}/task`
+        ),
+
+        filteredTask
+      )
+        .then((res) => {
+          setJudulTask("");
+          setIsLoading(false);
+
+          GetData();
+        })
+        .catch((error) => {
+          setJudulTask("");
+          setIsLoading(false);
+          console.log(error);
+        });
+    
   };
   return {
     data,
@@ -235,7 +323,7 @@ export const useHome = () => {
     GetData,
     taskId,
     setTaskId,
-    Menghapus,
+    // Menghapus,
     onChangeJudulCard,
     judulCard,
     setJudulCard,
@@ -254,5 +342,6 @@ export const useHome = () => {
     setToggleEditDeskripsiTask,
     toggleEditJudulTask,
     setToggleEditJudulTask,
+    removeTask,
   };
 };

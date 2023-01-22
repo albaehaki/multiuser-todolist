@@ -50,10 +50,11 @@ export const Popup = ({
     setJudulTask,
     addJudulTask,
     onChangeTask,
+    removeTask,
   } = useHome();
   // console.log(taskId);
   useEffect(() => {
-    console.log(data, "render pop up");
+    // console.log(data, "render pop up");
     // console.log(Object.values(data), "render pop up obejek");
     data.map((item, i) => {
       // console.log(item);
@@ -395,7 +396,7 @@ export const Popup = ({
             color: "white",
           }}
           onClick={() => {
-            Menghapus();
+            removeTask(taskId);
             handleCloseDialog();
           }}
         >
@@ -409,7 +410,6 @@ export const Popup = ({
             mt: "10px",
           }}
           onClick={() => {
-            // Menghapus();
             handleCloseDialog();
           }}
         >

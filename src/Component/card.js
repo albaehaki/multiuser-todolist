@@ -77,7 +77,7 @@ export const Card = ({
     // if (data.task === undefined) {
     //   console.log(data.task, "ini undefined");
     // }
-    console.log("render card");
+    // console.log("render card");
   }, [isLoading]);
 
   // console.log(data);
@@ -162,12 +162,12 @@ export const Card = ({
                 onClick={() => {
                   if (data == undefined) {
                     addJudulCard(ListCard);
-                    console.log("ini kosong");
+                    // console.log("ini kosong");
                     setOpenField(!openField);
                   } else {
                     addJudulTask(data);
-                    console.log(data.id_card);
-                    console.log("ini ada isinya");
+                    // console.log(data.id_card);
+                    // console.log("ini ada isinya");
                     setOpenField(!openField);
                   }
                 }}
