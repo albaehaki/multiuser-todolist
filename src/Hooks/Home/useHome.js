@@ -45,6 +45,8 @@ export const useHome = () => {
     setToggleEditDeskripsiTask,
     toggleEditJudulTask,
     setToggleEditJudulTask,
+    dataPopUp,
+    setDataPopUp,
   } = useContext(DataContext);
   const [urutan, setUrutan] = useState(0);
   const db = getFirestore(app);
@@ -227,8 +229,6 @@ export const useHome = () => {
         .then((res) => {
           setJudulTask("");
           setIsLoading(false);
-
-          GetData();
         })
         .catch((error) => {
           setJudulTask("");
@@ -262,12 +262,11 @@ export const useHome = () => {
       )
         .then((res) => {
           setDeskripsiTask("");
-
-          GetData();
+          setIsLoading(false);
         })
         .catch((error) => {
           setDeskripsiTask("");
-
+          setIsLoading(false);
           console.log(error);
         });
     }
@@ -301,7 +300,6 @@ export const useHome = () => {
     )
       .then((res) => {
         setIsLoading(false);
-        GetData();
       })
       .catch((error) => {
         setIsLoading(false);
@@ -364,5 +362,7 @@ export const useHome = () => {
     setToggleEditJudulTask,
     removeTask,
     removeCard,
+    dataPopUp,
+    setDataPopUp,
   };
 };

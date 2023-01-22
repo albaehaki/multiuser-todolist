@@ -4,10 +4,11 @@ export const DataContext = createContext({});
 
 export const DataProvider = (props) => {
   const [data, setData] = useState([]);
+  const [dataPopUp, setDataPopUp] = useState([]);
   const [judul, setJudul] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [userId, setUserId] = useState();
-  const [taskId, setTaskId] = useState({});
+  const [taskId, setTaskId] = useState();
   const [judulCard, setJudulCard] = useState("");
   const [judulTask, setJudulTask] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +41,8 @@ export const DataProvider = (props) => {
         setToggleEditDeskripsiTask,
         toggleEditJudulTask,
         setToggleEditJudulTask,
+        dataPopUp,
+        setDataPopUp,
       }}
       {...props}
     />

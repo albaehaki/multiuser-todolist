@@ -22,6 +22,8 @@ const Home = () => {
     setTaskId,
     isLoading,
     setIsLoading,
+    dataPopUp,
+    setDataPopUp,
   } = useHome();
   const [openDialog, setOpenDialog] = useState(false);
   const [openField, setOpenField] = useState(false);
@@ -68,7 +70,8 @@ const Home = () => {
     //   // }
     // });
     // );
-    setTaskId(e);
+
+    setTaskId(e.id_task);
     setOpenDialog(true);
   };
   const handleClose = () => {
@@ -81,9 +84,11 @@ const Home = () => {
   useEffect(() => {
     GetData();
     setIsLoading(false);
-    console.log("render home");
+    // console.log("render home");
     // console.log(GetData());
-  }, [isLoading]);
+
+    console.log(data);
+  }, []);
   // console.log(
   //   data.map((ent, i) => {
   //     return ent.map((index) => {

@@ -51,6 +51,8 @@ export const Popup = ({
     addJudulTask,
     onChangeTask,
     removeTask,
+    dataPopUp,
+    setDataPopUp,
   } = useHome();
   // console.log(taskId);
   useEffect(() => {
@@ -59,9 +61,9 @@ export const Popup = ({
     data.map((item, i) => {
       // console.log(item);
       item.task?.map((itemtask) => {
-        if (taskId.id_task === itemtask.id_task) {
-          // console.log(itemtask);
-          setTaskId(itemtask);
+        if (taskId === itemtask.id_task) {
+          // console.log(itemtask, "ini ada di home");
+          setDataPopUp(itemtask);
         }
       });
     });
@@ -70,8 +72,17 @@ export const Popup = ({
     // } else {
     //   console.log("tidak ada datanya");
     // }
-  }, [data]);
-  // console.log("render pop up di luar use effect");
+    // console.log(data, "data didalam useeffect");
+  }, [taskId, isLoading]);
+  // console.log(
+  //   data.map(
+  //     (item, i) => item.task.map((x) => x)
+  //     // .filter((x) => x.filter((y) => y !== []))
+  //     // item.task?.filter((itemtask) => taskId === itemtask.id_task);
+  //   ),
+  //   "render pop up di luar use effect"
+  // );
+  // console.log(dataPopUp);
   return (
     <>
       {/* Dialog */}
@@ -134,7 +145,7 @@ export const Popup = ({
                 }}
               ></TextField>
             ) : (
-              <Typography>{taskId.judul_task}</Typography>
+              <Typography>{dataPopUp.judul_task}</Typography>
             )}
             {/* <Typography>{taskId.judul_task}</Typography> */}
           </Grid>
@@ -144,10 +155,10 @@ export const Popup = ({
                 // console.log("test judul");
                 if (!toggleEditJudulTask) {
                   setToggleEditJudulTask(true);
-                  setJudulTask(taskId.judul_task);
+                  setJudulTask(dataPopUp.judul_task);
                 } else {
                   setToggleEditJudulTask(false);
-                  addJudulTask(taskId);
+                  addJudulTask(dataPopUp);
                 }
               }}
             >
@@ -167,7 +178,7 @@ export const Popup = ({
             boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
           }}
         >
-          {taskId.deskripsi_task ? (
+          {dataPopUp.deskripsi_task ? (
             toggleEditDeskripsiTask ? (
               <>
                 <TextField
@@ -193,7 +204,7 @@ export const Popup = ({
                   type="submit"
                   onClick={() => {
                     setToggleEditDeskripsiTask(false);
-                    addDeskripsiTask(taskId);
+                    addDeskripsiTask(dataPopUp);
                   }}
                   sx={{
                     borderRadius: "10px",
@@ -218,7 +229,7 @@ export const Popup = ({
             ) : (
               <>
                 {" "}
-                <Typography>{taskId.deskripsi_task}</Typography>
+                <Typography>{dataPopUp.deskripsi_task}</Typography>
                 <Button
                   sx={{
                     // backgroundColor: "lightcoral",
@@ -232,7 +243,7 @@ export const Popup = ({
                   onClick={() => {
                     // Menghapus();
                     // handleCloseDialog();
-                    setDeskripsiTask(taskId.deskripsi_task);
+                    setDeskripsiTask(dataPopUp.deskripsi_task);
                     setToggleEditDeskripsiTask(true);
                     console.log("open");
                   }}
@@ -276,7 +287,7 @@ export const Popup = ({
                   //   setOpenField(!openField);
                   // }
                   setToggleEditDeskripsiTask(false);
-                  addDeskripsiTask(taskId);
+                  addDeskripsiTask(dataPopUp);
                 }}
                 sx={{
                   borderRadius: "10px",
@@ -327,7 +338,7 @@ export const Popup = ({
           Checkbox
         </Typography>
         <FormGroup sx={{ mx: "15px" }}>
-          {taskId.todo?.map((item) => (
+          {dataPopUp.todo?.map((item) => (
             <>
               <FormControlLabel
                 control={<Checkbox checked={item.kondisi} />}
@@ -337,7 +348,7 @@ export const Popup = ({
           ))}
         </FormGroup>
         <IconButton sx={{ m: "5px", padding: "0px", width: 32, height: 32 }}>
-          {!taskId.tag ? (
+          {!dataPopUp.tag ? (
             <Add sx={{ m: "auto", padding: "0px", width: 32, height: 32 }} />
           ) : (
             <Avatar
@@ -351,7 +362,7 @@ export const Popup = ({
                 "&:hover": { color: "white", backgroundColor: "lightcoral" },
               }}
             >
-              {taskId.tag[0]}
+              {dataPopUp.tag[0]}
             </Avatar>
           )}
         </IconButton>
@@ -373,7 +384,7 @@ export const Popup = ({
         >
           Comment
         </Typography>
-        {taskId.komentar?.map((item) => (
+        {dataPopUp.komentar?.map((item) => (
           <Typography
             sx={{
               backgroundColor: "white",
@@ -396,7 +407,7 @@ export const Popup = ({
             color: "white",
           }}
           onClick={() => {
-            removeTask(taskId);
+            removeTask(dataPopUp);
             handleCloseDialog();
           }}
         >
