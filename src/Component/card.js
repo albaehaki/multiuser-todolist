@@ -81,18 +81,18 @@ export const Card = ({
     // }
     // console.log("render card");
   }, [isLoading]);
-  const popup = useMemo(
-    () => (
-      <Popup
-        data={data}
-        handleClickOpen={handleClickOpen}
-        openDialog={openDialog}
-        handleCloseDialog={handleCloseDialog}
-        index={index}
-      />
-    ),
-    [data, openDialog, setToggleEditDeskripsiTask]
-  );
+  // const popup = useMemo(
+  //   () => (
+  //     <Popup
+  //       data={data}
+  //       handleClickOpen={handleClickOpen}
+  //       openDialog={openDialog}
+  //       handleCloseDialog={handleCloseDialog}
+  //       index={index}
+  //     />
+  //   ),
+  //   [data, openDialog, setToggleEditDeskripsiTask]
+  // );
 
   // console.log(data);
   // console.log(Object.values(data));
@@ -242,7 +242,14 @@ export const Card = ({
           ""
         )}
       </List>
-      {popup}
+      {/* {popup} */}
+      <Popup
+        data={data}
+        handleClickOpen={handleClickOpen}
+        openDialog={openDialog}
+        handleCloseDialog={handleCloseDialog}
+        index={index}
+      />
     </>
   );
 };
