@@ -423,7 +423,7 @@ export const Popup = ({
                 </Grid>
               </Grid>
 
-              <FormGroup sx={{ mx: "15px" }}>
+              <FormGroup sx={{ mr: "20px" }}>
                 {itemTodo.list_todo?.map((item, index) => (
                   <Grid container>
                     <Grid xs={10} item>
@@ -465,7 +465,7 @@ export const Popup = ({
                 )}
                 <Button
                   onClick={() => {
-                    console.log(itemTodo);
+                    // console.log(itemTodo);
                     setTodoOpenName(itemTodo.id_judul_todo);
                     setToggleEditTodo(!toggleEditTodo);
                     if (toggleEditTodo) {
