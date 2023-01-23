@@ -56,7 +56,7 @@ export const useHome = () => {
     setToggleEditTodo,
     judulTodo,
     setJudulTodo,
-    Todo,
+    todo,
     setTodo,
     //komentar
     toggleEditKomentar,
@@ -338,7 +338,7 @@ export const useHome = () => {
     setToggleEditTodo,
     judulTodo,
     setJudulTodo,
-    Todo,
+    todo,
     setTodo,
     //komentar
     toggleEditKomentar,
