@@ -15,6 +15,13 @@ export const DataProvider = (props) => {
   const [deskripsiTask, setDeskripsiTask] = useState("");
   const [toggleEditDeskripsiTask, setToggleEditDeskripsiTask] = useState(false);
   const [toggleEditJudulTask, setToggleEditJudulTask] = useState(false);
+  const [toggleAddJudulTodo, setToggleAddJudulTodo] = useState(false);
+  const [toggleEditJudulTodo, setToggleEditJudulTodo] = useState(false);
+  const [toggleEditTodo, setToggleEditTodo] = useState(false);
+  const [judulTodo, setJudulTodo] = useState("");
+  const [todo, setTodo] = useState("");
+  const [toggleEditKomentar, setToggleEditKomentar] = useState(false);
+  const [komentar, setKomentar] = useState("");
 
   return (
     <DataContext.Provider
@@ -43,6 +50,20 @@ export const DataProvider = (props) => {
         setToggleEditJudulTask,
         dataPopUp,
         setDataPopUp,
+        toggleEditJudulTodo,
+        setToggleEditJudulTodo,
+        toggleEditTodo,
+        setToggleEditTodo,
+        toggleAddJudulTodo,
+        setToggleAddJudulTodo,
+        judulTodo,
+        setJudulTodo,
+        todo,
+        setTodo,
+        toggleEditKomentar,
+        setToggleEditKomentar,
+        komentar,
+        setKomentar,
       }}
       {...props}
     />

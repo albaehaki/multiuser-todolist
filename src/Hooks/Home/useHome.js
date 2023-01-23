@@ -47,6 +47,22 @@ export const useHome = () => {
     setToggleEditJudulTask,
     dataPopUp,
     setDataPopUp,
+    //todo
+    toggleEditJudulTodo,
+    setToggleEditJudulTodo,
+    toggleAddJudulTodo,
+    setToggleAddJudulTodo,
+    toggleEditTodo,
+    setToggleEditTodo,
+    judulTodo,
+    setJudulTodo,
+    Todo,
+    setTodo,
+    //komentar
+    toggleEditKomentar,
+    setToggleEditKomentar,
+    komentar,
+    setKomentar,
   } = useContext(DataContext);
   const [urutan, setUrutan] = useState(0);
   const db = getFirestore(app);
@@ -99,6 +115,17 @@ export const useHome = () => {
         });
       });
       return hasil;
+    } else if (ket === "judul todo") {
+      let hasil = [];
+      data?.forEach((x, idxCard) => {
+        x.task?.forEach((y, idxTask) => {
+          y.todo?.forEach((z, idxJudulTodo) => {
+            hasil.push({
+              z,
+            });
+          });
+        });
+      });
     }
   };
 
@@ -260,6 +287,15 @@ export const useHome = () => {
         console.log(error);
       });
   };
+  //add judul todo
+  const addJudulTodo = (e) => {
+    const uuid = uid(16);
+    console.log(e, "ini dari props");
+
+    console.log(getId(e.id_task, "keduanya"), "ini dari get index ");
+    const noUrutCard = getId(e.id_card, "card");
+    const noUrut = getId(e.id_task, "keduanya");
+  };
   return {
     data,
     setData,
@@ -293,5 +329,22 @@ export const useHome = () => {
     removeCard,
     dataPopUp,
     setDataPopUp,
+    //todo
+    toggleEditJudulTodo,
+    setToggleEditJudulTodo,
+    toggleAddJudulTodo,
+    setToggleAddJudulTodo,
+    toggleEditTodo,
+    setToggleEditTodo,
+    judulTodo,
+    setJudulTodo,
+    Todo,
+    setTodo,
+    //komentar
+    toggleEditKomentar,
+    setToggleEditKomentar,
+    komentar,
+    setKomentar,
+    addJudulTodo,
   };
 };
