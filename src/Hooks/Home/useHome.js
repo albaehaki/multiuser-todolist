@@ -59,91 +59,22 @@ export const useHome = () => {
     setDeskripsi(e.target.value);
   };
   const GetData = (e) => {
-    // console.log(onValue());
-    // console.log("get data jalan");
     setData([]);
     onValue(ref(realtimedb), (snapshot) => {
       const databd = snapshot.val();
       setData([]);
-      // setIsLoading(true);
-      // console.log(Object.keys(databd));
+
       Object.entries(databd).map(([key, val], i) => {
-        // console.log(val, key, i);
-        // // setData([val, "12"]);
-        // // console.log(Object.values(val), "ke 2");
-        // if (key === "todolist") {
-        //   console.log(val, "ini if");
-        // } else {
-        //   console.log("ini kalau gagal");
-        // }
-        // setData((oldArray) => [...oldArray, val]);
         Object.entries(val).map(([key, value], i) => {
-          // console.log(value, key, i);
           if (key === "card") {
-            // console.log(value, "ini if");
             setData(value);
             setIsLoading(true);
           } else {
-            // console.log("ini kalau gagal");
           }
         });
-        // Object.values(val).map((todo) => {
-        // console.log(todo, "ke 2");
-        // Object.values(todo).map((todo3) => {
-        //   console.log(todo3, "ke 3");
-        //   setData((oldArray) => [...oldArray, todo3]);
-        // });
-        // setData((oldArray) => [...oldArray, todo]);
-        // });
       });
-      // if (databd !== null) {
-      //   Object.values(databd).map((todo) => {
-      //     setData((oldArray) => [todo[0]]);
-      //   });
-      // }
     });
   };
-  // const dapatDB = async () => {
-  //   const sudahDapatDB = await getDocs(getCollection);
-  //   setData(sudahDapatDB.docs?.map((x) => ({ ...x.data(), id: x.id })));
-  //   // return sudahDapatDB.docs?.map((x) => ({ ...x.data(), id: x.id }));
-  //   // return console.log(sudahDapatDB);
-  // };
-  // return dapatDB();
-
-  //
-
-  //function untuk mendapatkan id card dan task
-  // const getId = (id, ket) => {
-  //   if (ket === "card") {
-  //     const hasil = data.findIndex((x) => x.id_card === id);
-  //     return hasil;
-  //   } else if (ket === "task") {
-  //     const hasil = data
-  //       .map((x) => x.task?.findIndex((y) => y.id_task === id))
-  //       .filter((x) => x >= 0)
-  //       .join();
-  //     return hasil;
-  //   } else if (ket === "keduanya") {
-  //     const hasil = data.map((x) =>
-  //       x.task?.map((y) => {
-  //         if (y.id_task === id) {
-  //           const no_urut_card = x?.findIndex(
-  //             (cardData) => cardData.id_card === x.id_card
-  //           );
-  //           const no_urut_task = x?.findIndex(
-  //             (cardTask) => cardTask.id_card === y.id_task
-  //           );
-  //           return {
-  //             id_card: no_urut_card,
-  //             id_task: no_urut_task,
-  //           };
-  //         }
-  //       })
-  //     );
-  //     return hasil;
-  //   }
-  // };
 
   const getId = (id, ket) => {
     if (ket === "card") {
@@ -224,6 +155,9 @@ export const useHome = () => {
           judul_task: judulTask,
           deskripsi_task: e.deskripsi_task ? e.deskripsi_task : "",
           id_task: e.id_task ? e.id_task : uuid,
+          todo: e.todo ? e.todo : "",
+          komentar: e.komentar ? e.komentar : "",
+          tag: e.tag ? e.tag : "",
         }
       )
         .then((res) => {
@@ -236,10 +170,6 @@ export const useHome = () => {
           console.log(error);
         });
     }
-    // console.log(
-    //   e.task.filter((x) => x.id_task !== "1e2831215428afb2"),
-    //   "filter"
-    // );
   };
   //add deskripsi
   const onChangeDeskripsiTask = (e) => {
@@ -258,6 +188,9 @@ export const useHome = () => {
           judul_task: e.judul_task,
           deskripsi_task: deskripsiTask,
           id_task: e.id_task,
+          todo: e.todo ? e.todo : "",
+          komentar: e.komentar ? e.komentar : "",
+          tag: e.tag ? e.tag : "",
         }
       )
         .then((res) => {
@@ -281,8 +214,6 @@ export const useHome = () => {
       data
         .filter((x, i) => i === noUrut[0].noUrutCard)[0]
         .task.filter((x, i) => i !== noUrut[0].noUrutTask)
-      // task.filter((x) => x.id_task !== "1e2831215428afb2"),
-      // "filter"
     );
     const filteredTask = data
       .filter((x, i) => i === noUrut[0].noUrutCard)[0]
@@ -308,8 +239,6 @@ export const useHome = () => {
   };
   //menghapus card
   const removeCard = (e) => {
-    // const noUrut = getId(e.id_card, "card");
-    // console.log(noUrut);
     const filteredCard = data.filter((x, i) => x.id_card !== e.id_card);
 
     setIsLoading(true);
@@ -341,7 +270,7 @@ export const useHome = () => {
     GetData,
     taskId,
     setTaskId,
-    // Menghapus,
+
     onChangeJudulCard,
     judulCard,
     setJudulCard,

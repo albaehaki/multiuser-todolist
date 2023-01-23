@@ -338,14 +338,16 @@ export const Popup = ({
           Checkbox
         </Typography>
         <FormGroup sx={{ mx: "15px" }}>
-          {dataPopUp.todo?.map((item) => (
-            <>
-              <FormControlLabel
-                control={<Checkbox checked={item.kondisi} />}
-                label={item.nama_todo}
-              />
-            </>
-          ))}
+          {dataPopUp.todo === []
+            ? dataPopUp.todo.map((item) => (
+                <>
+                  <FormControlLabel
+                    control={<Checkbox checked={item.kondisi} />}
+                    label={item.nama_todo}
+                  />
+                </>
+              ))
+            : ""}
         </FormGroup>
         <IconButton sx={{ m: "5px", padding: "0px", width: 32, height: 32 }}>
           {!dataPopUp.tag ? (
@@ -384,22 +386,24 @@ export const Popup = ({
         >
           Comment
         </Typography>
-        {dataPopUp.komentar?.map((item) => (
-          <Typography
-            sx={{
-              backgroundColor: "white",
-              py: "5px",
-              px: "5px",
-              mx: "5px",
-              mb: "15px",
-              borderRadius: "5px",
-              // boxShadow: "1px 1px 1px gray",
-              boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
-            }}
-          >
-            {item.nama} :{item.komentar}
-          </Typography>
-        ))}
+        {dataPopUp.komentar === []
+          ? dataPopUp.komentar.map((item) => (
+              <Typography
+                sx={{
+                  backgroundColor: "white",
+                  py: "5px",
+                  px: "5px",
+                  mx: "5px",
+                  mb: "15px",
+                  borderRadius: "5px",
+                  // boxShadow: "1px 1px 1px gray",
+                  boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
+                }}
+              >
+                {item.nama} :{item.komentar}
+              </Typography>
+            ))
+          : ""}
         <Button
           sx={{
             backgroundColor: "#E0144C",
