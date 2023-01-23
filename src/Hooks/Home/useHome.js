@@ -439,9 +439,9 @@ export const useHome = () => {
       });
   };
   //add nama todo
-  const addNamaTodo = ({ e, edit }) => {
+  const addNamaTodo = (e, edit) => {
     const uuid = uid(16);
-    // console.log(e, "ini dari props");
+    console.log(e, "ini dari props", edit);
     const noUrut = getId(e.id_judul_todo, "cardxTaskxTodo");
     if (todo.length > 0) {
       set(

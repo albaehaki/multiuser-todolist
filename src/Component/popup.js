@@ -465,9 +465,12 @@ export const Popup = ({
                 )}
                 <Button
                   onClick={() => {
+                    console.log(itemTodo);
                     setTodoOpenName(itemTodo.id_judul_todo);
-                    addNamaTodo(itemTodo);
                     setToggleEditTodo(!toggleEditTodo);
+                    if (toggleEditTodo) {
+                      addNamaTodo(itemTodo, "add");
+                    }
                   }}
                 >
                   <Add />
