@@ -58,6 +58,12 @@ export const useHome = () => {
     setJudulTodo,
     todo,
     setTodo,
+    todoOpenId,
+    setTodoOpenId,
+    todoOpenName,
+    setTodoOpenName,
+    kondisiTodo,
+    setKondisiTodo,
     //komentar
     toggleEditKomentar,
     setToggleEditKomentar,
@@ -102,7 +108,7 @@ export const useHome = () => {
         .filter((x) => x >= 0)
         .join();
       return hasil;
-    } else if (ket === "keduanya") {
+    } else if (ket === "cardxTask") {
       let hasil = [];
       data?.forEach((x, idxCard) => {
         x.task?.forEach((y, idxTask) => {
@@ -115,19 +121,100 @@ export const useHome = () => {
         });
       });
       return hasil;
-    } else if (ket === "judul todo") {
+    } else if (ket === "cardxTaskxTodo") {
       let hasil = [];
       data?.forEach((x, idxCard) => {
         x.task?.forEach((y, idxTask) => {
-          y.todo?.forEach((z, idxJudulTodo) => {
-            hasil.push({
-              z,
-            });
+          y.todo?.forEach((z, idxTodo) => {
+            if (z.id_judul_todo === id) {
+              hasil.push({
+                noUrutCard: idxCard,
+                noUrutTask: idxTask,
+                noUrutTodo: idxTodo,
+              });
+            }
           });
         });
       });
+      return hasil;
+    } else if (ket === "cardxTaskxTodoxList") {
+      if (Array.isArray(data)) {
+        let hasil = [];
+        data.forEach((x, idxCard) => {
+          if (Array.isArray(x.task)) {
+            x.task.forEach((y, idxTask) => {
+              if (Array.isArray(y.todo)) {
+                y.todo.forEach((z, idxTodo) => {
+                  if (Array.isArray(z.list_todo)) {
+                    z.list_todo.forEach((l, idxList) => {
+                      if (l.id_todo === id) {
+                        hasil.push({
+                          noUrutCard: idxCard,
+                          noUrutTask: idxTask,
+                          noUrutTodo: idxTodo,
+                          noUrutList: idxList,
+                        });
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+        return hasil;
+      } else {
+        return "data is not an array";
+      }
     }
   };
+  // const getId = (id, ket) => {
+  //   if (ket === "card") {
+  //     const hasil = data.findIndex((x) => x.id_card === id);
+  //     return hasil;
+  //   } else if (ket === "task") {
+  //     const hasil = data
+  //       .map((x) => x.task?.findIndex((y) => y.id_task === id))
+  //       .filter((x) => x >= 0)
+  //       .join();
+  //     return hasil;
+  //   } else if (ket === "cardxTask") {
+  //     let hasil = [];
+  //     data?.forEach((x, idxCard) => {
+  //       x.task?.forEach((y, idxTask) => {
+  //         if (y.id_task === id) {
+  //           hasil.push({
+  //             noUrutCard: idxCard,
+  //             noUrutTask: idxTask,
+  //           });
+  //         }
+  //       });
+  //     });
+  //     return hasil;
+  //   } else if (ket === "cardxTaskxTodo") {
+  //     let hasil = [];
+  //     data?.forEach((x, idxCard) => {
+  //       x.task?.forEach((y, idxTask) => {
+  //         y.todo?.forEach((z, idxJudulTodo) => {
+  //           hasil.push({
+  //             z,
+  //           });
+  //         });
+  //       });
+  //     });
+  //   } else if (ket === "cardxTaskxTodoxList") {
+  //     let hasil = [];
+  //     data?.forEach((x, idxCard) => {
+  //       x.task?.forEach((y, idxTask) => {
+  //         y.todo?.forEach((z, idxJudulTodo) => {
+  //           hasil.push({
+  //             z,
+  //           });
+  //         });
+  //       });
+  //     });
+  //   }
+  // };
 
   // add judul card
   const onChangeJudulCard = (e) => {
@@ -145,6 +232,7 @@ export const useHome = () => {
         .then((res) => {
           setJudulCard("");
           setIsLoading(false);
+          // GetData();
         })
         .catch((error) => {
           setJudulCard("");
@@ -163,7 +251,7 @@ export const useHome = () => {
 
     console.log(getId(e.id_task, "keduanya"), "ini dari get index ");
     const noUrutCard = getId(e.id_card, "card");
-    const noUrut = getId(e.id_task, "keduanya");
+    const noUrut = getId(e.id_task, "cardxTask");
 
     if (judulTask.length > 0) {
       setIsLoading(true);
@@ -182,14 +270,15 @@ export const useHome = () => {
           judul_task: judulTask,
           deskripsi_task: e.deskripsi_task ? e.deskripsi_task : "",
           id_task: e.id_task ? e.id_task : uuid,
-          todo: e.todo ? e.todo : "",
-          komentar: e.komentar ? e.komentar : "",
+          todo: e.todo ? e.todo : [],
+          komentar: e.komentar ? e.komentar : [],
           tag: e.tag ? e.tag : "",
         }
       )
         .then((res) => {
           setJudulTask("");
           setIsLoading(false);
+          // GetData();
         })
         .catch((error) => {
           setJudulTask("");
@@ -203,7 +292,7 @@ export const useHome = () => {
     setDeskripsiTask(e.target.value);
   };
   const addDeskripsiTask = (e) => {
-    const noUrut = getId(e.id_task, "keduanya");
+    const noUrut = getId(e.id_task, "cardxTask");
     if (deskripsiTask.length > 0) {
       set(
         ref(
@@ -215,14 +304,15 @@ export const useHome = () => {
           judul_task: e.judul_task,
           deskripsi_task: deskripsiTask,
           id_task: e.id_task,
-          todo: e.todo ? e.todo : "",
-          komentar: e.komentar ? e.komentar : "",
+          todo: e.todo ? e.todo : [],
+          komentar: e.komentar ? e.komentar : [],
           tag: e.tag ? e.tag : "",
         }
       )
         .then((res) => {
           setDeskripsiTask("");
           setIsLoading(false);
+          // GetData();
         })
         .catch((error) => {
           setDeskripsiTask("");
@@ -233,15 +323,8 @@ export const useHome = () => {
   };
   //menghapus task
   const removeTask = (e) => {
-    const noUrut = getId(e.id_task, "keduanya");
+    const noUrut = getId(e.id_task, "cardxTask");
 
-    console.log(e);
-    console.log(noUrut);
-    console.log(
-      data
-        .filter((x, i) => i === noUrut[0].noUrutCard)[0]
-        .task.filter((x, i) => i !== noUrut[0].noUrutTask)
-    );
     const filteredTask = data
       .filter((x, i) => i === noUrut[0].noUrutCard)[0]
       .task.filter((x, i) => i !== noUrut[0].noUrutTask);
@@ -258,6 +341,7 @@ export const useHome = () => {
     )
       .then((res) => {
         setIsLoading(false);
+        // GetData();
       })
       .catch((error) => {
         setIsLoading(false);
@@ -280,6 +364,7 @@ export const useHome = () => {
     )
       .then((res) => {
         setIsLoading(false);
+        // GetData();
         console.log(res);
       })
       .catch((error) => {
@@ -292,9 +377,104 @@ export const useHome = () => {
     const uuid = uid(16);
     console.log(e, "ini dari props");
 
-    console.log(getId(e.id_task, "keduanya"), "ini dari get index ");
-    const noUrutCard = getId(e.id_card, "card");
-    const noUrut = getId(e.id_task, "keduanya");
+    const noUrut = getId(
+      e.id_task ? e.id_task : e.id_judul_todo,
+      e.id_task ? "cardxTask" : "cardxTaskxTodo"
+    );
+    console.log(noUrut);
+    if (judulTodo.length > 0) {
+      set(
+        ref(
+          realtimedb,
+          `todolist/card/${noUrut[0].noUrutCard}/task/${
+            noUrut[0].noUrutTask
+          }/todo/${
+            e.todo ? e.todo.length : e.id_judul_todo ? noUrut[0].noUrutTodo : 0
+          }`
+        ),
+
+        {
+          judul_todo: judulTodo,
+          id_judul_todo: e.id_judul_todo ? e.id_judul_todo : uuid,
+        }
+      )
+        .then((res) => {
+          setJudulTodo("");
+          setIsLoading(false);
+          // GetData();
+        })
+        .catch((error) => {
+          setJudulTodo("");
+          setIsLoading(false);
+          console.log(error);
+        });
+    }
+  };
+  //remove judul todo
+  const removeJudulTodo = (e) => {
+    const noUrut = getId(e.id_judul_todo, "cardxTaskxTodo");
+
+    const judulTodoFiltered = data
+      .filter((a, i) => i === noUrut[0].noUrutCard)[0]
+      .task.filter((b, i) => i === noUrut[0].noUrutTask)[0]
+      .todo.filter((c, i) => i !== noUrut[0].noUrutTodo);
+
+    set(
+      ref(
+        realtimedb,
+        `todolist/card/${noUrut[0].noUrutCard}/task/${noUrut[0].noUrutTask}/todo`
+      ),
+
+      judulTodoFiltered
+    )
+      .then((res) => {
+        setJudulTodo("");
+        setIsLoading(false);
+        // GetData();
+      })
+      .catch((error) => {
+        setJudulTodo("");
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
+  //add nama todo
+  const addNamaTodo = ({ e, edit }) => {
+    const uuid = uid(16);
+    // console.log(e, "ini dari props");
+    const noUrut = getId(e.id_judul_todo, "cardxTaskxTodo");
+    if (todo.length > 0) {
+      set(
+        ref(
+          realtimedb,
+          `todolist/card/${noUrut[0].noUrutCard}/task/${
+            noUrut[0].noUrutTask
+          }/todo/${noUrut[0].noUrutTodo}/list_todo/${
+            e.list_todo
+              ? e.list_todo.length
+              : e.id_todo
+              ? noUrut[0].noUrutList
+              : 0
+          }`
+        ),
+
+        {
+          nama_todo: todo,
+          id_todo: e.id_todo ? e.id_todo : uuid,
+          kondisi: e.kondisi ? e.kondisi : kondisiTodo ? kondisiTodo : false,
+        }
+      )
+        .then((res) => {
+          setTodo("");
+          setIsLoading(false);
+          // GetData();
+        })
+        .catch((error) => {
+          setTodo("");
+          setIsLoading(false);
+          console.log(error);
+        });
+    }
   };
   return {
     data,
@@ -340,6 +520,14 @@ export const useHome = () => {
     setJudulTodo,
     todo,
     setTodo,
+    addNamaTodo,
+    todoOpenId,
+    setTodoOpenId,
+    removeJudulTodo,
+    todoOpenName,
+    setTodoOpenName,
+    kondisiTodo,
+    setKondisiTodo,
     //komentar
     toggleEditKomentar,
     setToggleEditKomentar,

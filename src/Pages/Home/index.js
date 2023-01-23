@@ -87,8 +87,16 @@ const Home = () => {
     // console.log("render home");
     // console.log(GetData());
 
-    console.log(data);
+    // console.log(data);
   }, []);
+  useEffect(() => {
+    GetData();
+    setIsLoading(false);
+    // console.log("render home");
+    // console.log(GetData());
+
+    // console.log(data);
+  }, [isLoading]);
   // console.log(
   //   data.map((ent, i) => {
   //     return ent.map((index) => {

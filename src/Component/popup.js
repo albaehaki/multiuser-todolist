@@ -16,7 +16,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { Add, Edit } from "@mui/icons-material";
+import { Add, Edit, Remove } from "@mui/icons-material";
 import { useHome } from "../Hooks/Home/useHome";
 
 export const Popup = ({
@@ -65,6 +65,12 @@ export const Popup = ({
     todo,
     setTodo,
     addJudulTodo,
+    addNamaTodo,
+    todoOpenId,
+    setTodoOpenId,
+    removeJudulTodo,
+    todoOpenName,
+    setTodoOpenName,
     //komentar
     toggleEditKomentar,
     setToggleEditKomentar,
@@ -338,6 +344,7 @@ export const Popup = ({
           {dataPopUp.todo?.map((itemTodo, i) => (
             <>
               <Grid
+                key={i}
                 sx={{
                   backgroundColor: "white",
                   py: "5px",
@@ -352,7 +359,8 @@ export const Popup = ({
                 container
               >
                 <Grid item xs={10}>
-                  {toggleEditJudulTodo ? (
+                  {toggleEditJudulTodo &&
+                  todoOpenId === itemTodo.id_judul_todo ? (
                     <TextField
                       sx={{
                         mb: "10px",
@@ -382,7 +390,7 @@ export const Popup = ({
                         // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
                       }}
                     >
-                      {itemTodo.judul_todo}
+                      {itemTodo.judul_todo.substring(0, 10) + "..."}
                     </Typography>
                   )}
                   {/* <Typography>{taskId.judul_task}</Typography> */}
@@ -394,60 +402,76 @@ export const Popup = ({
                 >
                   <Button
                     onClick={() => {
-                      // addJudulTodo();
+                      setTodoOpenId(itemTodo.id_judul_todo);
+                      addJudulTodo(itemTodo);
                       console.log(dataPopUp);
                       setToggleEditJudulTodo(!toggleEditJudulTodo);
-                      // console.log("test judul");
-                      // if (!toggleEditJudulTodo) {
-                      //   setToggleEditJudulTodo(true);
-                      //   // setJudulTodo(dataPopUp.judul_task);
-                      // } else {
-                      //   setToggleEditJudulTodo(false);
-                      //   // addJudulTask(dataPopUp);
-                      // }
+                      if (itemTodo.id_judul_todo) {
+                        setJudulTodo(itemTodo.judul_todo);
+                      }
                     }}
                   >
                     {toggleEditJudulTodo ? <Add /> : <Edit />}
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      removeJudulTodo(itemTodo);
+                    }}
+                  >
+                    <Remove />
                   </Button>
                 </Grid>
               </Grid>
 
               <FormGroup sx={{ mx: "15px" }}>
                 {itemTodo.list_todo?.map((item, index) => (
-                  <>
-                    <FormControlLabel
-                      key={index}
-                      control={<Checkbox checked={item.checked} />}
-                      label={item.nama_todo}
-                    />
-                    {toggleEditTodo ? (
-                      <TextField
-                        sx={{
-                          mb: "10px",
-                          "& .MuiOutlinedInput-root": { borderRadius: "10px" },
+                  <Grid container>
+                    <Grid xs={10} item>
+                      <FormControlLabel
+                        key={index}
+                        control={<Checkbox checked={item.kondisi} />}
+                        label={item.nama_todo.substring(0, 10) + "..."}
+                      />
+                    </Grid>
+                    <Grid xs={2} item>
+                      <Button
+                        onClick={() => {
+                          removeJudulTodo(item);
                         }}
-                        size="small"
-                        multiline
-                        rows={1}
-                        fullWidth
-                        value={todo}
-                        onChange={(e) => {
-                          // onChangeTask(e);
-                          setTodo(e.target.value);
-                        }}
-                      ></TextField>
-                    ) : (
-                      ""
-                    )}
-                    <Button
-                      onClick={() => {
-                        setToggleEditTodo(!toggleEditTodo);
-                      }}
-                    >
-                      <Add />
-                    </Button>
-                  </>
+                      >
+                        <Remove />
+                      </Button>
+                    </Grid>
+                  </Grid>
                 ))}
+                {toggleEditTodo && todoOpenName === itemTodo.id_judul_todo ? (
+                  <TextField
+                    sx={{
+                      mb: "10px",
+                      "& .MuiOutlinedInput-root": { borderRadius: "10px" },
+                    }}
+                    size="small"
+                    multiline
+                    rows={1}
+                    fullWidth
+                    value={todo}
+                    onChange={(e) => {
+                      // onChangeTask(e);
+                      setTodo(e.target.value);
+                    }}
+                  ></TextField>
+                ) : (
+                  ""
+                )}
+                <Button
+                  onClick={() => {
+                    setTodoOpenName(itemTodo.id_judul_todo);
+                    addNamaTodo(itemTodo);
+                    setToggleEditTodo(!toggleEditTodo);
+                  }}
+                >
+                  <Add />
+                </Button>
               </FormGroup>
             </>
           ))}
@@ -499,28 +523,14 @@ export const Popup = ({
                   Todo
                 </Typography>
               )}
-              {/* <Typography>{taskId.judul_task}</Typography> */}
             </Grid>
             <Grid sx={{ display: "flex", justifyContent: "right" }} item xs={2}>
               <Button
                 onClick={() => {
-                  // addJudulTodo();
+                  addJudulTodo(dataPopUp);
                   console.log(dataPopUp);
                   setToggleAddJudulTodo(!toggleAddJudulTodo);
-                  // console.log("test judul");
-                  // if (!toggleEditJudulTodo) {
-                  //   setToggleEditJudulTodo(true);
-                  //   // setJudulTodo(dataPopUp.judul_task);
-                  // } else {
-                  //   setToggleEditJudulTodo(false);
-                  //   // addJudulTask(dataPopUp);
-                  // }
                 }}
-                // sx={{
-                //   mr: 0,
-                //   position: "relative",
-                //   right: 0,
-                // }}
               >
                 <Add />
               </Button>

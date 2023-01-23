@@ -19,7 +19,10 @@ export const DataProvider = (props) => {
   const [toggleEditJudulTodo, setToggleEditJudulTodo] = useState(false);
   const [toggleEditTodo, setToggleEditTodo] = useState(false);
   const [judulTodo, setJudulTodo] = useState("");
+  const [todoOpenName, setTodoOpenName] = useState("");
   const [todo, setTodo] = useState("");
+  const [todoOpenId, setTodoOpenId] = useState("");
+  const [kondisiTodo, setKondisiTodo] = useState(false);
   const [toggleEditKomentar, setToggleEditKomentar] = useState(false);
   const [komentar, setKomentar] = useState("");
 
@@ -60,6 +63,12 @@ export const DataProvider = (props) => {
         setJudulTodo,
         todo,
         setTodo,
+        todoOpenId,
+        setTodoOpenId,
+        todoOpenName,
+        setTodoOpenName,
+        kondisiTodo,
+        setKondisiTodo,
         toggleEditKomentar,
         setToggleEditKomentar,
         komentar,
