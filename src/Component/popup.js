@@ -71,6 +71,7 @@ export const Popup = ({
     removeJudulTodo,
     todoOpenName,
     setTodoOpenName,
+    removeTodo,
     //komentar
     toggleEditKomentar,
     setToggleEditKomentar,
@@ -244,7 +245,7 @@ export const Popup = ({
               <>
                 {" "}
                 <Typography variant="subtitle1">
-                  {dataPopUp.deskripsi_task}
+                  {dataPopUp.deskripsi_task.replace(/n\//g, "<br>")}
                 </Typography>
                 <Button
                   sx={{
@@ -430,13 +431,24 @@ export const Popup = ({
                       <FormControlLabel
                         key={index}
                         control={<Checkbox checked={item.kondisi} />}
-                        label={item.nama_todo.substring(0, 10) + "..."}
+                        label={item.nama_todo.substring(0, 20) + "..."}
+                        onClick={(e) => {
+                          console.log(e.target.checked);
+                          addNamaTodo(item, true, e.target.checked);
+                        }}
+                        // onDrag={(e) => {
+                        //   console.log(e, "drag");
+                        // }}
+                        onTouchMove={(e) => {
+                          console.log(e, "move");
+                        }}
                       />
                     </Grid>
                     <Grid xs={2} item>
                       <Button
                         onClick={() => {
-                          removeJudulTodo(item);
+                          removeTodo(item);
+                          // console.log(item);
                         }}
                       >
                         <Remove />

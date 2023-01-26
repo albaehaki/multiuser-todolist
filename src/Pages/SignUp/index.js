@@ -42,7 +42,7 @@ const Login = () => {
           width: "100",
           // alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "lightcoral",
+          backgroundColor: "gray",
         }}
       >
         {/* <Typography variant="h2">Selamat Datang</Typography> */}

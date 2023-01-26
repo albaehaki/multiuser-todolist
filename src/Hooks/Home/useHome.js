@@ -396,6 +396,7 @@ export const useHome = () => {
         {
           judul_todo: judulTodo,
           id_judul_todo: e.id_judul_todo ? e.id_judul_todo : uuid,
+          todo: e.list_todo ? e.list_todo : [],
         }
       )
         .then((res) => {
@@ -428,20 +429,20 @@ export const useHome = () => {
       judulTodoFiltered
     )
       .then((res) => {
-        setJudulTodo("");
+        // setJudulTodo("");
         setIsLoading(false);
         // GetData();
       })
       .catch((error) => {
-        setJudulTodo("");
+        // setJudulTodo("");
         setIsLoading(false);
         console.log(error);
       });
   };
   //add nama todo
-  const addNamaTodo = (e, edit) => {
+  const addNamaTodo = (e, edit, checked) => {
     const uuid = uid(16);
-    console.log(e, "ini dari props", edit);
+    console.log(e, "ini dari props", edit, checked);
     const noUrut = getId(e.id_judul_todo, "cardxTaskxTodo");
     if (todo.length > 0) {
       set(
@@ -476,6 +477,37 @@ export const useHome = () => {
         });
     }
   };
+
+  //remove todo
+
+  const removeTodo = (e, edit, checked) => {
+    const noUrut = getId(e.id_todo, "cardxTaskxTodoxList");
+
+    const judulTodoFiltered = data
+      .filter((a, i) => i === noUrut[0].noUrutCard)[0]
+      .task.filter((b, i) => i === noUrut[0].noUrutTask)[0]
+      .todo.filter((c, i) => i === noUrut[0].noUrutTodo)[0]
+      .list_todo.filter((d, i) => i !== noUrut[0].noUrutList);
+
+    set(
+      ref(
+        realtimedb,
+        `todolist/card/${noUrut[0].noUrutCard}/task/${noUrut[0].noUrutTask}/todo/${noUrut[0].noUrutTodo}/list_todo`
+      ),
+
+      judulTodoFiltered
+    )
+      .then((res) => {
+        // setJudulTodo("");
+        setIsLoading(false);
+        // GetData();
+      })
+      .catch((error) => {
+        // setJudulTodo("");
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
   return {
     data,
     setData,
@@ -509,6 +541,7 @@ export const useHome = () => {
     removeCard,
     dataPopUp,
     setDataPopUp,
+    removeTodo,
     //todo
     toggleEditJudulTodo,
     setToggleEditJudulTodo,

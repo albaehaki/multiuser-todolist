@@ -35,7 +35,7 @@ const Login = () => {
     // console.log(e);
     SignIn(e);
   };
-  console.log({ errors });
+  // console.log({ errors });
   return (
     <>
       <Container
@@ -46,7 +46,7 @@ const Login = () => {
           width: "100",
           // alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "lightcoral",
+          backgroundColor: "Gray",
         }}
       >
         <form
@@ -76,13 +76,27 @@ const Login = () => {
                 sx={{
                   fontSize: "40px",
                   fontWeight: 600,
-                  mb: "50px",
+                  // mb: "50px",
                   color: "GrayText",
                 }}
                 align="center"
                 variant="h1"
               >
-                Selamat Datang
+                Sistem Informasi Work From Home
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                sx={{
+                  fontSize: "20px",
+                  fontWeight: 600,
+                  mb: "50px",
+                  color: "GrayText",
+                }}
+                align="center"
+                variant="h6"
+              >
+                JasaWebSEO.net
               </Typography>
             </Grid>
             <Grid item xs={12}>

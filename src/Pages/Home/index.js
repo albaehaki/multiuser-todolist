@@ -117,7 +117,7 @@ const Home = () => {
           display: "flex",
           flexDirection: "row",
           // justifyContent: "center",
-          backgroundColor: "lightcoral",
+          backgroundColor: "gray",
           overflowX: "auto",
           px: "10px",
           pt: "10px",
