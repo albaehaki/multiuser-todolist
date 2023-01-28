@@ -389,14 +389,15 @@ export const useHome = () => {
           `todolist/card/${noUrut[0].noUrutCard}/task/${
             noUrut[0].noUrutTask
           }/todo/${
-            e.todo ? e.todo.length : e.id_judul_todo ? noUrut[0].noUrutTodo : 0
+            // e.todo ? e.todo.length : e.id_judul_todo ? noUrut[0].noUrutTodo : 0
+            e.id_judul_todo ? noUrut[0].noUrutTodo : e.todo ? e.todo.length : 0
           }`
         ),
 
         {
           judul_todo: judulTodo,
           id_judul_todo: e.id_judul_todo ? e.id_judul_todo : uuid,
-          todo: e.list_todo ? e.list_todo : [],
+          list_todo: e.list_todo ? e.list_todo : [],
         }
       )
         .then((res) => {

@@ -608,32 +608,71 @@ export const Popup = ({
               </Typography>
             ))
           : ""}
-        <Button
-          sx={{
-            backgroundColor: "#E0144C",
-            borderRadius: "10px",
-            color: "white",
-          }}
-          onClick={() => {
-            removeTask(dataPopUp);
-            handleCloseDialog();
-          }}
-        >
-          Delete
-        </Button>
-        <Button
+        <Typography>
+          <b>zacky </b> :{" "}
+        </Typography>
+        <Typography
           sx={{
             backgroundColor: "white",
-            borderRadius: "10px",
-            color: "black",
-            mt: "10px",
-          }}
-          onClick={() => {
-            handleCloseDialog();
+            py: "5px",
+            px: "5px",
+            // mx: "5px",
+            mb: "15px",
+            borderRadius: "5px",
+            // boxShadow: "1px 1px 1px gray",
+            // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
           }}
         >
-          Close
-        </Button>
+          {/* {item.nama} :{item.komentar} */}
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </Typography>
+        <TextField
+          sx={{
+            mb: "10px",
+            "& .MuiOutlinedInput-root": { borderRadius: "50px" },
+          }}
+          size="small"
+        ></TextField>
+        <Grid sx={{ mt: "10px" }} container spacing={2}>
+          <Grid item xs={6}>
+            <Button
+              fullWidth
+              sx={{
+                backgroundColor: "#E0144C",
+                borderRadius: "10px",
+                color: "white",
+              }}
+              onClick={() => {
+                removeTask(dataPopUp);
+                handleCloseDialog();
+              }}
+            >
+              Delete
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              fullWidth
+              sx={{
+                backgroundColor: "white",
+                borderRadius: "10px",
+                color: "black",
+                // mt: "10px",
+              }}
+              onClick={() => {
+                handleCloseDialog();
+              }}
+            >
+              Close
+            </Button>
+          </Grid>
+        </Grid>
       </Dialog>
     </>
   );
