@@ -137,6 +137,22 @@ export const useHome = () => {
         });
       });
       return hasil;
+    } else if (ket === "cardxTaskxKomen") {
+      let hasil = [];
+      data?.forEach((x, idxCard) => {
+        x.task?.forEach((y, idxTask) => {
+          y.komentar?.forEach((z, idxKomen) => {
+            if (z.id_komentar === id) {
+              hasil.push({
+                noUrutCard: idxCard,
+                noUrutTask: idxTask,
+                noUrutKomen: idxKomen,
+              });
+            }
+          });
+        });
+      });
+      return hasil;
     } else if (ket === "cardxTaskxTodoxList") {
       if (Array.isArray(data)) {
         let hasil = [];
@@ -444,8 +460,11 @@ export const useHome = () => {
   const addNamaTodo = (e, edit, checked) => {
     const uuid = uid(16);
     console.log(e, "ini dari props", edit, checked);
-    const noUrut = getId(e.id_judul_todo, "cardxTaskxTodo");
-    if (todo.length > 0) {
+    const noUrut = getId(
+      edit ? e.id_todo : e.id_judul_todo,
+      edit ? "cardxTaskxTodoxList" : "cardxTaskxTodo"
+    );
+    if (todo.length > 0 || edit) {
       set(
         ref(
           realtimedb,
@@ -461,9 +480,9 @@ export const useHome = () => {
         ),
 
         {
-          nama_todo: todo,
+          nama_todo: edit ? e.nama_todo : todo,
           id_todo: e.id_todo ? e.id_todo : uuid,
-          kondisi: e.kondisi ? e.kondisi : kondisiTodo ? kondisiTodo : false,
+          kondisi: e.kondisi ? e.kondisi : edit ? checked : false,
         }
       )
         .then((res) => {
@@ -494,6 +513,68 @@ export const useHome = () => {
       ref(
         realtimedb,
         `todolist/card/${noUrut[0].noUrutCard}/task/${noUrut[0].noUrutTask}/todo/${noUrut[0].noUrutTodo}/list_todo`
+      ),
+
+      judulTodoFiltered
+    )
+      .then((res) => {
+        // setJudulTodo("");
+        setIsLoading(false);
+        // GetData();
+      })
+      .catch((error) => {
+        // setJudulTodo("");
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
+
+  //add komentar
+  const addKomentar = (e) => {
+    const uuid = uid(16);
+    console.log(e, "ini dari props");
+
+    const noUrut = getId(e.id_task, "cardxTask");
+    console.log(noUrut);
+    if (komentar.length > 0) {
+      set(
+        ref(
+          realtimedb,
+          `todolist/card/${noUrut[0].noUrutCard}/task/${
+            noUrut[0].noUrutTask
+          }/komentar/${e.komentar ? e.komentar.length : 0}`
+        ),
+
+        {
+          user: "zacky",
+          id_komentar: uuid,
+          komentar: komentar,
+        }
+      )
+        .then((res) => {
+          setKomentar("");
+          setIsLoading(false);
+          // GetData();
+        })
+        .catch((error) => {
+          setKomentar("");
+          setIsLoading(false);
+          console.log(error);
+        });
+    }
+  };
+  const removeKomentar = (e) => {
+    const noUrut = getId(e.id_komentar, "cardxTaskxKomen");
+    console.log(noUrut, e);
+    const judulTodoFiltered = data
+      .filter((a, i) => i === noUrut[0].noUrutCard)[0]
+      .task.filter((b, i) => i === noUrut[0].noUrutTask)[0]
+      .komentar.filter((c, i) => i !== noUrut[0].noUrutKomen);
+
+    set(
+      ref(
+        realtimedb,
+        `todolist/card/${noUrut[0].noUrutCard}/task/${noUrut[0].noUrutTask}/komentar`
       ),
 
       judulTodoFiltered
@@ -568,5 +649,7 @@ export const useHome = () => {
     komentar,
     setKomentar,
     addJudulTodo,
+    addKomentar,
+    removeKomentar,
   };
 };

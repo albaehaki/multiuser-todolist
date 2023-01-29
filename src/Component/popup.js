@@ -77,6 +77,8 @@ export const Popup = ({
     setToggleEditKomentar,
     komentar,
     setKomentar,
+    addKomentar,
+    removeKomentar,
   } = useHome();
   // console.log(taskId);
   useEffect(() => {
@@ -91,7 +93,8 @@ export const Popup = ({
         }
       });
     });
-  }, [taskId, isLoading]);
+    console.log("lagi");
+  }, [isLoading, taskId]);
 
   return (
     <>
@@ -439,9 +442,9 @@ export const Popup = ({
                         // onDrag={(e) => {
                         //   console.log(e, "drag");
                         // }}
-                        onTouchMove={(e) => {
-                          console.log(e, "move");
-                        }}
+                        // onTouchMove={(e) => {
+                        //   console.log(e, "move");
+                        // }}
                       />
                     </Grid>
                     <Grid xs={2} item>
@@ -481,7 +484,7 @@ export const Popup = ({
                     setTodoOpenName(itemTodo.id_judul_todo);
                     setToggleEditTodo(!toggleEditTodo);
                     if (toggleEditTodo) {
-                      addNamaTodo(itemTodo, "add");
+                      addNamaTodo(itemTodo, false);
                     }
                   }}
                 >
@@ -590,55 +593,80 @@ export const Popup = ({
         >
           Comment
         </Typography>
-        {dataPopUp.komentar === []
+        {dataPopUp.komentar
           ? dataPopUp.komentar.map((item) => (
-              <Typography
-                sx={{
-                  backgroundColor: "white",
-                  py: "5px",
-                  px: "5px",
-                  mx: "5px",
-                  mb: "15px",
-                  borderRadius: "5px",
-                  // boxShadow: "1px 1px 1px gray",
-                  // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
-                }}
-              >
-                {item.nama} :{item.komentar}
-              </Typography>
+              <>
+                <Grid container>
+                  <Grid item xs={10}>
+                    <Typography>
+                      <b>{item.user}</b> :{" "}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <IconButton
+                      // type="submit"
+                      fullWidth
+                      onClick={() => {
+                        // removeJudulTodo(itemTodo);
+                        removeKomentar(item);
+                      }}
+                    >
+                      <Remove />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+                <Typography
+                  sx={{
+                    backgroundColor: "white",
+                    py: "5px",
+                    px: "5px",
+                    // mx: "5px",
+                    mb: "15px",
+                    borderRadius: "5px",
+                    // boxShadow: "1px 1px 1px gray",
+                    // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
+                  }}
+                >
+                  {item.komentar}
+                </Typography>
+              </>
             ))
           : ""}
-        <Typography>
-          <b>zacky </b> :{" "}
-        </Typography>
-        <Typography
-          sx={{
-            backgroundColor: "white",
-            py: "5px",
-            px: "5px",
-            // mx: "5px",
-            mb: "15px",
-            borderRadius: "5px",
-            // boxShadow: "1px 1px 1px gray",
-            // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            console.log(e.target.value);
+            addKomentar(dataPopUp);
           }}
         >
-          {/* {item.nama} :{item.komentar} */}
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </Typography>
-        <TextField
-          sx={{
-            mb: "10px",
-            "& .MuiOutlinedInput-root": { borderRadius: "50px" },
-          }}
-          size="small"
-        ></TextField>
+          <Grid sx={{ mb: "10px" }} container>
+            <Grid item xs={10}>
+              <TextField
+                fullWidth
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "50px 10px 10px 50px ",
+                  },
+                }}
+                size="small"
+                value={komentar}
+                onChange={(e) => setKomentar(e.target.value)}
+              ></TextField>
+            </Grid>
+            <Grid item xs={2}>
+              <IconButton
+                type="submit"
+                fullWidth
+                onClick={() => {
+                  // removeJudulTodo(itemTodo);
+                }}
+              >
+                <Add />
+              </IconButton>
+            </Grid>
+          </Grid>
+        </form>
         <Grid sx={{ mt: "10px" }} container spacing={2}>
           <Grid item xs={6}>
             <Button
