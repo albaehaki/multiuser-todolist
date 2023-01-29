@@ -53,6 +53,7 @@ export const Popup = ({
     removeTask,
     dataPopUp,
     setDataPopUp,
+    addTag,
     //todo
     toggleEditJudulTodo,
     setToggleEditJudulTodo,
@@ -556,25 +557,33 @@ export const Popup = ({
           </Grid>
         </Box>
         {/* tag */}
-        <IconButton sx={{ m: "5px", padding: "0px", width: 32, height: 32 }}>
-          {!dataPopUp.tag ? (
+
+        {!dataPopUp.tag ? (
+          <IconButton
+            onClick={() => {
+              console.log("test");
+              addTag(dataPopUp);
+            }}
+            sx={{ m: "5px", padding: "0px", width: 32, height: 32 }}
+          >
             <Add sx={{ m: "auto", padding: "0px", width: 32, height: 32 }} />
-          ) : (
-            <Avatar
-              sx={{
-                // padding: "0px",
-                width: 32,
-                height: 32,
-                // color: "lightgray",
-                backgroundColor: "white",
-                color: "lightcoral",
-                "&:hover": { color: "white", backgroundColor: "lightcoral" },
-              }}
-            >
-              {dataPopUp.tag[0]}
-            </Avatar>
-          )}
-        </IconButton>
+          </IconButton>
+        ) : (
+          <Avatar
+            sx={{
+              // padding: "0px",
+              width: 48,
+              height: 48,
+              // color: "lightgray",
+              backgroundColor: "white",
+              color: "lightcoral",
+              "&:hover": { color: "white", backgroundColor: "lightcoral" },
+            }}
+          >
+            {dataPopUp.tag.slice(0, 2)}
+          </Avatar>
+        )}
+
         <Typography
           sx={{
             backgroundColor: "white",

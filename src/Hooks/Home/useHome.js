@@ -590,6 +590,41 @@ export const useHome = () => {
         console.log(error);
       });
   };
+
+  //tandai task
+  const addTag = (e) => {
+    const uuid = uid(16);
+    console.log(e, "ini dari props");
+
+    const noUrut = getId(e.id_task, "cardxTask");
+    console.log(noUrut);
+
+    set(
+      ref(
+        realtimedb,
+        `todolist/card/${noUrut[0].noUrutCard}/task/${noUrut[0].noUrutTask}`
+      ),
+
+      {
+        judul_task: e.judul_task,
+        deskripsi_task: e.deskripsi_task,
+        id_task: e.id_task,
+        todo: e.todo ? e.todo : [],
+        komentar: e.komentar ? e.komentar : [],
+        tag: "zacky",
+      }
+    )
+      .then((res) => {
+        // setKomentar("");
+        setIsLoading(false);
+        // GetData();
+      })
+      .catch((error) => {
+        // setKomentar("");
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
   return {
     data,
     setData,
@@ -600,7 +635,7 @@ export const useHome = () => {
     GetData,
     taskId,
     setTaskId,
-
+    addTag,
     onChangeJudulCard,
     judulCard,
     setJudulCard,
@@ -624,6 +659,7 @@ export const useHome = () => {
     dataPopUp,
     setDataPopUp,
     removeTodo,
+
     //todo
     toggleEditJudulTodo,
     setToggleEditJudulTodo,
