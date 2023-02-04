@@ -4,10 +4,17 @@ import { Box, Typography, IconButton, Grid, Dialog } from "@mui/material";
 // import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DataContext } from "../../Context";
 import { useHome } from "../../Hooks/Home/useHome";
+// react dnd
+import { useDrop } from "react-dnd";
 
 //Component
 import Navigasi from "../Contoh/index";
 import { Card } from "../../Component/card";
+
+export const ItemTypes = {
+  BOX: "box",
+  LIST_ITEM: "listItem",
+};
 
 const Home = () => {
   const {
@@ -25,6 +32,15 @@ const Home = () => {
     dataPopUp,
     setDataPopUp,
   } = useHome();
+  //react dnd
+  const [, drop] = useDrop({
+    accept: ItemTypes.BOX,
+    drop: (item, monitor) => {
+      // console.log(item, monitor, "ini drop");
+    },
+  });
+  //react dnd akhir
+
   const [openDialog, setOpenDialog] = useState(false);
   const [openField, setOpenField] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -33,44 +49,6 @@ const Home = () => {
     setAnchorEl(event.currentTarget);
   };
   const handleClickOpen = (e) => {
-    // console.log(e);
-    // console.log(e, "dari popup");
-    // setTaskId(data.filter((a) => a.id === e));
-    // console.log(
-    // data.filter((a) => {
-    //   if (a.task.uid === "wkdjdbiwvedvi3") {
-    //     // console.log(a);
-    //     console.log(a.task.uid === "wkdjdbiwvedvi3");
-    //     console.log("berhasil");
-    //   }
-    // }),
-    //  if (a.task.uid === "wkdjdbiwvedvi3") {
-    //    // console.log(a);
-    //    console.log(a.task.uid === "wkdjdbiwvedvi3");
-    //    console.log("berhasil");
-    //  }
-    //data mulai
-    // data.map((x) => {
-    //   // if (x.task) {
-    //   // console.log(x.task, "bagaimana");
-    //   // console.log(x.task, "bagaimana");
-    //   // setTaskId(Object.values(x).filter((a) => a.uid === e));
-    //   x.task.map((item) => {
-    //     // console.log(item, "masih mencoba");
-    //     // console.log(item.uid === "kwdjbiwekbbuw86", "apakah benar");
-    //     // console.log(item.uid === "kwdjbiwekbbuw86", "apakah benar");
-    //     if (item.uid === e) {
-    //       console.log(item, "ini hasilnya");
-    //       setTaskId(item);
-    //     }
-    //   });
-    //   // console.log(x.task.uid === "wkdjdbiwvedvi3", "apakah benar");
-    //   // } else {
-    //   //   console.log("ternyata tidak ada");
-    //   // }
-    // });
-    // );
-
     setTaskId(e.id_task);
     setOpenDialog(true);
   };
@@ -126,16 +104,23 @@ const Home = () => {
         }}
       >
         <Grid
+          ref={drop}
           sx={{
             display: "flex",
             flexDirection: "row",
             alignItems: "flex-start",
           }}
         >
+          {/* <img
+            // ref={drag}
+            src="https://assets.goal.com/v3/assets/bltcc7a7ffd2fbf71f5/blt3125544effd09308/639f60c65d0ea95c1ee0e6c3/GettyImages-1450106798.jpg?format=jpg"
+            width="300px"
+          /> */}
           {/* ini mapping card */}
           {Object.values(data).map((item, i) => (
             <>
               <Card
+                // ref={drag}
                 key={i}
                 data={item}
                 index={i}

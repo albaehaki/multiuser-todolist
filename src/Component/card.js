@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useMemo } from "react";
+import React, { useEffect, useContext, useState, useMemo, useRef } from "react";
 import {
   Menu,
   Drawer,
@@ -19,11 +19,22 @@ import {
   Checkbox,
 } from "@mui/material";
 // import { useForm } from "react-hook-form";
-import { Add, Close, MoreVert } from "@mui/icons-material";
+import {
+  Add,
+  Close,
+  DriveFileMoveOutlined,
+  MoreVert,
+} from "@mui/icons-material";
 import { Popup } from "./popup";
 import { MenuCard } from "./menuCard";
+//react dnd
+import { useDrag, useDrop } from "react-dnd";
 //data context
 import { useHome } from "../Hooks/Home/useHome";
+export const ItemTypes = {
+  BOX: "box",
+  LIST_ITEM: "listItem",
+};
 
 export const Card = ({
   handleClickOpen,
@@ -47,14 +58,27 @@ export const Card = ({
     toggleEditDeskripsiTask,
     setToggleEditDeskripsiTask,
     GetData,
+    indexCardDrag,
+    setIndexCardDrag,
+    dndCard,
   } = useHome();
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   watch,
-  //   formState: { errors },
-  // } = useForm();
-  // const [openDialog, setOpenDialog] = useState(false);
+  const ListRef = useRef();
+  //react dnd
+  const [{ isDragging }, drag] = useDrag({
+    type: ItemTypes.BOX,
+    item: { index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+  const [, drop] = useDrop({
+    accept: ItemTypes.BOX,
+    drop: (item, monitor) => {
+      // console.log(item, "ini drop");
+      // setIndexCardDrag(item.index);
+    },
+  });
+  //batas akhir react dnd
   const [openField, setOpenField] = useState(false);
   const [openMenuCard, setMenuCard] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -98,9 +122,11 @@ export const Card = ({
   // console.log(data);
   // console.log(Object.values(data));
   // console.log(dataTask);
+  // console.log(indexCardDrag);
   return (
-    <>
+    <div ref={drop}>
       <List
+        ref={drag}
         sx={{
           // my: "auto",
           mt: "100px",
@@ -110,6 +136,14 @@ export const Card = ({
           backgroundColor: "rgb(255,255,255,0.5)",
           borderRadius: "10px",
           // height: "100%
+        }}
+        onDrop={() => {
+          // console.log(index, "berhasil di drop");
+          dndCard(index);
+        }}
+        onDrag={() => {
+          // console.log(index, "berhasil di drag");
+          setIndexCardDrag(index);
         }}
       >
         <ListItem sx={{ backgroundColor: "", px: "0px" }}>
@@ -140,10 +174,12 @@ export const Card = ({
           ? ""
           : Object.values(dataTask)?.map((item, index) => (
               <ListItem
+                // ref={ListRef}
                 sx={{ backgroundColor: "", mb: "10px", padding: "0px" }}
                 key={item.uid}
               >
                 <ListItemButton
+                  // ref={drag}
                   onClick={() => {
                     handleClickOpen(item);
                     // console.log(item);
@@ -251,29 +287,6 @@ export const Card = ({
         handleCloseDialog={handleCloseDialog}
         index={index}
       />
-    </>
+    </div>
   );
 };
-
-// {
-//   dataTask?.map((item, index) => (
-//     <ListItem
-//       sx={{ backgroundColor: "", mb: "10px", padding: "0px" }}
-//       key={item.uid}
-//     >
-//       <ListItemButton
-//         onClick={() => handleClickOpen(item.uid)}
-//         sx={{
-//           backgroundColor: "white",
-//           borderRadius: "10px",
-//           // boxShadow: "0px 0px 2px gray",
-//         }}
-//       >
-//         <ListItemText>
-//           {/* <Typography>test</Typography> */}
-//           <Typography>{dataTask ? item.judul_task : ""}</Typography>
-//         </ListItemText>
-//       </ListItemButton>
-//     </ListItem>
-//   ));
-// }

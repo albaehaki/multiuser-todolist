@@ -69,6 +69,9 @@ export const useHome = () => {
     setToggleEditKomentar,
     komentar,
     setKomentar,
+    //dnd
+    indexCardDrag,
+    setIndexCardDrag,
   } = useContext(DataContext);
   const [urutan, setUrutan] = useState(0);
   const db = getFirestore(app);
@@ -625,6 +628,33 @@ export const useHome = () => {
         console.log(error);
       });
   };
+  // drag and drop
+  const dndCard = (indexCardDrop) => {
+    console.log({ indexCardDrop: indexCardDrop, indexCardDrag: indexCardDrag });
+
+    const cardDrag = data.filter((a, index) => index === indexCardDrag)[0];
+    const filtered = data.filter((a, index) => index !== indexCardDrag);
+    // console.log(cardDrag);
+    // console.log(filtered, "selain card drag");
+
+    filtered.splice(indexCardDrop, 0, cardDrag);
+    // console.log(filtered, "ini hasil ");
+    set(
+      ref(realtimedb, `todolist/card`),
+
+      filtered
+    )
+      .then((res) => {
+        // setJudulTodo("");
+        setIsLoading(false);
+        // GetData();
+      })
+      .catch((error) => {
+        // setJudulTodo("");
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
   return {
     data,
     setData,
@@ -687,5 +717,9 @@ export const useHome = () => {
     addJudulTodo,
     addKomentar,
     removeKomentar,
+    //drag and drop
+    indexCardDrag,
+    setIndexCardDrag,
+    dndCard,
   };
 };
