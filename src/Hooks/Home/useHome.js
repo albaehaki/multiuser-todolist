@@ -629,11 +629,11 @@ export const useHome = () => {
       });
   };
   // drag and drop
-  const dndCard = (indexCardDrop) => {
-    console.log({ indexCardDrop: indexCardDrop, indexCardDrag: indexCardDrag });
+  const dndCard = (iCardDrag, indexCardDrop) => {
+    // console.log({ indexCardDrop: indexCardDrop, indexCardDrag: indexCardDrag });
 
-    const cardDrag = data.filter((a, index) => index === indexCardDrag)[0];
-    const filtered = data.filter((a, index) => index !== indexCardDrag);
+    const cardDrag = data.filter((a, index) => index === iCardDrag)[0];
+    const filtered = data.filter((a, index) => index !== iCardDrag);
     // console.log(cardDrag);
     // console.log(filtered, "selain card drag");
 
@@ -655,6 +655,47 @@ export const useHome = () => {
         console.log(error);
       });
   };
+  const dndTask = (idTaskDrag, idTaskDrop) => {
+    // console.log(idTaskDrag, "ini dragnya");
+    const iDrop = getId(idTaskDrop.id_task, "cardxTask");
+    const iDrag = getId(idTaskDrag.id_task, "cardxTask");
+    // console.log({ drag: iDrag, drop: iDrop });
+    // console.log(iDrag);
+    let filteredDrop = data.filter((a, i) => i === iDrop[0].noUrutCard)[0].task;
+    let filteredDrag = data.filter((a, i) => i === iDrag[0].noUrutCard)[0].task;
+    const updatedData = [...data];
+    // console.log("drop", filteredDrop);
+    // console.log("drag", filteredDrag);
+
+    if (iDrop[0].noUrutCard === iDrag[0].noUrutCard) {
+      // console.log("cardnya sama");
+      filteredDrag.splice(iDrag[0].noUrutTask, 1);
+      filteredDrag.splice(iDrop[0].noUrutTask, 0, idTaskDrag);
+      // console.log(filteredDrag);
+      updatedData[iDrop[0].noUrutCard].task = filteredDrag;
+    } else if (iDrop[0].noUrutCard !== iDrag[0].noUrutCard) {
+      // console.log("cardnya beda");
+      filteredDrag.splice(iDrag[0].noUrutTask, 1);
+      filteredDrop.splice(iDrop[0].noUrutTask, 0, idTaskDrag);
+      updatedData[iDrop[0].noUrutCard].task = filteredDrop;
+    }
+    set(
+      ref(realtimedb, `todolist/card`),
+
+      updatedData
+    )
+      .then((res) => {
+        // setJudulTodo("");
+        setIsLoading(false);
+        // GetData();
+      })
+      .catch((error) => {
+        // setJudulTodo("");
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
+
   return {
     data,
     setData,
@@ -721,5 +762,6 @@ export const useHome = () => {
     indexCardDrag,
     setIndexCardDrag,
     dndCard,
+    dndTask,
   };
 };

@@ -18,6 +18,7 @@ import {
   ListItemIcon,
   Checkbox,
 } from "@mui/material";
+
 // import { useForm } from "react-hook-form";
 import {
   Add,
@@ -31,6 +32,7 @@ import { MenuCard } from "./menuCard";
 import { useDrag, useDrop } from "react-dnd";
 //data context
 import { useHome } from "../Hooks/Home/useHome";
+import { Task } from "./task";
 export const ItemTypes = {
   BOX: "box",
   LIST_ITEM: "listItem",
@@ -74,8 +76,9 @@ export const Card = ({
   const [, drop] = useDrop({
     accept: ItemTypes.BOX,
     drop: (item, monitor) => {
-      // console.log(item, "ini drop");
+      console.log(item, index, "ini drop box");
       // setIndexCardDrag(item.index);
+      dndCard(item.index, index);
     },
   });
   //batas akhir react dnd
@@ -139,11 +142,11 @@ export const Card = ({
         }}
         onDrop={() => {
           // console.log(index, "berhasil di drop");
-          dndCard(index);
+          // dndCard(index);
         }}
         onDrag={() => {
           // console.log(index, "berhasil di drag");
-          setIndexCardDrag(index);
+          // setIndexCardDrag(index);
         }}
       >
         <ListItem sx={{ backgroundColor: "", px: "0px" }}>
@@ -172,31 +175,40 @@ export const Card = ({
 
         {dataTask === undefined
           ? ""
-          : Object.values(dataTask)?.map((item, index) => (
-              <ListItem
-                // ref={ListRef}
-                sx={{ backgroundColor: "", mb: "10px", padding: "0px" }}
-                key={item.uid}
-              >
-                <ListItemButton
-                  // ref={drag}
-                  onClick={() => {
-                    handleClickOpen(item);
-                    // console.log(item);
-                  }}
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "10px",
-                    // boxShadow: "0px 0px 2px gray",
-                  }}
-                >
-                  <ListItemText>
-                    {/* <Typography>test</Typography> */}
-                    <Typography>{dataTask ? item.judul_task : ""}</Typography>
-                  </ListItemText>
-                </ListItemButton>
-              </ListItem>
-            ))}
+          : Object.values(dataTask)?.map(
+              (item, index) => (
+                <Task
+                  dataTask={dataTask}
+                  itemTask={item}
+                  index={index}
+                  handleClickOpen={handleClickOpen}
+                />
+              )
+
+              // <ListItem
+              //   // ref={ListRef}
+              //   sx={{ backgroundColor: "", mb: "10px", padding: "0px" }}
+              //   key={item.uid}
+              // >
+              //   <ListItemButton
+              //     // ref={drag}
+              //     onClick={() => {
+              //       handleClickOpen(item);
+              //       // console.log(item);
+              //     }}
+              //     sx={{
+              //       backgroundColor: "white",
+              //       borderRadius: "10px",
+              //       // boxShadow: "0px 0px 2px gray",
+              //     }}
+              //   >
+              //     <ListItemText>
+              //       {/* <Typography>test</Typography> */}
+              //       <Typography>{dataTask ? item.judul_task : ""}</Typography>
+              //     </ListItemText>
+              //   </ListItemButton>
+              // </ListItem>
+            )}
 
         {openField ? (
           <>
