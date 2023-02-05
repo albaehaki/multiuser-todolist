@@ -126,6 +126,15 @@ export const Card = ({
   // console.log(Object.values(data));
   // console.log(dataTask);
   // console.log(indexCardDrag);
+  // const divStyle = {
+  //   overflowY: "scroll",
+  //   // border: "1px solid red",
+  //   // width: "500px",
+  //   // float: "left",
+  //   max-height: "300px",
+  //   // position: "relative",
+  // };
+
   return (
     <div ref={drop}>
       <List
@@ -167,7 +176,18 @@ export const Card = ({
             overflowY: "auto",
             maxHeight: "300px",
             // backgroundColor: "red"
+            "&::-webkit-scrollbar": {
+              width: "7px",
+              // backgroundColor: "#F5F5F5",
+              position: "absolute",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              borderRadius: "10px",
+              boxShadow: "inset 0 0 6px rgba(0,0,0,.3)",
+              backgroundColor: "white",
+            },
           }}
+          // style={divStyle}
         >
           {dataTask === undefined
             ? ""

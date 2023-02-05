@@ -19,7 +19,10 @@ const backend = window.ontouchstart === null ? TouchBackend : HTML5Backend;
 console.log(window);
 root.render(
   <React.StrictMode>
-    <DndProvider backend={backend}>
+    <DndProvider
+      backend={backend}
+      options={{ enableTouchEvents: true, delayTouchStart: 100 }}
+    >
       <MultiProvider providers={[<Provider.DataProvider key={1} />]}>
         <App />
       </MultiProvider>

@@ -20,7 +20,8 @@ import app from "../../Services/firebase";
 import { DataContext } from "../../Context";
 import { async } from "@firebase/util";
 import { uid } from "uid";
-import { unstable_renderSubtreeIntoContainer } from "react-dom";
+import Cookies from "js-cookie";
+import { AES, enc } from "crypto-js";
 
 export const useHome = () => {
   const {
@@ -100,7 +101,25 @@ export const useHome = () => {
       });
     });
   };
+  // Encrypt data
+  const secretKey = "secret_key_1234567890";
+  const encrypt = (data) => {
+    return AES.encrypt(data, secretKey).toString();
+  };
 
+  // Decrypt data
+  const decrypt = (data) => {
+    const bytes = AES.decrypt(data, secretKey);
+    return bytes.toString(enc.Utf8);
+  };
+
+  // // Save data to cookie
+  // Cookies.set("role", encrypt("admin"), { expires: 7 });
+  // Cookies.set("uuid", encrypt("1234567890"), { expires: 7 });
+
+  // // Read data from cookie
+  // const role = decrypt(Cookies.get("role"));
+  // const uuid = decrypt(Cookies.get("uuid"));
   const getId = (id, ket) => {
     if (ket === "card") {
       const hasil = data.findIndex((x) => x.id_card === id);
@@ -763,5 +782,8 @@ export const useHome = () => {
     setIndexCardDrag,
     dndCard,
     dndTask,
+    //enscripsy
+    encrypt,
+    decrypt,
   };
 };
