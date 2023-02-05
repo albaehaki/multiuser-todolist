@@ -138,15 +138,6 @@ export const Card = ({
           px: "10px",
           backgroundColor: "rgb(255,255,255,0.5)",
           borderRadius: "10px",
-          // height: "100%
-        }}
-        onDrop={() => {
-          // console.log(index, "berhasil di drop");
-          // dndCard(index);
-        }}
-        onDrag={() => {
-          // console.log(index, "berhasil di drag");
-          // setIndexCardDrag(index);
         }}
       >
         <ListItem sx={{ backgroundColor: "", px: "0px" }}>
@@ -170,45 +161,25 @@ export const Card = ({
           />
         </ListItem>
         {/* ini mapping task */}
-        {/* // console.log(data.task[item]); // Object.entries(item).map(([x, i]) =>
-        ( */}
 
-        {dataTask === undefined
-          ? ""
-          : Object.values(dataTask)?.map(
-              (item, index) => (
+        <Box
+          sx={{
+            overflowY: "auto",
+            maxHeight: "300px",
+            // backgroundColor: "red"
+          }}
+        >
+          {dataTask === undefined
+            ? ""
+            : Object.values(dataTask)?.map((item, index) => (
                 <Task
                   dataTask={dataTask}
                   itemTask={item}
                   index={index}
                   handleClickOpen={handleClickOpen}
                 />
-              )
-
-              // <ListItem
-              //   // ref={ListRef}
-              //   sx={{ backgroundColor: "", mb: "10px", padding: "0px" }}
-              //   key={item.uid}
-              // >
-              //   <ListItemButton
-              //     // ref={drag}
-              //     onClick={() => {
-              //       handleClickOpen(item);
-              //       // console.log(item);
-              //     }}
-              //     sx={{
-              //       backgroundColor: "white",
-              //       borderRadius: "10px",
-              //       // boxShadow: "0px 0px 2px gray",
-              //     }}
-              //   >
-              //     <ListItemText>
-              //       {/* <Typography>test</Typography> */}
-              //       <Typography>{dataTask ? item.judul_task : ""}</Typography>
-              //     </ListItemText>
-              //   </ListItemButton>
-              // </ListItem>
-            )}
+              ))}
+        </Box>
 
         {openField ? (
           <>
