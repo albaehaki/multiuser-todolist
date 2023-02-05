@@ -7,11 +7,19 @@ import { CssBaseline } from "@mui/material";
 //react dnd
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { TouchBackend } from "react-dnd-touch-backend";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+// const touch = TouchBackend({
+//   enableTouchEvents: true,
+//   enableMouseEvents: false,
+//   enableKeyboardEvents: false,
+// });
+const backend = window.ontouchstart === null ? TouchBackend : HTML5Backend;
+console.log(window);
 root.render(
   <React.StrictMode>
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider backend={backend}>
       <MultiProvider providers={[<Provider.DataProvider key={1} />]}>
         <App />
       </MultiProvider>
