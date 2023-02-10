@@ -145,4 +145,4 @@ const Home = () => {
   );
 };
 
-export default withProtected(Home);
+export default Home;

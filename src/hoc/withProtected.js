@@ -12,7 +12,7 @@ const withProtected = (Pages) => {
     const navigate = useNavigate();
     const { fireUuid, setFireUuid, isLoading, setIsLoading } = useLogin();
     console.log(fireUuid);
-    if (isLoading && !fireUuid) {
+    if (!fireUuid) {
       // return navigate("/login");
 
       return <Navigate to="/login" replace={true} />;
