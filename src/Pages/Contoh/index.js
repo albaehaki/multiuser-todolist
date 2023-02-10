@@ -22,10 +22,11 @@ import {
   Home,
 } from "@mui/icons-material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const data = [
   {
-    name: "Close",
+    name: "Exit",
     icon: <Close sx={{ width: "36px", height: "36px" }} />,
     // function: setOpen(false),
   },
@@ -33,7 +34,7 @@ const data = [
 
 function App() {
   const [open, setOpen] = useState(false);
-
+  const navigate = useNavigate();
   const getList = () => (
     <div style={{ width: "300px", mt: "20px" }}>
       {data?.map((item, index) => (
@@ -43,6 +44,7 @@ function App() {
           key={index}
           onClick={() => {
             item.name === "Close" ? setOpen(false) : setOpen(true);
+            navigate("/");
           }}
         >
           <ListItemIcon>{item.icon}</ListItemIcon>
