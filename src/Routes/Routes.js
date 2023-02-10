@@ -7,7 +7,12 @@ const ListRoute = () => {
     <BrowserRouter>
       <Routes>
         {routesData.map((item) => (
-          <Route key={item.id} path={item.route} element={item.element} />
+          <Route
+            exact={item.route === "/login"}
+            key={item.id}
+            path={item.route}
+            element={item.element}
+          />
         ))}
       </Routes>
     </BrowserRouter>
