@@ -41,7 +41,7 @@ export const useLogin = () => {
         setIsLoading(false);
         // setUid(res.user.uid);
         // if (res.user.uid) {
-        navigate(`/`);
+        navigate(`/dasboard`);
         // }
       })
       .catch((err) => {
@@ -56,7 +56,7 @@ export const useLogin = () => {
         // const user = userCredential.user;
         console.log(userCredential);
 
-        navigate(`/login`);
+        navigate(`/`);
         // ...
       })
       .catch((error) => {

@@ -12,12 +12,12 @@ const routesData = [
   {
     id: 0,
     element: <Home />,
-    route: "/",
+    route: "/dasboard",
   },
   {
     id: 1,
     element: <Login />,
-    route: "/login",
+    route: "/",
   },
   {
     id: 2,

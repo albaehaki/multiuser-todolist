@@ -25,30 +25,6 @@ import { useState } from "react";
 
 const data = [
   {
-    name: "Home",
-    icon: <Home sx={{ width: "36px", height: "36px" }} />,
-  },
-  {
-    name: "Inbox",
-    icon: <Inbox sx={{ width: "36px", height: "36px" }} />,
-  },
-  {
-    name: "Outbox",
-    icon: <CheckBoxOutlineBlank sx={{ width: "36px", height: "36px" }} />,
-  },
-  {
-    name: "Sent mail",
-    icon: <Mail sx={{ width: "36px", height: "36px" }} />,
-  },
-  {
-    name: "Draft",
-    icon: <Drafts sx={{ width: "36px", height: "36px" }} />,
-  },
-  {
-    name: "Trash",
-    icon: <Receipt sx={{ width: "36px", height: "36px" }} />,
-  },
-  {
     name: "Close",
     icon: <Close sx={{ width: "36px", height: "36px" }} />,
     // function: setOpen(false),
