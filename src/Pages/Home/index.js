@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Box, Typography, IconButton, Grid, Dialog } from "@mui/material";
+import withProtected from "../../hoc/withProtected";
 
 // import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DataContext } from "../../Context";
@@ -144,4 +145,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withProtected(Home);

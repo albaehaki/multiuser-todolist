@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { DataLoginContext } from "../../Context";
+import { DataLoginContext, DataContext } from "../../Context";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -8,6 +8,7 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
 } from "firebase/auth";
+// import { useHome } from "../../Context/Data"
 import { useNavigate } from "react-router-dom";
 import { initializeApp, getApps } from "firebase/app";
 import app from "../../Services/firebase";
@@ -15,8 +16,10 @@ import app from "../../Services/firebase";
 export const useLogin = () => {
   const { email, setEmail, password, setPassword } =
     useContext(DataLoginContext);
+  const { isLoading, setIsLoading } = useContext(DataContext);
   const [typeViewPassword, setTypeViewPassword] = useState(false);
   const [typeViewConfirmPassword, setTypeViewConfirmPassword] = useState(false);
+  const [fireUuid, setFireUuid] = useState("");
   const firebase = getAuth();
   const navigate = useNavigate();
   const OnChangeEmail = (e) => {
@@ -28,12 +31,18 @@ export const useLogin = () => {
     console.log(e.target.value);
   };
   const SignIn = async (data) => {
+    setIsLoading(true);
     await signInWithEmailAndPassword(firebase, data.email, data.password)
       .then((res) => {
         console.log("berhasil");
         console.log(res.user.uid);
+        setFireUuid(res.user.uid);
+        console.log(res._tokenResponse);
+        setIsLoading(false);
         // setUid(res.user.uid);
+        // if (res.user.uid) {
         navigate(`/`);
+        // }
       })
       .catch((err) => {
         console.log(err.message);
@@ -82,5 +91,9 @@ export const useLogin = () => {
     SignIn,
     SignUp,
     ResetPassword,
+    fireUuid,
+    setFireUuid,
+    isLoading,
+    setIsLoading,
   };
 };
