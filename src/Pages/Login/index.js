@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../Hooks/Login/useLogin";
 import { Password } from "@mui/icons-material";
 import withUnprotected from "../../hoc/withUnprotected";
+import withoutAuth from "../../hoc/withoutAuth";
 
 const Login = () => {
   // const firebase = getAuth();
@@ -203,4 +204,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withoutAuth(Login);

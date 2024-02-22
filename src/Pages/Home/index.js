@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Box, Typography, IconButton, Grid, Dialog } from "@mui/material";
 import withProtected from "../../hoc/withProtected";
+import withAuth from "../../hoc/withAuth";
 
 // import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DataContext } from "../../Context";
@@ -32,6 +33,7 @@ const Home = () => {
     setIsLoading,
     dataPopUp,
     setDataPopUp,
+    users,
   } = useHome();
   //react dnd
   const [, drop] = useDrop({
@@ -85,7 +87,7 @@ const Home = () => {
   // );
   // console.log(data, "DATA MENTAHAN");
   // console.log(Object.entries(data));
-  // console.log(isLoading);
+  console.log(users.valueOf("email"));
   return (
     <>
       <Navigasi sx={{ zIndex: "999" }} />
@@ -145,4 +147,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withAuth(Home);

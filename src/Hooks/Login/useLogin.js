@@ -8,13 +8,23 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
 } from "firebase/auth";
+import {
+  ref,
+  onValue,
+  set,
+  remove,
+  update,
+  getDatabase,
+} from "firebase/database";
+// import app from "../../Services/firebase/app";
 // import { useHome } from "../../Context/Data"
 import { useNavigate } from "react-router-dom";
 import { initializeApp, getApps } from "firebase/app";
 import app from "../../Services/firebase";
 
 export const useLogin = () => {
-  const { email, setEmail, password, setPassword } =
+  const realtimedb = getDatabase(app);
+  const { email, setEmail, password, setPassword, loginLoading, setLoginLoading } =
     useContext(DataLoginContext);
   const { isLoading, setIsLoading } = useContext(DataContext);
   const [typeViewPassword, setTypeViewPassword] = useState(false);
@@ -31,20 +41,36 @@ export const useLogin = () => {
     console.log(e.target.value);
   };
   const SignIn = async (data) => {
-    setIsLoading(true);
+    setIsLoading(false);
+    // this.setLoginLoading(true);
     await signInWithEmailAndPassword(firebase, data.email, data.password)
       .then((res) => {
+        const user =  res.user;
         console.log("berhasil");
         console.log(res.user.uid);
         setFireUuid(res.user.uid);
         console.log(res._tokenResponse);
-        setIsLoading(false);
+        
         // setUid(res.user.uid);
         // if (res.user.uid) {
-        navigate(`/dasboard`);
+        // navigate(`/dasboard`);
         // }
+        user.getIdToken()
+      .then((token) => {
+        console.log("token",token);
+        window.sessionStorage.setItem("token", token);
+        // handleChange("loading","")
+        setLoginLoading(false);
+        setIsLoading(true);
+      })
+      .catch((error) => {
+        console.log("error token",error);
+        // setLoginLoading(false);
+        setIsLoading(true);
+      })
       })
       .catch((err) => {
+        setIsLoading(true);
         console.log(err.message);
       });
   };
@@ -54,7 +80,29 @@ export const useLogin = () => {
       .then((userCredential) => {
         // Signed in
         // const user = userCredential.user;
-        console.log(userCredential);
+        console.log(userCredential.user.uid);
+
+        if (userCredential.user.uid) {
+          // setIsLoading(true);
+          set(ref(realtimedb, `todolist/users/${userCredential.user.uid}`), {
+            // name: userCredential.user.displayName,
+            email: userCredential.user.email,
+            role: "user",
+            uid: userCredential.user.uid,
+            createAt: Date.now(),
+          })
+            .then((res) => {
+              // setJudulCard("");
+              setIsLoading(false);
+              // GetData();
+            })
+            .catch((error) => {
+              // setJudulCard("");
+              console.log(error);
+              // setIsLoading(false);
+            });
+        }
+
 
         navigate(`/`);
         // ...

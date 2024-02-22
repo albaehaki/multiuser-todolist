@@ -20,6 +20,7 @@ import {
   MoreVert,
   Notes,
   Home,
+  PeopleOutline,
 } from "@mui/icons-material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -28,6 +29,11 @@ const data = [
   {
     name: "Exit",
     icon: <Close sx={{ width: "36px", height: "36px" }} />,
+    // function: setOpen(false),
+  },
+  {
+    name: "Users",
+    icon: <PeopleOutline sx={{ width: "36px", height: "36px" }} />,
     // function: setOpen(false),
   },
 ];
@@ -44,7 +50,20 @@ function App() {
           key={index}
           onClick={() => {
             item.name === "Close" ? setOpen(false) : setOpen(true);
-            navigate("/");
+            // navigate("/");
+            // window.sessionStorage.removeItem("token")
+            // Menghapus sessionStorage
+            if (item.name === "Exit") {
+              sessionStorage.clear();
+            // Melakukan refresh halaman
+            window.location.href = window.location.href;
+            } else if(item.name === "Users"){
+              console.log("pop up");
+            }
+            
+            // .then(( )=> {
+            //   navigate("/");
+            // })
           }}
         >
           <ListItemIcon>{item.icon}</ListItemIcon>

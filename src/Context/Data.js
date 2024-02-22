@@ -26,7 +26,7 @@ export const DataProvider = (props) => {
   const [toggleEditKomentar, setToggleEditKomentar] = useState(false);
   const [komentar, setKomentar] = useState("");
   const [indexCardDrag, setIndexCardDrag] = useState(null);
-
+  const [users, setUsers] = useState(null)
   return (
     <DataContext.Provider
       value={{
@@ -76,6 +76,7 @@ export const DataProvider = (props) => {
         setKomentar,
         indexCardDrag,
         setIndexCardDrag,
+        users, setUsers,
       }}
       {...props}
     />

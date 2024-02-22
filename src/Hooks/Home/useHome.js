@@ -73,6 +73,7 @@ export const useHome = () => {
     //dnd
     indexCardDrag,
     setIndexCardDrag,
+    users, setUsers,
   } = useContext(DataContext);
   const [urutan, setUrutan] = useState(0);
   const db = getFirestore(app);
@@ -95,7 +96,15 @@ export const useHome = () => {
           if (key === "card") {
             setData(value);
             setIsLoading(true);
-          } else {
+          } else if (key === "users") {
+            const users = Object.keys(value).map((uid) => {
+              return {
+                uid,
+                email: value[uid].email,
+                role: value[uid].role,
+              };
+            });
+            setUsers(users);
           }
         });
       });
@@ -785,5 +794,6 @@ export const useHome = () => {
     //enscripsy
     encrypt,
     decrypt,
+    users,
   };
 };
