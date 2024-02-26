@@ -23,12 +23,14 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { useHome } from "../Hooks/Home/useHome";
 
 import { blue } from "@mui/material/colors";
 import { DataContext } from "../Context";
 
-export default function AlertDialog({ openDialogUser, handleClose }) {
+export default function AlertDialog({ openDialogUser, handleClose, userUid }) {
   const { users } = useContext(DataContext);
+  const { giveAkses } = useHome()
   //   const [open, setOpen] = React.useState(false);
 
   //   const handleClickOpen = () => {
@@ -38,6 +40,11 @@ export default function AlertDialog({ openDialogUser, handleClose }) {
   //   const handleClose = () => {
   //     setOpen(false);
   //   };
+  const handleChange = (e, idUser) => {
+    const roleData = e.target.value
+    console.log(e.target.value)
+    giveAkses(roleData === 10? "admin" : roleData === 20? "none" : roleData === 30? "user" : "", idUser)
+  };
 
   return (
     <>
@@ -112,7 +119,7 @@ export default function AlertDialog({ openDialogUser, handleClose }) {
                   id="demo-simple-select"
                   value={items.role === "admin"? 10: items.role === "user" ? 30 : 20}
                   label="Role"
-                  // onChange={handleChange}
+                  onChange={(e) => {handleChange(e, items.uid)}}
                 >
                   <MenuItem value={10}>Admin</MenuItem>
                   <MenuItem value={20}>None</MenuItem>

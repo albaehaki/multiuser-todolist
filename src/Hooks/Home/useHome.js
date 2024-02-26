@@ -110,6 +110,7 @@ export const useHome = () => {
                 name: value[uid].name,
                 email: value[uid].email,
                 role: value[uid].role,
+                createAt: value[uid].createAt,
               };
             });
             setUsers(users);
@@ -498,7 +499,7 @@ export const useHome = () => {
   //add nama todo
   const addNamaTodo = (e, edit, checked) => {
     const uuid = uid(16);
-    console.log(e, "ini dari props", edit, checked);
+    // console.log(e, "ini dari props", edit, checked);
     const noUrut = getId(
       edit ? e.id_todo : e.id_judul_todo,
       edit ? "cardxTaskxTodoxList" : "cardxTaskxTodo"
@@ -521,7 +522,8 @@ export const useHome = () => {
         {
           nama_todo: edit ? e.nama_todo : todo,
           id_todo: e.id_todo ? e.id_todo : uuid,
-          kondisi: e.kondisi ? e.kondisi : edit ? checked : false,
+          // kondisi: e.kondisi ? e.kondisi : edit ? checked : false,
+          kondisi: checked || false,
         }
       )
         .then((res) => {
@@ -749,6 +751,24 @@ export const useHome = () => {
     });
   };
 
+  const giveAkses = (role, userId) => {
+    const dataUser = users.filter(user => user.uid === userId)[0];
+    console.log(dataUser, userId, users);
+    set(ref(realtimedb, `todolist/users/${userId}`), {
+      name: dataUser.name,
+      email: dataUser.email,
+      role: role,
+      uid: dataUser.uid,
+      createAt: dataUser.createAt,
+    })
+      .then((res) => {       
+        setIsLoading(false);      
+      })
+      .catch((error) => {       
+        console.log(error);
+      });
+  };
+
   return {
     data,
     setData,
@@ -823,5 +843,6 @@ export const useHome = () => {
     openDialogUser,
     setOpenDialogUser,
     getCurrentUser,
+    giveAkses,
   };
 };

@@ -147,6 +147,7 @@ const Home = () => {
       <AlertDialog
         openDialogUser={openDialogUser}
         handleClose={handleCloseDialogUsers}
+        userUid={userUid}
       />
 
       <Box
