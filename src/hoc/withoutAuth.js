@@ -20,13 +20,13 @@ const withoutAuth = (WrappedComponent) => {
     useContext(DataLoginContext);
     const { isLoading, setIsLoading } = useContext(DataContext);
     const token = window.sessionStorage.getItem('token');
-    console.log(token);
+    // console.log(token);
     useEffect(() => {
      
 
       if (token !== null) {
         // router.push("/home");
-        console.log("ada token");
+        // console.log("ada token");
         return navigate(`/dasboard`);
       }
     }, []);

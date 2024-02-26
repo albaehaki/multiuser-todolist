@@ -81,7 +81,22 @@ const Login = () => {
                 Daftar
               </Typography>
             </Grid>
+            {/* name */}
             <Grid item xs={12}>
+              <TextField
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "20px",
+                    backgroundColor: "white",
+                  },
+                }}
+                label="Name"
+                fullWidth
+                {...register("name", { required: true })}
+              />
+            </Grid>
+               {/* Email */}
+            <Grid sx={{ pt: "10px" }} item xs={12}>
               <TextField
                 sx={{
                   "& .MuiOutlinedInput-root": {

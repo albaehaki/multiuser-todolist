@@ -18,12 +18,16 @@ import {
 } from "firebase/database";
 import app from "../../Services/firebase";
 import { DataContext } from "../../Context";
+import { DataLoginContext } from "../../Context";
 import { async } from "@firebase/util";
 import { uid } from "uid";
 import Cookies from "js-cookie";
 import { AES, enc } from "crypto-js";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export const useHome = () => {
+  const auth = getAuth();
+  const { fireUuid, setFireUuid } = useContext(DataLoginContext);
   const {
     data,
     setData,
@@ -73,7 +77,10 @@ export const useHome = () => {
     //dnd
     indexCardDrag,
     setIndexCardDrag,
-    users, setUsers,
+    users,
+    setUsers,
+    openDialogUser,
+    setOpenDialogUser,
   } = useContext(DataContext);
   const [urutan, setUrutan] = useState(0);
   const db = getFirestore(app);
@@ -100,6 +107,7 @@ export const useHome = () => {
             const users = Object.keys(value).map((uid) => {
               return {
                 uid,
+                name: value[uid].name,
                 email: value[uid].email,
                 role: value[uid].role,
               };
@@ -623,7 +631,7 @@ export const useHome = () => {
   };
 
   //tandai task
-  const addTag = (e) => {
+  const addTag = (e, name) => {
     const uuid = uid(16);
     console.log(e, "ini dari props");
 
@@ -642,7 +650,7 @@ export const useHome = () => {
         id_task: e.id_task,
         todo: e.todo ? e.todo : [],
         komentar: e.komentar ? e.komentar : [],
-        tag: "zacky",
+        tag: name,
       }
     )
       .then((res) => {
@@ -724,6 +732,23 @@ export const useHome = () => {
       });
   };
 
+  const getCurrentUser = () => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const uid = user.uid;
+        // setFireUuid(uid);
+        // ...
+        // console.log(uid, "ada usernya");
+      } else {
+        // User is signed out
+        // ...
+        // console.log( "g ada usernya");
+      }
+    });
+  };
+
   return {
     data,
     setData,
@@ -795,5 +820,8 @@ export const useHome = () => {
     encrypt,
     decrypt,
     users,
+    openDialogUser,
+    setOpenDialogUser,
+    getCurrentUser,
   };
 };

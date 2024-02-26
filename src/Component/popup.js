@@ -24,6 +24,7 @@ export const Popup = ({
   openDialog,
   handleCloseDialog,
   index,
+  userUid,
 }) => {
   const {
     data,
@@ -80,6 +81,7 @@ export const Popup = ({
     setKomentar,
     addKomentar,
     removeKomentar,
+    users,
   } = useHome();
   // console.log(taskId);
   useEffect(() => {
@@ -94,7 +96,7 @@ export const Popup = ({
         }
       });
     });
-    console.log("lagi");
+    // console.log("lagi");
   }, [isLoading, taskId]);
 
   return (
@@ -104,7 +106,8 @@ export const Popup = ({
         // fullScreen
         sx={{
           "& .MuiPaper-root": {
-            backgroundColor: "rgb(255,255,255,0.0)",
+            backgroundColor: "rgb(255,255,255,0.4)",
+            // backgroundColor: "rgb(255,255,255,0.0)",
             width: "80vw",
             maxWidth: "100vw",
             height: "70vh",
@@ -166,6 +169,7 @@ export const Popup = ({
           <Grid sx={{ display: "flex", justifyContent: "right" }} item xs={2}>
             <Button
               onClick={() => {
+                
                 // console.log("test judul");
                 if (!toggleEditJudulTask) {
                   setToggleEditJudulTask(true);
@@ -181,7 +185,8 @@ export const Popup = ({
               //   right: 0,
               // }}
             >
-              {toggleEditJudulTask ? <Add /> : <Edit />}
+              
+              {users?.filter((item) => item.uid === userUid)[0]?.role === "admin" ? toggleEditJudulTask ? <Add /> : <Edit /> : ""}
             </Button>
           </Grid>
         </Grid>
@@ -222,8 +227,10 @@ export const Popup = ({
                 <ListItemButton
                   type="submit"
                   onClick={() => {
+                    if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
                     setToggleEditDeskripsiTask(false);
                     addDeskripsiTask(dataPopUp);
+                    }
                   }}
                   sx={{
                     borderRadius: "10px",
@@ -264,9 +271,11 @@ export const Popup = ({
                   onClick={() => {
                     // Menghapus();
                     // handleCloseDialog();
+                    if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
                     setDeskripsiTask(dataPopUp.deskripsi_task);
                     setToggleEditDeskripsiTask(true);
-                    console.log("open");
+                    // console.log("open");
+                    }
                   }}
                 >
                   Edit
@@ -307,8 +316,10 @@ export const Popup = ({
                   //   console.log("ini ada isinya");
                   //   setOpenField(!openField);
                   // }
+                  if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
                   setToggleEditDeskripsiTask(false);
                   addDeskripsiTask(dataPopUp);
+                  }
                 }}
                 sx={{
                   borderRadius: "10px",
@@ -407,20 +418,24 @@ export const Popup = ({
                 >
                   <Button
                     onClick={() => {
+                      if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
                       setTodoOpenId(itemTodo.id_judul_todo);
                       addJudulTodo(itemTodo);
-                      console.log(dataPopUp);
+                      // console.log(dataPopUp);
                       setToggleEditJudulTodo(!toggleEditJudulTodo);
                       if (itemTodo.id_judul_todo) {
                         setJudulTodo(itemTodo.judul_todo);
                       }
+                    }
                     }}
                   >
                     {toggleEditJudulTodo ? <Add /> : <Edit />}
                   </Button>
                   <Button
                     onClick={() => {
+                      if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
                       removeJudulTodo(itemTodo);
+                      }
                     }}
                   >
                     <Remove />
@@ -437,7 +452,7 @@ export const Popup = ({
                         control={<Checkbox checked={item.kondisi} />}
                         label={item.nama_todo.substring(0, 20) + "..."}
                         onClick={(e) => {
-                          console.log(e.target.checked);
+                          // console.log(e.target.checked);
                           addNamaTodo(item, true, e.target.checked);
                         }}
                         // onDrag={(e) => {
@@ -451,7 +466,9 @@ export const Popup = ({
                     <Grid xs={2} item>
                       <Button
                         onClick={() => {
+                          if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
                           removeTodo(item);
+                          }
                           // console.log(item);
                         }}
                       >
@@ -481,12 +498,14 @@ export const Popup = ({
                 )}
                 <Button
                   onClick={() => {
+                    if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
                     // console.log(itemTodo);
                     setTodoOpenName(itemTodo.id_judul_todo);
                     setToggleEditTodo(!toggleEditTodo);
                     if (toggleEditTodo) {
                       addNamaTodo(itemTodo, false);
                     }
+                  }
                   }}
                 >
                   <Add />
@@ -546,9 +565,11 @@ export const Popup = ({
             <Grid sx={{ display: "flex", justifyContent: "right" }} item xs={2}>
               <Button
                 onClick={() => {
+                  if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
                   addJudulTodo(dataPopUp);
-                  console.log(dataPopUp);
+                  // console.log(dataPopUp);
                   setToggleAddJudulTodo(!toggleAddJudulTodo);
+                  }
                 }}
               >
                 <Add />
@@ -561,8 +582,8 @@ export const Popup = ({
         {!dataPopUp.tag ? (
           <IconButton
             onClick={() => {
-              console.log("test");
-              addTag(dataPopUp);
+              // console.log("test");
+              addTag(dataPopUp, users?.filter((item) => item.uid === userUid)[0]?.name);
             }}
             sx={{ m: "5px", padding: "0px", width: 32, height: 32 }}
           >
@@ -645,7 +666,7 @@ export const Popup = ({
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            console.log(e.target.value);
+            // console.log(e.target.value);
             addKomentar(dataPopUp);
           }}
         >

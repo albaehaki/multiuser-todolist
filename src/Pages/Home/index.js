@@ -1,10 +1,19 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Box, Typography, IconButton, Grid, Dialog } from "@mui/material";
+import {
+  Box,
+  Typography,
+  IconButton,
+  Grid,
+  Dialog,
+  Button,
+} from "@mui/material";
 import withProtected from "../../hoc/withProtected";
 import withAuth from "../../hoc/withAuth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 // import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DataContext } from "../../Context";
+import { DataLoginContext } from "../../Context";
 import { useHome } from "../../Hooks/Home/useHome";
 // react dnd
 import { useDrop } from "react-dnd";
@@ -12,13 +21,14 @@ import { useDrop } from "react-dnd";
 //Component
 import Navigasi from "../Contoh/index";
 import { Card } from "../../Component/card";
-
+import AlertDialog from "../../Component/popupUsers";
 export const ItemTypes = {
   BOX: "box",
   LIST_ITEM: "listItem",
 };
 
 const Home = () => {
+  const auth = getAuth();
   const {
     data,
     setData,
@@ -34,7 +44,11 @@ const Home = () => {
     dataPopUp,
     setDataPopUp,
     users,
+    openDialogUser,
+    setOpenDialogUser,
+    getCurrentUser,
   } = useHome();
+  const { fireUuid, setFireUuid } = useContext(DataLoginContext);
   //react dnd
   const [, drop] = useDrop({
     accept: ItemTypes.BOX,
@@ -43,7 +57,7 @@ const Home = () => {
     },
   });
   //react dnd akhir
-
+  const [userUid, setUserUid] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [openField, setOpenField] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -61,21 +75,57 @@ const Home = () => {
   const handleCloseDialog = (e) => {
     setOpenDialog(false);
   };
+  const handleCloseDialogUsers = () => {
+    setOpenDialogUser(false);
+  };
+  const handleOpenDialogUsers = () => {
+    setOpenDialogUser(true);
+  };
 
   useEffect(() => {
     GetData();
+    getCurrentUser();
     setIsLoading(false);
     // console.log("render home");
     // console.log(GetData());
 
     // console.log(data);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const uid = user.uid;
+        setUserUid(uid);
+        // ...
+        // console.log(uid, "ada usernya");
+      } else {
+        // User is signed out
+        // ...
+        // console.log( "g ada usernya");
+      }
+    });
   }, []);
   useEffect(() => {
     GetData();
+    getCurrentUser();
     setIsLoading(false);
+
     // console.log("render home");
     // console.log(GetData());
-
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const uid = user.uid;
+        setUserUid(uid);
+        // ...
+        // console.log(uid, "ada usernya");
+      } else {
+        // User is signed out
+        // ...
+        // console.log( "g ada usernya");
+      }
+    });
     // console.log(data);
   }, [isLoading]);
   // console.log(
@@ -87,10 +137,17 @@ const Home = () => {
   // );
   // console.log(data, "DATA MENTAHAN");
   // console.log(Object.entries(data));
-  console.log(users.valueOf("email"));
+  // console.log(users?.valueOf("email"));
+  // console.log(openDialog, "openDialog");
+  console.log(userUid, "uid");
+  // console.log(users?.filter((item) => item.uid === userUid)[0]?.role);
   return (
     <>
-      <Navigasi sx={{ zIndex: "999" }} />
+      <Navigasi userUid={userUid} sx={{ zIndex: "999" }} />
+      <AlertDialog
+        openDialogUser={openDialogUser}
+        handleClose={handleCloseDialogUsers}
+      />
 
       <Box
         sx={{
@@ -106,6 +163,12 @@ const Home = () => {
           width: "100%",
         }}
       >
+        {/* <button
+          onClick={() => {
+            console.log("coba")
+            handleOpenDialogUsers()
+          }}
+          >coba</button> */}
         <Grid
           ref={drop}
           sx={{
@@ -120,31 +183,51 @@ const Home = () => {
             width="300px"
           /> */}
           {/* ini mapping card */}
-          {Object.values(data).map((item, i) => (
-            <>
-              <Card
-                // ref={drag}
-                key={i}
-                data={item}
-                index={i}
-                handleClickOpen={handleClickOpen}
-                openDialog={openDialog}
-                handleCloseDialog={handleCloseDialog}
-              />
-            </>
-          ))}
-          <Card
-            // key={i}
-            ListCard={data}
-            // index={i}
-            handleClickOpen={handleClickOpen}
-            openDialog={openDialog}
-            handleCloseDialog={handleCloseDialog}
-          />
+          {users?.filter((item) => item.uid === userUid)[0]?.role === "none"
+            ? ""
+            : Object.values(data).map((item, i) => (
+                <>
+                  <Card
+                    // ref={drag}
+                    key={i}
+                    data={item}
+                    userUid={userUid}
+                    index={i}
+                    handleClickOpen={handleClickOpen}
+                    openDialog={openDialog}
+                    handleCloseDialog={handleCloseDialog}
+                  />
+                </>
+              ))}
+          {users?.filter((item) => item.uid === userUid)[0]?.role === "none" ? (
+            <Button
+              sx={{
+                marginTop: "100px",
+                backgroundColor: "white",
+                fontWeight: "bold",
+                "&:hover": {
+                  color: "white",
+                },
+              }}
+            >
+              Minta Akses
+            </Button>
+          ) : users?.filter((item) => item.uid === userUid)[0]?.role === "user" ? "" : (
+            <Card
+              // key={i}
+              ListCard={data}
+              // index={i}
+              userUid={userUid}
+              handleClickOpen={handleClickOpen}
+              openDialog={openDialog}
+              handleCloseDialog={handleCloseDialog}
+            />
+          ) }
         </Grid>
       </Box>
     </>
   );
 };
 
+// export default Home;
 export default withAuth(Home);

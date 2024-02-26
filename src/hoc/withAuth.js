@@ -1,6 +1,6 @@
 
 // import { useRouter } from 'next/navigation';
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { DataLoginContext, DataContext } from "../Context";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +18,7 @@ const withAuth = (WrappedComponent) => {
     useContext(DataLoginContext);
     const { isLoading, setIsLoading } = useContext(DataContext);
     const token = window.sessionStorage.getItem('token');
-    console.log(token);
+    // console.log(token);
 
     useEffect(() => {
      

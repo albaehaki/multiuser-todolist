@@ -34,7 +34,7 @@ export const MenuCard = ({
       <MenuItem
         onClick={() => {
           handleClose();
-          console.log(data);
+          // console.log(data);
           removeCard(data);
         }}
       >

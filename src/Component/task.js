@@ -27,7 +27,7 @@ export const Task = ({ itemTask, handleClickOpen, dataTask, index }) => {
     accept: ItemTypes.LIST_ITEM,
 
     drop: (item, monitor) => {
-      console.log({ drag: item.itemTask, drop: itemTask }, "ini drop list");
+      // console.log({ drag: item.itemTask, drop: itemTask }, "ini drop list");
 
       dndTask(item.itemTask, itemTask);
     },
@@ -39,9 +39,9 @@ export const Task = ({ itemTask, handleClickOpen, dataTask, index }) => {
       <Box
         ref={drop}
         onDrop={() => {
-          console.log(itemTask, "ini tempat drop");
+          // console.log(itemTask, "ini tempat drop");
         }}
-        onTouchStart={() => console.log("bisa")}
+        // onTouchStart={() => console.log("bisa")}
       >
         <ListItem
           ref={drag}
@@ -52,7 +52,7 @@ export const Task = ({ itemTask, handleClickOpen, dataTask, index }) => {
           }}
           key={itemTask.uid}
           onDrag={() => {
-            console.log("ini task");
+            // console.log("ini task");
           }}
         >
           <ListItemButton

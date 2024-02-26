@@ -45,6 +45,7 @@ export const Card = ({
   handleCloseDialog,
   index,
   ListCard,
+  userUid
 }) => {
   const {
     onChangeJudulCard,
@@ -63,6 +64,8 @@ export const Card = ({
     indexCardDrag,
     setIndexCardDrag,
     dndCard,
+    users,
+    
   } = useHome();
   const ListRef = useRef();
   //react dnd
@@ -76,7 +79,7 @@ export const Card = ({
   const [, drop] = useDrop({
     accept: ItemTypes.BOX,
     drop: (item, monitor) => {
-      console.log(item, index, "ini drop box");
+      // console.log(item, index, "ini drop box");
       // setIndexCardDrag(item.index);
       dndCard(item.index, index);
     },
@@ -134,7 +137,7 @@ export const Card = ({
   //   max-height: "300px",
   //   // position: "relative",
   // };
-
+  // console.log(userUid, "Card");
   return (
     <div ref={drop}>
       <List
@@ -157,7 +160,11 @@ export const Card = ({
           <IconButton
             aria-controls="simple-menu"
             aria-haspopup="true"
-            onClick={handleClick}
+            onClick={(e) => {
+              if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
+              handleClick(e)
+              }
+            }}
           >
             <MoreVert sx={{ ml: "0px", display: "grid", padding: "0px" }} />
           </IconButton>
@@ -225,6 +232,8 @@ export const Card = ({
               <ListItemButton
                 type="submit"
                 onClick={() => {
+                  
+                 
                   if (data == undefined) {
                     addJudulCard(ListCard);
                     // console.log("ini kosong");
@@ -235,6 +244,7 @@ export const Card = ({
                     // console.log("ini ada isinya");
                     setOpenField(!openField);
                   }
+                
                 }}
                 sx={{
                   borderRadius: "10px",
@@ -261,7 +271,10 @@ export const Card = ({
         {!openField ? (
           <ListItemButton
             onClick={() => {
+              if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
+                    
               setOpenField(!openField);
+              }
             }}
             sx={{
               borderRadius: "10px",
@@ -285,6 +298,7 @@ export const Card = ({
       {/* {popup} */}
       <Popup
         data={data}
+        userUid={userUid}
         handleClickOpen={handleClickOpen}
         openDialog={openDialog}
         handleCloseDialog={handleCloseDialog}

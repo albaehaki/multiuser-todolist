@@ -24,12 +24,12 @@ import app from "../../Services/firebase";
 
 export const useLogin = () => {
   const realtimedb = getDatabase(app);
-  const { email, setEmail, password, setPassword, loginLoading, setLoginLoading } =
+  const { email, setEmail, password, setPassword, loginLoading, setLoginLoading, fireUuid, setFireUuid } =
     useContext(DataLoginContext);
   const { isLoading, setIsLoading } = useContext(DataContext);
   const [typeViewPassword, setTypeViewPassword] = useState(false);
   const [typeViewConfirmPassword, setTypeViewConfirmPassword] = useState(false);
-  const [fireUuid, setFireUuid] = useState("");
+
   const firebase = getAuth();
   const navigate = useNavigate();
   const OnChangeEmail = (e) => {
@@ -40,16 +40,23 @@ export const useLogin = () => {
     setPassword(e.target.value);
     console.log(e.target.value);
   };
+
+const OnChangeUuid = (e) => {
+  // setFireUuid(e.email);
+};
+
   const SignIn = async (data) => {
     setIsLoading(false);
     // this.setLoginLoading(true);
     await signInWithEmailAndPassword(firebase, data.email, data.password)
       .then((res) => {
         const user =  res.user;
-        console.log("berhasil");
-        console.log(res.user.uid);
-        setFireUuid(res.user.uid);
-        console.log(res._tokenResponse);
+        // console.log("berhasil");
+        // console.log(res.user.uid);
+        console.log(user.email, "dari use login");
+        OnChangeUuid(user)
+        // setFireUuid(user.email);
+        // console.log(res._tokenResponse);
         
         // setUid(res.user.uid);
         // if (res.user.uid) {
@@ -57,10 +64,10 @@ export const useLogin = () => {
         // }
         user.getIdToken()
       .then((token) => {
-        console.log("token",token);
+        // console.log("token",token);
         window.sessionStorage.setItem("token", token);
         // handleChange("loading","")
-        setLoginLoading(false);
+        // setLoginLoading(false);
         setIsLoading(true);
       })
       .catch((error) => {
@@ -85,9 +92,9 @@ export const useLogin = () => {
         if (userCredential.user.uid) {
           // setIsLoading(true);
           set(ref(realtimedb, `todolist/users/${userCredential.user.uid}`), {
-            // name: userCredential.user.displayName,
+            name: data.name,
             email: userCredential.user.email,
-            role: "user",
+            role: "none",
             uid: userCredential.user.uid,
             createAt: Date.now(),
           })
@@ -143,5 +150,6 @@ export const useLogin = () => {
     setFireUuid,
     isLoading,
     setIsLoading,
+    fireUuid, setFireUuid,
   };
 };
