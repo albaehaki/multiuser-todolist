@@ -726,7 +726,7 @@ export const Popup = ({
           onSubmit={(e) => {
             e.preventDefault();
             // console.log(e.target.value);
-            addKomentar(dataPopUp);
+            addKomentar(dataPopUp, users?.filter((item) => item.uid === userUid)[0]?.name);
           }}
         >
           <Grid sx={{ mb: "10px" }} container>

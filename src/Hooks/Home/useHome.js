@@ -573,7 +573,7 @@ export const useHome = () => {
   };
 
   //add komentar
-  const addKomentar = (e) => {
+  const addKomentar = (e, name) => {
     const uuid = uid(16);
     console.log(e, "ini dari props");
 
@@ -589,7 +589,7 @@ export const useHome = () => {
         ),
 
         {
-          user: "zacky",
+          user: name,
           id_komentar: uuid,
           komentar: komentar,
         }
