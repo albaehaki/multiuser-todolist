@@ -47,6 +47,9 @@ const Home = () => {
     openDialogUser,
     setOpenDialogUser,
     getCurrentUser,
+    openDialogTag,
+    dataPopUpChange,
+    getAkses,
   } = useHome();
   const { fireUuid, setFireUuid } = useContext(DataLoginContext);
   //react dnd
@@ -81,6 +84,7 @@ const Home = () => {
   const handleOpenDialogUsers = () => {
     setOpenDialogUser(true);
   };
+  const userRole = users?.filter((item) => item.uid === userUid)[0]?.role?.toLowerCase();
 
   useEffect(() => {
     GetData();
@@ -139,7 +143,7 @@ const Home = () => {
   // console.log(Object.entries(data));
   // console.log(users?.valueOf("email"));
   // console.log(openDialog, "openDialog");
-  console.log(userUid, "uid");
+  console.log(users?.filter((item) => item.uid === userUid)[0]?.role === "", "role");
   // console.log(users?.filter((item) => item.uid === userUid)[0]?.role);
   return (
     <>
@@ -184,7 +188,7 @@ const Home = () => {
             width="300px"
           /> */}
           {/* ini mapping card */}
-          {users?.filter((item) => item.uid === userUid)[0]?.role === "none"
+          {/* {users?.filter((item) => item.uid === userUid)[0]?.role === "" || "none"
             ? ""
             : Object.values(data).map((item, i) => (
                 <>
@@ -200,7 +204,7 @@ const Home = () => {
                   />
                 </>
               ))}
-          {users?.filter((item) => item.uid === userUid)[0]?.role === "none" ? (
+          {users?.filter((item) => item.uid === userUid)[0]?.role === "" || "none" ? (
             <Button
               sx={{
                 marginTop: "100px",
@@ -210,6 +214,7 @@ const Home = () => {
                   color: "white",
                 },
               }}
+              onClick={getAkses}
             >
               Minta Akses
             </Button>
@@ -223,7 +228,56 @@ const Home = () => {
               openDialog={openDialog}
               handleCloseDialog={handleCloseDialog}
             />
-          ) }
+          ) } */}
+
+{userRole === "none" ?  (
+        <Button
+          sx={{
+            marginTop: "100px",
+            backgroundColor: "white",
+            fontWeight: "bold",
+            "&:hover": {
+              color: "white",
+            },
+          }}
+          onClick={getAkses}
+        >
+          Minta Akses
+        </Button>
+      ) : userRole === "" ?  <Button
+      sx={{
+        marginTop: "100px",
+        backgroundColor: "white",
+        fontWeight: "bold",
+        "&:hover": {
+          color: "white",
+        },
+      }}
+      onClick={getAkses}
+    >
+      Minta Akses
+    </Button> : (
+        <>
+          {Object.values(data).map((item, i) => (
+            <Card
+              key={i}
+              data={item}
+              userUid={userUid}
+              index={i}
+              handleClickOpen={handleClickOpen}
+              openDialog={openDialog}
+              handleCloseDialog={handleCloseDialog}
+            />
+          ))}
+          <Card
+            ListCard={data}
+            userUid={userUid}
+            handleClickOpen={handleClickOpen}
+            openDialog={openDialog}
+            handleCloseDialog={handleCloseDialog}
+          />
+        </>
+      )}
         </Grid>
       </Box>
     </>

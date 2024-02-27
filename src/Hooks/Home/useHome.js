@@ -81,6 +81,8 @@ export const useHome = () => {
     setUsers,
     openDialogUser,
     setOpenDialogUser,
+    openDialogTag, setOpenDialogTag,
+    dataPopUpChange, setDataPopUpChange,
   } = useContext(DataContext);
   const [urutan, setUrutan] = useState(0);
   const db = getFirestore(app);
@@ -769,6 +771,44 @@ export const useHome = () => {
       });
   };
 
+  const handleCloseDialogTag = () => {
+    setOpenDialogTag(false);
+  };
+  const handleOpenDialogTag = (dataPopUp, nameTag) => {
+    // console.log({"data":dataPopUp, "name":nameTag})
+    setDataPopUpChange({"data":dataPopUp, "name":nameTag});
+    setOpenDialogTag(true);
+    console.log("jalan: handleOpenDialogTag")
+
+  };
+
+  const getAkses = () => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+      const dataCurrentUser = users?.filter((items) => items.uid === uid)
+      console.log(dataCurrentUser, "ini data usernya");
+    set(ref(realtimedb, `todolist/users/${uid}`), {
+      name: dataCurrentUser[0].name,
+      email: dataCurrentUser[0].email,
+      role: "none",
+      uid: dataCurrentUser[0].uid,
+      createAt: dataCurrentUser[0].createAt,
+    })
+      .then((res) => {
+
+        setIsLoading(false);
+
+      })
+      .catch((error) => {
+
+        console.log(error);
+
+      });
+      }  
+    });
+  }
+
   return {
     data,
     setData,
@@ -844,5 +884,11 @@ export const useHome = () => {
     setOpenDialogUser,
     getCurrentUser,
     giveAkses,
+    openDialogTag,
+    setOpenDialogTag,
+    handleOpenDialogTag,
+    handleCloseDialogTag,
+    dataPopUpChange, setDataPopUpChange,
+    getAkses,
   };
 };

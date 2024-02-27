@@ -28,7 +28,8 @@ export const DataProvider = (props) => {
   const [indexCardDrag, setIndexCardDrag] = useState(null);
   const [users, setUsers] = useState(null)
   const [openDialogUser, setOpenDialogUser] = useState(false);
-  // const [userUid, setUserUid] = useState(null)
+  const [openDialogTag, setOpenDialogTag] = useState(false)
+  const [dataPopUpChange, setDataPopUpChange] = useState(null)
   return (
     <DataContext.Provider
       value={{
@@ -80,7 +81,8 @@ export const DataProvider = (props) => {
         setIndexCardDrag,
         users, setUsers,
         openDialogUser, setOpenDialogUser,
-        // userUid, setUserUid,
+        openDialogTag, setOpenDialogTag,
+        dataPopUpChange, setDataPopUpChange,
       }}
       {...props}
     />

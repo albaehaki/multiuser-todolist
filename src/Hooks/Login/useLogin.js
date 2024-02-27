@@ -94,7 +94,7 @@ const OnChangeUuid = (e) => {
           set(ref(realtimedb, `todolist/users/${userCredential.user.uid}`), {
             name: data.name,
             email: userCredential.user.email,
-            role: "none",
+            role: "",
             uid: userCredential.user.uid,
             createAt: Date.now(),
           })

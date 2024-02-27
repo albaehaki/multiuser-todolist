@@ -64,7 +64,7 @@ function App({ userUid }) {
                 ? users?.filter((item) => item.uid === userUid)[0]?.role ===
                     "user" ||
                   users?.filter((item) => item.uid === userUid)[0]?.role ===
-                    "none"
+                    "none" || ""
                   ? "none"
                   : "flex"
                 : "flex",

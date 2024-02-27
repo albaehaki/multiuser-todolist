@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { Add, Edit, Remove } from "@mui/icons-material";
 import { useHome } from "../Hooks/Home/useHome";
+import PopUpUserTag from "./popupUsersTag"
 
 export const Popup = ({
   handleClickOpen,
@@ -82,7 +83,11 @@ export const Popup = ({
     addKomentar,
     removeKomentar,
     users,
+    openDialogTag,
+    handleCloseDialogTag,
+    handleOpenDialogTag,
   } = useHome();
+
   // console.log(taskId);
   useEffect(() => {
     // console.log(data, "render pop up");
@@ -169,7 +174,6 @@ export const Popup = ({
           <Grid sx={{ display: "flex", justifyContent: "right" }} item xs={2}>
             <Button
               onClick={() => {
-                
                 // console.log("test judul");
                 if (!toggleEditJudulTask) {
                   setToggleEditJudulTask(true);
@@ -185,8 +189,16 @@ export const Popup = ({
               //   right: 0,
               // }}
             >
-              
-              {users?.filter((item) => item.uid === userUid)[0]?.role === "admin" ? toggleEditJudulTask ? <Add /> : <Edit /> : ""}
+              {users?.filter((item) => item.uid === userUid)[0]?.role ===
+              "admin" ? (
+                toggleEditJudulTask ? (
+                  <Add />
+                ) : (
+                  <Edit />
+                )
+              ) : (
+                ""
+              )}
             </Button>
           </Grid>
         </Grid>
@@ -227,9 +239,12 @@ export const Popup = ({
                 <ListItemButton
                   type="submit"
                   onClick={() => {
-                    if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
-                    setToggleEditDeskripsiTask(false);
-                    addDeskripsiTask(dataPopUp);
+                    if (
+                      users?.filter((item) => item.uid === userUid)[0]?.role ===
+                      "admin"
+                    ) {
+                      setToggleEditDeskripsiTask(false);
+                      addDeskripsiTask(dataPopUp);
                     }
                   }}
                   sx={{
@@ -271,10 +286,13 @@ export const Popup = ({
                   onClick={() => {
                     // Menghapus();
                     // handleCloseDialog();
-                    if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
-                    setDeskripsiTask(dataPopUp.deskripsi_task);
-                    setToggleEditDeskripsiTask(true);
-                    // console.log("open");
+                    if (
+                      users?.filter((item) => item.uid === userUid)[0]?.role ===
+                      "admin"
+                    ) {
+                      setDeskripsiTask(dataPopUp.deskripsi_task);
+                      setToggleEditDeskripsiTask(true);
+                      // console.log("open");
                     }
                   }}
                 >
@@ -316,9 +334,12 @@ export const Popup = ({
                   //   console.log("ini ada isinya");
                   //   setOpenField(!openField);
                   // }
-                  if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
-                  setToggleEditDeskripsiTask(false);
-                  addDeskripsiTask(dataPopUp);
+                  if (
+                    users?.filter((item) => item.uid === userUid)[0]?.role ===
+                    "admin"
+                  ) {
+                    setToggleEditDeskripsiTask(false);
+                    addDeskripsiTask(dataPopUp);
                   }
                 }}
                 sx={{
@@ -418,23 +439,29 @@ export const Popup = ({
                 >
                   <Button
                     onClick={() => {
-                      if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
-                      setTodoOpenId(itemTodo.id_judul_todo);
-                      addJudulTodo(itemTodo);
-                      // console.log(dataPopUp);
-                      setToggleEditJudulTodo(!toggleEditJudulTodo);
-                      if (itemTodo.id_judul_todo) {
-                        setJudulTodo(itemTodo.judul_todo);
+                      if (
+                        users?.filter((item) => item.uid === userUid)[0]
+                          ?.role === "admin"
+                      ) {
+                        setTodoOpenId(itemTodo.id_judul_todo);
+                        addJudulTodo(itemTodo);
+                        // console.log(dataPopUp);
+                        setToggleEditJudulTodo(!toggleEditJudulTodo);
+                        if (itemTodo.id_judul_todo) {
+                          setJudulTodo(itemTodo.judul_todo);
+                        }
                       }
-                    }
                     }}
                   >
                     {toggleEditJudulTodo ? <Add /> : <Edit />}
                   </Button>
                   <Button
                     onClick={() => {
-                      if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
-                      removeJudulTodo(itemTodo);
+                      if (
+                        users?.filter((item) => item.uid === userUid)[0]
+                          ?.role === "admin"
+                      ) {
+                        removeJudulTodo(itemTodo);
                       }
                     }}
                   >
@@ -466,8 +493,11 @@ export const Popup = ({
                     <Grid xs={2} item>
                       <Button
                         onClick={() => {
-                          if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
-                          removeTodo(item);
+                          if (
+                            users?.filter((item) => item.uid === userUid)[0]
+                              ?.role === "admin"
+                          ) {
+                            removeTodo(item);
                           }
                           // console.log(item);
                         }}
@@ -498,14 +528,17 @@ export const Popup = ({
                 )}
                 <Button
                   onClick={() => {
-                    if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
-                    // console.log(itemTodo);
-                    setTodoOpenName(itemTodo.id_judul_todo);
-                    setToggleEditTodo(!toggleEditTodo);
-                    if (toggleEditTodo) {
-                      addNamaTodo(itemTodo, false);
+                    if (
+                      users?.filter((item) => item.uid === userUid)[0]?.role ===
+                      "admin"
+                    ) {
+                      // console.log(itemTodo);
+                      setTodoOpenName(itemTodo.id_judul_todo);
+                      setToggleEditTodo(!toggleEditTodo);
+                      if (toggleEditTodo) {
+                        addNamaTodo(itemTodo, false);
+                      }
                     }
-                  }
                   }}
                 >
                   <Add />
@@ -565,10 +598,13 @@ export const Popup = ({
             <Grid sx={{ display: "flex", justifyContent: "right" }} item xs={2}>
               <Button
                 onClick={() => {
-                  if (users?.filter((item) => item.uid === userUid)[0]?.role === "admin") {
-                  addJudulTodo(dataPopUp);
-                  // console.log(dataPopUp);
-                  setToggleAddJudulTodo(!toggleAddJudulTodo);
+                  if (
+                    users?.filter((item) => item.uid === userUid)[0]?.role ===
+                    "admin"
+                  ) {
+                    addJudulTodo(dataPopUp);
+                    // console.log(dataPopUp);
+                    setToggleAddJudulTodo(!toggleAddJudulTodo);
                   }
                 }}
               >
@@ -583,26 +619,49 @@ export const Popup = ({
           <IconButton
             onClick={() => {
               // console.log("test");
-              addTag(dataPopUp, users?.filter((item) => item.uid === userUid)[0]?.name);
+              if (
+                users?.filter((item) => item.uid === userUid)[0]?.role ===
+                "admin"
+              ) {
+                handleOpenDialogTag()
+              } else {
+                addTag(
+                  dataPopUp,
+                  users?.filter((item) => item.uid === userUid)[0]?.name
+                );
+              }
             }}
             sx={{ m: "5px", padding: "0px", width: 32, height: 32 }}
           >
             <Add sx={{ m: "auto", padding: "0px", width: 32, height: 32 }} />
           </IconButton>
         ) : (
-          <Avatar
-            sx={{
-              // padding: "0px",
-              width: 48,
-              height: 48,
-              // color: "lightgray",
-              backgroundColor: "white",
-              color: "lightcoral",
-              "&:hover": { color: "white", backgroundColor: "lightcoral" },
-            }}
-          >
-            {dataPopUp.tag.slice(0, 2)}
-          </Avatar>
+          <Grid sx={{ display: "flex" }}>
+           {users?.filter((item) => item.uid === userUid)[0]?.role ===
+                    "admin"? <IconButton
+              onClick={() => {
+                console.log(dataPopUp,"addtag jalan")
+                handleOpenDialogTag(dataPopUp,
+                  users?.filter((item) => item.uid === userUid)[0]?.name)
+              }}
+              sx={{ m: "5px", padding: "0px", width: 32, height: 32 }}
+            >
+              <Add sx={{ m: "auto", padding: "0px", width: 32, height: 32 }} />
+            </IconButton>: ""}
+            <Avatar
+              sx={{
+                // padding: "0px",
+                width: 48,
+                height: 48,
+                // color: "lightgray",
+                backgroundColor: "white",
+                color: "lightcoral",
+                "&:hover": { color: "white", backgroundColor: "lightcoral" },
+              }}
+            >
+              {dataPopUp.tag.slice(0, 3)}
+            </Avatar>
+          </Grid>
         )}
 
         <Typography
@@ -732,6 +791,11 @@ export const Popup = ({
           </Grid>
         </Grid>
       </Dialog>
+      <PopUpUserTag 
+      openDialogTag={openDialogTag} 
+      handleCloseDialogTag={handleCloseDialogTag}
+      userUid={userUid}
+      />
     </>
   );
 };

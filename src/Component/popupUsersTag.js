@@ -28,9 +28,9 @@ import { useHome } from "../Hooks/Home/useHome";
 import { blue } from "@mui/material/colors";
 import { DataContext } from "../Context";
 
-export default function AlertDialog({ openDialogUser, handleClose, userUid }) {
+export default function AlertDialog({ openDialogTag, handleCloseDialogTag, userUid }) {
   const { users } = useContext(DataContext);
-  const { giveAkses } = useHome()
+  const { giveAkses, addTag, dataPopUpChange } = useHome()
   //   const [open, setOpen] = React.useState(false);
 
   //   const handleClickOpen = () => {
@@ -52,7 +52,7 @@ export default function AlertDialog({ openDialogUser, handleClose, userUid }) {
         Open alert dialog
       </Button> */}
       <Dialog
-        sx={{
+         sx={{
           "& .MuiPaper-root": {
             
             maxWidth: "100vw",
@@ -60,8 +60,8 @@ export default function AlertDialog({ openDialogUser, handleClose, userUid }) {
             
           }
         }}
-        open={openDialogUser}
-        onClose={handleClose}
+        open={openDialogTag}
+        onClose={handleCloseDialogTag}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -78,27 +78,30 @@ export default function AlertDialog({ openDialogUser, handleClose, userUid }) {
           
         </DialogActions> */}
         <DialogTitle>Members</DialogTitle>
-        {/* <List sx={{ pt: 0 }}>
-        {users.map((items) => (
+       <List sx={{ pt: 0 }}>
+        {users?.filter((items) => items.role === "admin" || items.role === "user")?.map((items) => (
           <ListItem disableGutters key={items.uid}>
             <ListItemButton 
-            // onClick={() => handleListItemClick(email)}
+            onClick={() => 
+              {addTag(dataPopUpChange.data, items.name)
+              handleCloseDialogTag()}
+            }
             >
               <ListItemAvatar>
                 <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
-                  // {/* <PersonIcon /> */}
-        {/* {items.name.charAt(0)} */}
-        {/* </Avatar> */}
-        {/* </ListItemAvatar> */}
-        {/* <ListItemText primary={items.email} /> */}
-        {/* </ListItemButton> */}
-        {/* </ListItem> */}
-        {/* ))} */}
+                  {/* <PersonIcon /> */}
+        {items.name.slice(0, 3)} 
+        </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={items.email} />
+        </ListItemButton>
+        </ListItem>
+       ))}
 
-        {/* </List> */}
+        </List>
 
-        {users?.filter((items) => items.role !== "admin").filter((items) => items.role.length !== 0).map((items) => (
-          <Accordion>
+        {/* {users?.filter((items) => items.role !== "admin").map((items) => ( */}
+          {/* <Accordion>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1-content"
@@ -108,18 +111,18 @@ export default function AlertDialog({ openDialogUser, handleClose, userUid }) {
                 {/* <ListItemButton  */}
                 {/* // onClick={() => handleListItemClick(email)} */}
                 {/* > */}
-                <ListItemAvatar>
-                  <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
+                {/* <ListItemAvatar>
+                  <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}> */}
                     {/* <PersonIcon /> */}
-                    {items.name.charAt(0)}
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={items.email} />
+                    {/* {items.name.charAt(0)} */}
+                  {/* </Avatar> */}
+                {/* </ListItemAvatar> */}
+                {/* <ListItemText primary={items.email} /> */}
                 {/* </ListItemButton> */}
-              </ListItem>
+              {/* </ListItem> */}
               {/* {items.name} */}
-            </AccordionSummary>
-            <AccordionDetails>
+            {/* </AccordionSummary> */}
+            {/* <AccordionDetails>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Role</InputLabel>
                 <Select
@@ -132,12 +135,11 @@ export default function AlertDialog({ openDialogUser, handleClose, userUid }) {
                   <MenuItem value={10}>Admin</MenuItem>
                   <MenuItem value={20}>None</MenuItem>
                   <MenuItem value={30}>User</MenuItem>
-                  <MenuItem value={40}>Hapus</MenuItem>
                 </Select>
               </FormControl>
-            </AccordionDetails>
-          </Accordion>
-        ))}
+            </AccordionDetails> */}
+          {/* </Accordion> */} 
+        {/* ))} */}
       </Dialog>
     </>
   );
