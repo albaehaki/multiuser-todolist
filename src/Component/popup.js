@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -18,26 +18,18 @@ import {
 } from "@mui/material";
 import { Add, Edit, Remove } from "@mui/icons-material";
 import { useHome } from "../Hooks/Home/useHome";
-import PopUpUserTag from "./popupUsersTag"
+import PopUpUserTag from "./popupUsersTag";
 
 export const Popup = ({
-  handleClickOpen,
   openDialog,
   handleCloseDialog,
-  index,
+
   userUid,
 }) => {
   const {
     data,
-    setData,
-    OnChangeJudul,
-    OnChangeDeskripsi,
-    judul,
-    deskripsi,
-    GetData,
     taskId,
-    setTaskId,
-    Menghapus,
+
     onChangeDeskripsiTask,
     deskripsiTask,
     setDeskripsiTask,
@@ -56,7 +48,7 @@ export const Popup = ({
     dataPopUp,
     setDataPopUp,
     addTag,
-    //todo
+
     toggleEditJudulTodo,
     setToggleEditJudulTodo,
     toggleAddJudulTodo,
@@ -75,9 +67,7 @@ export const Popup = ({
     todoOpenName,
     setTodoOpenName,
     removeTodo,
-    //komentar
-    toggleEditKomentar,
-    setToggleEditKomentar,
+
     komentar,
     setKomentar,
     addKomentar,
@@ -86,40 +76,59 @@ export const Popup = ({
     openDialogTag,
     handleCloseDialogTag,
     handleOpenDialogTag,
+    addTimeSheet,
   } = useHome();
+  const [timeSheet, setTimeSheet] = useState({});
 
-  // console.log(taskId);
   useEffect(() => {
-    // console.log(data, "render pop up");
-    // console.log(Object.values(data), "render pop up obejek");
     data.map((item, i) => {
-      // console.log(item);
       item.task?.map((itemtask) => {
         if (taskId === itemtask.id_task) {
-          // console.log(itemtask, "ini ada di home");
           setDataPopUp(itemtask);
         }
       });
     });
-    // console.log("lagi");
   }, [isLoading, taskId]);
+  const getTimdeData = (data) => {
+    const sekarang = new Date(data);
+    const tahun = sekarang.getFullYear();
+    const bulan = sekarang.getMonth(); // 0-11 (Januari-Desember)
+    const tanggal = sekarang.getDate();
+    const jam = sekarang.getHours();
+    const menit = sekarang.getMinutes();
+    const detik = sekarang.getSeconds();
+    return `${bulan}/${tanggal}/${tahun}/${jam}:${menit}:${detik}`;
+  };
 
+  const getDurasi = (data) => {
+    const startDate = new Date(data.start);
+    const endDate = new Date(data.end);
+
+    const selisihBulan = endDate.getMonth() - startDate.getMonth();
+    const selisihHari = endDate.getDate() - startDate.getDate();
+    const selisihTahun = endDate.getFullYear() - startDate.getFullYear();
+    const selisihJam = endDate.getHours() - startDate.getHours();
+    const selisihMenit = endDate.getMinutes() - startDate.getMinutes();
+    const selisihDetik = endDate.getSeconds() - startDate.getSeconds();
+
+    return `${Math.abs(selisihBulan)}/${Math.abs(selisihHari)}/${Math.abs(selisihTahun)}/${Math.abs(selisihJam)}:${Math.abs(selisihMenit)}:${Math.abs(selisihDetik)}`;
+}
+
+
+ console.log(getDurasi(timeSheet))
   return (
     <>
       {/* Dialog */}
       <Dialog
-        // fullScreen
         sx={{
           "& .MuiPaper-root": {
             backgroundColor: "rgb(255,255,255,0.4)",
-            // backgroundColor: "rgb(255,255,255,0.0)",
+
             width: "80vw",
             maxWidth: "100vw",
             height: "70vh",
-            // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
-            // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
+
             boxShadow: "none",
-            // backdropFilter: "blur(10px)",
           },
           "& .MuiBackdrop-root": {
             backgroundColor: "rgb(255,255,255,0.2)",
@@ -136,11 +145,9 @@ export const Popup = ({
             backgroundColor: "white",
             py: "5px",
             px: "5px",
-            // m: "5px",
+
             mb: "5px",
             borderRadius: "5px",
-            // boxShadow: "1px 1px 1px gray",
-            // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
           }}
           container
         >
@@ -157,19 +164,12 @@ export const Popup = ({
                 fullWidth
                 value={judulTask}
                 onChange={(e) => {
-                  // if (data == undefined) {
-                  //   // onChangeJudulCard(e);
-                  // } else {
-                  //   // onChangeTask(e);
-                  // onChangeDeskripsiTask(e);
-                  // }
                   onChangeTask(e);
                 }}
               ></TextField>
             ) : (
               <Typography variant="h6">{dataPopUp.judul_task}</Typography>
             )}
-            {/* <Typography>{taskId.judul_task}</Typography> */}
           </Grid>
           <Grid sx={{ display: "flex", justifyContent: "right" }} item xs={2}>
             <Button
@@ -183,11 +183,6 @@ export const Popup = ({
                   addJudulTask(dataPopUp);
                 }
               }}
-              // sx={{
-              //   mr: 0,
-              //   position: "relative",
-              //   right: 0,
-              // }}
             >
               {users?.filter((item) => item.uid === userUid)[0]?.role ===
               "admin" ? (
@@ -208,10 +203,8 @@ export const Popup = ({
             backgroundColor: "white",
             py: "5px",
             px: "5px",
-            // m: "5px",
+
             borderRadius: "5px",
-            // boxShadow: "1px 1px 1px gray",
-            // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
           }}
         >
           {dataPopUp.deskripsi_task ? (
@@ -228,12 +221,7 @@ export const Popup = ({
                   fullWidth
                   value={deskripsiTask}
                   onChange={(e) => {
-                    // if (data == undefined) {
-                    //   // onChangeJudulCard(e);
-                    // } else {
-                    //   // onChangeTask(e);
                     onChangeDeskripsiTask(e);
-                    // }
                   }}
                 ></TextField>
                 <ListItemButton
@@ -275,24 +263,19 @@ export const Popup = ({
                 </Typography>
                 <Button
                   sx={{
-                    // backgroundColor: "lightcoral",
                     borderRadius: "10px",
-                    // border: "2px",
-                    // borderColor: "lightcoral",
+
                     color: "black",
                     mt: "10px",
                   }}
                   fullWidth
                   onClick={() => {
-                    // Menghapus();
-                    // handleCloseDialog();
                     if (
                       users?.filter((item) => item.uid === userUid)[0]?.role ===
                       "admin"
                     ) {
                       setDeskripsiTask(dataPopUp.deskripsi_task);
                       setToggleEditDeskripsiTask(true);
-                      // console.log("open");
                     }
                   }}
                 >
@@ -313,27 +296,12 @@ export const Popup = ({
                 fullWidth
                 value={deskripsiTask}
                 onChange={(e) => {
-                  // if (data == undefined) {
-                  //   // onChangeJudulCard(e);
-                  // } else {
-                  //   // onChangeTask(e);
                   onChangeDeskripsiTask(e);
-                  // }
                 }}
               ></TextField>
               <ListItemButton
                 type="submit"
                 onClick={() => {
-                  // if (data == undefined) {
-                  //   addJudulCard(ListCard);
-                  //   console.log("ini kosong");
-                  //   setOpenField(!openField);
-                  // } else {
-                  //   addJudulTask(data);
-                  //   console.log(data.id_card);
-                  //   console.log("ini ada isinya");
-                  //   setOpenField(!openField);
-                  // }
                   if (
                     users?.filter((item) => item.uid === userUid)[0]?.role ===
                     "admin"
@@ -362,21 +330,103 @@ export const Popup = ({
             </>
           )}
         </Box>
+        {/* StartTIme */}
+
+        <Box>
+          <Grid
+            sx={{
+              backgroundColor: "white",
+              py: "5px",
+              px: "5px",
+              mb: "5px",
+              mt: "15px",
+              borderRadius: "5px",
+            }}
+            container
+          >
+            <Grid item xs={10}>
+              <Typography
+                sx={{
+                  backgroundColor: "white",
+                  my: "5px",
+                  mx: "5px",
+                  borderRadius: "5px",
+                  fontWeight: "800",
+                }}
+              >
+                Waktu Pengerjaan
+              </Typography>
+            </Grid>
+            <Grid
+              gap={2}
+              sx={{ display: "flex", justifyContent: "right" }}
+              item
+              xs={2}
+            >
+              {timeSheet.start === undefined ? (
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => {
+                    // const now = new Date();
+                    // const formattedTime = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+                    // console.log(formattedTime);
+                    const sekarang = new Date();
+                    setTimeSheet({ start: sekarang, end: "" });
+                    // const tahun = sekarang.getFullYear();
+                    // const bulan = sekarang.getMonth(); // 0-11 (Januari-Desember)
+                    // const tanggal = sekarang.getDate();
+                    // const jam = sekarang.getHours();
+                    // const menit = sekarang.getMinutes();
+                    // const detik = sekarang.getSeconds();
+                    // console.log(sekarang);
+                    // console.log(
+                    //   `Tanggal saat ini: ${tanggal}/${bulan + 1}/${tahun}`
+                    // );
+                    // console.log(`Waktu saat ini: ${jam}:${menit}:${detik}`);
+                    addTimeSheet("start", {id: userUid, data: sekarang})
+                  }}
+                >
+                  Start
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => {
+                    const sekarang = new Date();
+                    addTimeSheet("stop", {id: userUid, data: sekarang})
+                    setTimeSheet({ start: timeSheet.start, end: sekarang });
+                  }}
+                >
+                  Stop
+                </Button>
+              )}
+            </Grid>
+          </Grid>
+        </Box>
+        <Box>
+          <Grid>
+            <Typography>zaky</Typography>
+          </Grid>
+          <Grid>
+            <Typography>
+              Mulai :{getTimdeData(timeSheet?.start)}
+              {/* {timeSheet.start !== undefined ? timeSheet.start : "00.00"} */}
+            </Typography>
+            <Typography>
+              Selesai : {getTimdeData(timeSheet?.end)}
+              {/* {timeSheet.end !== undefined ? timeSheet.end : "00.00"} */}
+            </Typography>
+            <Typography>Durasi: {getDurasi(timeSheet)}</Typography>
+          </Grid>
+        </Box>
+        {/* end Time */}
         {/* todo */}
         <Typography sx={{ my: "20px", fontWeight: "600", fontSize: "16" }}>
           Checkbox
         </Typography>
 
-        {/* <FormGroup sx={{ mx: "15px" }}>
-          {dataPopUp.todo?.map((item) => (
-            <>
-              <FormControlLabel
-                control={<Checkbox checked={item.checked} />}
-                label={item.judul_todo}
-              />
-            </>
-          ))}
-        </FormGroup> */}
         <Box>
           {dataPopUp.todo?.map((itemTodo, i) => (
             <>
@@ -386,12 +436,10 @@ export const Popup = ({
                   backgroundColor: "white",
                   py: "5px",
                   px: "5px",
-                  // m: "5px",
+
                   mb: "5px",
                   mt: "15px",
                   borderRadius: "5px",
-                  // boxShadow: "1px 1px 1px gray",
-                  // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
                 }}
                 container
               >
@@ -409,7 +457,6 @@ export const Popup = ({
                       fullWidth
                       value={judulTodo}
                       onChange={(e) => {
-                        // onChangeTask(e);
                         setJudulTodo(e.target.value);
                       }}
                     ></TextField>
@@ -419,25 +466,24 @@ export const Popup = ({
                         backgroundColor: "white",
                         my: "5px",
                         mx: "5px",
-                        // m: "5px",
 
                         borderRadius: "5px",
                         fontWeight: "800",
-                        // boxShadow: "1px 1px 1px gray",
-                        // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
                       }}
                     >
                       {itemTodo.judul_todo.substring(0, 10) + "..."}
                     </Typography>
                   )}
-                  {/* <Typography>{taskId.judul_task}</Typography> */}
                 </Grid>
                 <Grid
+                  gap={2}
                   sx={{ display: "flex", justifyContent: "right" }}
                   item
                   xs={2}
                 >
                   <Button
+                    variant="contained"
+                    color="success"
                     onClick={() => {
                       if (
                         users?.filter((item) => item.uid === userUid)[0]
@@ -456,6 +502,8 @@ export const Popup = ({
                     {toggleEditJudulTodo ? <Add /> : <Edit />}
                   </Button>
                   <Button
+                    variant="contained"
+                    color="error"
                     onClick={() => {
                       if (
                         users?.filter((item) => item.uid === userUid)[0]
@@ -473,25 +521,20 @@ export const Popup = ({
               <FormGroup sx={{ mr: "20px" }}>
                 {itemTodo.list_todo?.map((item, index) => (
                   <Grid container>
-                    <Grid xs={10} item>
+                    <Grid xs={11} item>
                       <FormControlLabel
                         key={index}
                         control={<Checkbox checked={item.kondisi} />}
                         label={item.nama_todo.substring(0, 20) + "..."}
                         onClick={(e) => {
-                          // console.log(e.target.checked);
                           addNamaTodo(item, true, e.target.checked);
                         }}
-                        // onDrag={(e) => {
-                        //   console.log(e, "drag");
-                        // }}
-                        // onTouchMove={(e) => {
-                        //   console.log(e, "move");
-                        // }}
                       />
                     </Grid>
-                    <Grid xs={2} item>
+                    <Grid xs={1} item>
                       <Button
+                        variant="contained"
+                        color="error"
                         onClick={() => {
                           if (
                             users?.filter((item) => item.uid === userUid)[0]
@@ -499,7 +542,6 @@ export const Popup = ({
                           ) {
                             removeTodo(item);
                           }
-                          // console.log(item);
                         }}
                       >
                         <Remove />
@@ -519,7 +561,6 @@ export const Popup = ({
                     fullWidth
                     value={todo}
                     onChange={(e) => {
-                      // onChangeTask(e);
                       setTodo(e.target.value);
                     }}
                   ></TextField>
@@ -527,12 +568,13 @@ export const Popup = ({
                   ""
                 )}
                 <Button
+                  variant="contained"
+                  color="success"
                   onClick={() => {
                     if (
                       users?.filter((item) => item.uid === userUid)[0]?.role ===
                       "admin"
                     ) {
-                      // console.log(itemTodo);
                       setTodoOpenName(itemTodo.id_judul_todo);
                       setToggleEditTodo(!toggleEditTodo);
                       if (toggleEditTodo) {
@@ -551,12 +593,10 @@ export const Popup = ({
               backgroundColor: "white",
               py: "5px",
               px: "5px",
-              // m: "5px",
+
               mb: "5px",
               mt: "15px",
               borderRadius: "5px",
-              // boxShadow: "1px 1px 1px gray",
-              // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
             }}
             container
           >
@@ -583,12 +623,9 @@ export const Popup = ({
                     backgroundColor: "white",
                     my: "5px",
                     mx: "5px",
-                    // m: "5px",
 
                     borderRadius: "5px",
                     fontWeight: "800",
-                    // boxShadow: "1px 1px 1px gray",
-                    // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
                   }}
                 >
                   Todo
@@ -597,13 +634,15 @@ export const Popup = ({
             </Grid>
             <Grid sx={{ display: "flex", justifyContent: "right" }} item xs={2}>
               <Button
+                variant="contained"
+                color="success"
                 onClick={() => {
                   if (
                     users?.filter((item) => item.uid === userUid)[0]?.role ===
                     "admin"
                   ) {
                     addJudulTodo(dataPopUp);
-                    // console.log(dataPopUp);
+
                     setToggleAddJudulTodo(!toggleAddJudulTodo);
                   }
                 }}
@@ -623,7 +662,7 @@ export const Popup = ({
                 users?.filter((item) => item.uid === userUid)[0]?.role ===
                 "admin"
               ) {
-                handleOpenDialogTag()
+                handleOpenDialogTag();
               } else {
                 addTag(
                   dataPopUp,
@@ -637,23 +676,30 @@ export const Popup = ({
           </IconButton>
         ) : (
           <Grid sx={{ display: "flex" }}>
-           {users?.filter((item) => item.uid === userUid)[0]?.role ===
-                    "admin"? <IconButton
-              onClick={() => {
-                console.log(dataPopUp,"addtag jalan")
-                handleOpenDialogTag(dataPopUp,
-                  users?.filter((item) => item.uid === userUid)[0]?.name)
-              }}
-              sx={{ m: "5px", padding: "0px", width: 32, height: 32 }}
-            >
-              <Add sx={{ m: "auto", padding: "0px", width: 32, height: 32 }} />
-            </IconButton>: ""}
+            {users?.filter((item) => item.uid === userUid)[0]?.role ===
+            "admin" ? (
+              <IconButton
+                onClick={() => {
+                  console.log(dataPopUp, "addtag jalan");
+                  handleOpenDialogTag(
+                    dataPopUp,
+                    users?.filter((item) => item.uid === userUid)[0]?.name
+                  );
+                }}
+                sx={{ m: "5px", padding: "0px", width: 32, height: 32 }}
+              >
+                <Add
+                  sx={{ m: "auto", padding: "0px", width: 32, height: 32 }}
+                />
+              </IconButton>
+            ) : (
+              ""
+            )}
             <Avatar
               sx={{
-                // padding: "0px",
                 width: 48,
                 height: 48,
-                // color: "lightgray",
+
                 backgroundColor: "white",
                 color: "lightcoral",
                 "&:hover": { color: "white", backgroundColor: "lightcoral" },
@@ -670,11 +716,10 @@ export const Popup = ({
             maxWidth: "200px",
             py: "5px",
             px: "5px",
-            // mx: "5px",
+
             my: "15px",
             borderRadius: "5px",
-            // boxShadow: "1px 1px 1px gray",
-            // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
+
             fontWeight: "800",
             letterSpacing: "5px",
           }}
@@ -693,10 +738,8 @@ export const Popup = ({
                   </Grid>
                   <Grid item xs={2}>
                     <IconButton
-                      // type="submit"
                       fullWidth
                       onClick={() => {
-                        // removeJudulTodo(itemTodo);
                         removeKomentar(item);
                       }}
                     >
@@ -709,11 +752,8 @@ export const Popup = ({
                     backgroundColor: "white",
                     py: "5px",
                     px: "5px",
-                    // mx: "5px",
                     mb: "15px",
                     borderRadius: "5px",
-                    // boxShadow: "1px 1px 1px gray",
-                    // boxShadow: "0px 11px 15px -7px rgb(0 0 0 / 20%)",
                   }}
                 >
                   {item.komentar}
@@ -725,34 +765,44 @@ export const Popup = ({
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            // console.log(e.target.value);
-            addKomentar(dataPopUp, users?.filter((item) => item.uid === userUid)[0]?.name);
+
+            addKomentar(
+              dataPopUp,
+              users?.filter((item) => item.uid === userUid)[0]?.name
+            );
           }}
         >
-          <Grid sx={{ mb: "10px" }} container>
-            <Grid item xs={10}>
+          <Grid sx={{ mb: "10px", backgroundColor: "white" }} container>
+            <Grid item xs={11}>
               <TextField
                 fullWidth
                 sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "50px 10px 10px 50px ",
-                  },
+                  "& .MuiOutlinedInput-root": {},
                 }}
                 size="small"
                 value={komentar}
                 onChange={(e) => setKomentar(e.target.value)}
               ></TextField>
             </Grid>
-            <Grid item xs={2}>
-              <IconButton
+            <Grid
+              sx={{ pl: "10px" }}
+              container
+              direction="row"
+              justifyContent="flex-end"
+              item
+              xs={1}
+            >
+              <Button
+                variant="contained"
+                color="success"
                 type="submit"
-                fullWidth
+                // fullWidth
                 onClick={() => {
                   // removeJudulTodo(itemTodo);
                 }}
               >
                 <Add />
-              </IconButton>
+              </Button>
             </Grid>
           </Grid>
         </form>
@@ -762,7 +812,8 @@ export const Popup = ({
               fullWidth
               sx={{
                 backgroundColor: "#E0144C",
-                borderRadius: "10px",
+                // borderRadius: "10px",
+
                 color: "white",
               }}
               onClick={() => {
@@ -791,10 +842,10 @@ export const Popup = ({
           </Grid>
         </Grid>
       </Dialog>
-      <PopUpUserTag 
-      openDialogTag={openDialogTag} 
-      handleCloseDialogTag={handleCloseDialogTag}
-      userUid={userUid}
+      <PopUpUserTag
+        openDialogTag={openDialogTag}
+        handleCloseDialogTag={handleCloseDialogTag}
+        userUid={userUid}
       />
     </>
   );

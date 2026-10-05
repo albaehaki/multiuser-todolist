@@ -65,7 +65,10 @@ export const Task = ({ itemTask, handleClickOpen, dataTask, index }) => {
             }}
           >
             <ListItemText>
-              <Typography>{dataTask ? itemTask.judul_task : ""}</Typography>
+              {/* <Typography>{dataTask ? itemTask.judul_task : ""}</Typography> */}
+              <Typography style={{ wordWrap: "break-word" }}>
+                {dataTask ? itemTask.judul_task : ""}
+              </Typography>
             </ListItemText>
           </ListItemButton>
         </ListItem>

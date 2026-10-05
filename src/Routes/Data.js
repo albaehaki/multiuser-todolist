@@ -5,7 +5,6 @@ import {
   LupaPassword,
   PasswordBaru,
   Header,
-  Contoh,
 } from "../Pages/index";
 
 const routesData = [
@@ -38,11 +37,6 @@ const routesData = [
     id: 5,
     element: <Header />,
     route: "/header",
-  },
-  {
-    id: 6,
-    element: <Contoh />,
-    route: "/contoh",
   },
 ];
 

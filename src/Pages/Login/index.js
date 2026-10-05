@@ -7,37 +7,30 @@ import {
   Container,
   Typography,
   Stack,
-  Box,
+
 } from "@mui/material";
-// import {
-//   getAuth,
-//   createUserWithEmailAndPassword,
-//   signInWithEmailAndPassword,
-//   signOut,
-// } from "firebase/auth";
+
 import { useForm } from "react-hook-form";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../Hooks/Login/useLogin";
 import { Password } from "@mui/icons-material";
-import withUnprotected from "../../hoc/withUnprotected";
 import withoutAuth from "../../hoc/withoutAuth";
 
 const Login = () => {
-  // const firebase = getAuth();
+  
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
   const { typeViewPassword, setTypeViewPassword, SignIn } = useLogin();
   const OnSubmit = (e) => {
-    // console.log(e);
+
     SignIn(e);
   };
-  // console.log({ errors });
+
   return (
     <>
       <Container
@@ -46,7 +39,7 @@ const Login = () => {
           display: "flex",
           height: "100vh",
           width: "100",
-          // alignItems: "center",
+          
           justifyContent: "center",
           backgroundColor: "Gray",
         }}
@@ -65,11 +58,11 @@ const Login = () => {
             sx={{
               margin: "auto",
               gap: 0,
-              // width: "450px",
+              
               px: "100px",
-              // pl: "50px",
+              
             }}
-            // alignContent="center"
+          
             direction="row"
             container
           >
@@ -78,7 +71,7 @@ const Login = () => {
                 sx={{
                   fontSize: "40px",
                   fontWeight: 600,
-                  // mb: "50px",
+                 
                   color: "GrayText",
                 }}
                 align="center"
@@ -112,8 +105,7 @@ const Login = () => {
                 label="Email"
                 fullWidth
                 type="email"
-                // value={email}
-                // onChange={OnChangeEmail}
+                
                 {...register("email", { required: true })}
               />
               {errors?.email?.type === "required" && (
@@ -138,8 +130,7 @@ const Login = () => {
                   label="Password"
                   type={typeViewPassword ? "text" : "Password"}
                   fullWidth
-                  // value={password}
-                  // onChange={OnChangePassword}
+                  
                   {...register("password", { required: true })}
                 />
                 <IconButton

@@ -133,13 +133,7 @@ export const useHome = () => {
     return bytes.toString(enc.Utf8);
   };
 
-  // // Save data to cookie
-  // Cookies.set("role", encrypt("admin"), { expires: 7 });
-  // Cookies.set("uuid", encrypt("1234567890"), { expires: 7 });
-
-  // // Read data from cookie
-  // const role = decrypt(Cookies.get("role"));
-  // const uuid = decrypt(Cookies.get("uuid"));
+ 
   const getId = (id, ket) => {
     if (ket === "card") {
       const hasil = data.findIndex((x) => x.id_card === id);
@@ -226,54 +220,7 @@ export const useHome = () => {
       }
     }
   };
-  // const getId = (id, ket) => {
-  //   if (ket === "card") {
-  //     const hasil = data.findIndex((x) => x.id_card === id);
-  //     return hasil;
-  //   } else if (ket === "task") {
-  //     const hasil = data
-  //       .map((x) => x.task?.findIndex((y) => y.id_task === id))
-  //       .filter((x) => x >= 0)
-  //       .join();
-  //     return hasil;
-  //   } else if (ket === "cardxTask") {
-  //     let hasil = [];
-  //     data?.forEach((x, idxCard) => {
-  //       x.task?.forEach((y, idxTask) => {
-  //         if (y.id_task === id) {
-  //           hasil.push({
-  //             noUrutCard: idxCard,
-  //             noUrutTask: idxTask,
-  //           });
-  //         }
-  //       });
-  //     });
-  //     return hasil;
-  //   } else if (ket === "cardxTaskxTodo") {
-  //     let hasil = [];
-  //     data?.forEach((x, idxCard) => {
-  //       x.task?.forEach((y, idxTask) => {
-  //         y.todo?.forEach((z, idxJudulTodo) => {
-  //           hasil.push({
-  //             z,
-  //           });
-  //         });
-  //       });
-  //     });
-  //   } else if (ket === "cardxTaskxTodoxList") {
-  //     let hasil = [];
-  //     data?.forEach((x, idxCard) => {
-  //       x.task?.forEach((y, idxTask) => {
-  //         y.todo?.forEach((z, idxJudulTodo) => {
-  //           hasil.push({
-  //             z,
-  //           });
-  //         });
-  //       });
-  //     });
-  //   }
-  // };
-
+  
   // add judul card
   const onChangeJudulCard = (e) => {
     setJudulCard(e.target.value);
@@ -331,6 +278,7 @@ export const useHome = () => {
           todo: e.todo ? e.todo : [],
           komentar: e.komentar ? e.komentar : [],
           tag: e.tag ? e.tag : "",
+          time_sheet: e.time_sheet ? e.time_sheet : [],
         }
       )
         .then((res) => {
@@ -365,6 +313,7 @@ export const useHome = () => {
           todo: e.todo ? e.todo : [],
           komentar: e.komentar ? e.komentar : [],
           tag: e.tag ? e.tag : "",
+          time_sheet: e.time_sheet ? e.time_sheet : [],
         }
       )
         .then((res) => {
@@ -608,7 +557,7 @@ export const useHome = () => {
   };
   const removeKomentar = (e) => {
     const noUrut = getId(e.id_komentar, "cardxTaskxKomen");
-    console.log(noUrut, e);
+    // console.log(noUrut, e);
     const judulTodoFiltered = data
       .filter((a, i) => i === noUrut[0].noUrutCard)[0]
       .task.filter((b, i) => i === noUrut[0].noUrutTask)[0]
@@ -639,34 +588,35 @@ export const useHome = () => {
     const uuid = uid(16);
     console.log(e, "ini dari props");
 
-    const noUrut = getId(e.id_task, "cardxTask");
-    console.log(noUrut);
+    // const noUrut = getId(e.id_task, "cardxTask");
+    // console.log(noUrut, "noUrut dari");
 
-    set(
-      ref(
-        realtimedb,
-        `todolist/card/${noUrut[0].noUrutCard}/task/${noUrut[0].noUrutTask}`
-      ),
+    // set(
+    //   ref(
+    //     realtimedb,
+    //     `todolist/card/${noUrut[0].noUrutCard}/task/${noUrut[0].noUrutTask}`
+    //   ),
 
-      {
-        judul_task: e.judul_task,
-        deskripsi_task: e.deskripsi_task,
-        id_task: e.id_task,
-        todo: e.todo ? e.todo : [],
-        komentar: e.komentar ? e.komentar : [],
-        tag: name,
-      }
-    )
-      .then((res) => {
-        // setKomentar("");
-        setIsLoading(false);
-        // GetData();
-      })
-      .catch((error) => {
-        // setKomentar("");
-        setIsLoading(false);
-        console.log(error);
-      });
+    //   {
+    //     judul_task: e.judul_task,
+    //     deskripsi_task: e.deskripsi_task,
+    //     id_task: e.id_task,
+    //     todo: e.todo ? e.todo : [],
+    //     komentar: e.komentar ? e.komentar : [],
+    //     tag: name,
+    //     time_sheet: e.time_sheet ? e.time_sheet : [],
+    //   }
+    // )
+    //   .then((res) => {
+    //     // setKomentar("");
+    //     setIsLoading(false);
+    //     // GetData();
+    //   })
+    //   .catch((error) => {
+    //     // setKomentar("");
+    //     setIsLoading(false);
+    //     console.log(error);
+    //   });
   };
   // drag and drop
   const dndCard = (iCardDrag, indexCardDrop) => {
@@ -696,7 +646,7 @@ export const useHome = () => {
       });
   };
   const dndTask = (idTaskDrag, idTaskDrop) => {
-    // console.log(idTaskDrag, "ini dragnya");
+    console.log(idTaskDrag, "ini dragnya");
     const iDrop = getId(idTaskDrop.id_task, "cardxTask");
     const iDrag = getId(idTaskDrag.id_task, "cardxTask");
     // console.log({ drag: iDrag, drop: iDrop });
@@ -809,6 +759,49 @@ export const useHome = () => {
     });
   }
 
+  const addTime = (e, name) => {
+    const noUrut = getId(e.id_task, "cardxTask");
+    if (deskripsiTask.length > 0) {
+      set(
+        ref(
+          realtimedb,
+          `todolist/card/${noUrut[0].noUrutCard}/task/${noUrut[0].noUrutTask}`
+        ),
+
+        {
+          judul_task: e.judul_task,
+          deskripsi_task: deskripsiTask,
+          id_task: e.id_task,
+          todo: e.todo ? e.todo : [],
+          komentar: e.komentar ? e.komentar : [],
+          tag: e.tag ? e.tag : "",
+          time_sheet: e.time_sheet ? e.time_sheet : [],
+        }
+      )
+        .then((res) => {
+          setDeskripsiTask("");
+          setIsLoading(false);
+          // GetData();
+        })
+        .catch((error) => {
+          setDeskripsiTask("");
+          setIsLoading(false);
+          console.log(error);
+        });
+    }
+  };
+
+  const addTimeSheet = (printah, data) => {
+
+
+    if (printah === "start") {
+      console.log("start", data);
+    } else {
+      console.log("stop", data);
+    }
+
+  }
+
   return {
     data,
     setData,
@@ -843,7 +836,7 @@ export const useHome = () => {
     dataPopUp,
     setDataPopUp,
     removeTodo,
-
+    addTimeSheet,
     //todo
     toggleEditJudulTodo,
     setToggleEditJudulTodo,

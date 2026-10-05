@@ -1,29 +1,24 @@
-import React, { useEffect, useContext, useState, useMemo, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
-  Menu,
-  Drawer,
-  Button,
+
   Box,
-  Avatar,
+ 
   Typography,
   IconButton,
-  Grid,
-  Dialog,
-  DialogActions,
+  
   TextField,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
   ListItemIcon,
-  Checkbox,
+
 } from "@mui/material";
 
 // import { useForm } from "react-hook-form";
 import {
   Add,
-  Close,
-  DriveFileMoveOutlined,
+
   MoreVert,
 } from "@mui/icons-material";
 import { Popup } from "./popup";
@@ -51,18 +46,13 @@ export const Card = ({
     onChangeJudulCard,
     onChangeTask,
     judulCard,
-    setJudulCard,
+
     addJudulCard,
     judulTask,
-    setJudulTask,
+
     addJudulTask,
     isLoading,
-    setIsLoading,
-    toggleEditDeskripsiTask,
-    setToggleEditDeskripsiTask,
-    GetData,
-    indexCardDrag,
-    setIndexCardDrag,
+   
     dndCard,
     users,
     
@@ -79,14 +69,11 @@ export const Card = ({
   const [, drop] = useDrop({
     accept: ItemTypes.BOX,
     drop: (item, monitor) => {
-      // console.log(item, index, "ini drop box");
-      // setIndexCardDrag(item.index);
       dndCard(item.index, index);
     },
   });
   //batas akhir react dnd
   const [openField, setOpenField] = useState(false);
-  const [openMenuCard, setMenuCard] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [dataTask, setDataTask] = useState([]);
   const open = Boolean(anchorEl);
@@ -96,54 +83,21 @@ export const Card = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-  // const handleCloseDialog = () => {
-  //   setOpenDialog(false);
-  // };
-  // console.log(index);
-  // console.log(data, "from card js");
-  // console.log(data, "ini task");
+  
 
   useEffect(() => {
     if (data) {
       setDataTask(data.task);
     }
-    // if (data.task === undefined) {
-    //   console.log(data.task, "ini undefined");
-    // }
-    // console.log("render card");
+    
   }, [isLoading]);
-  // const popup = useMemo(
-  //   () => (
-  //     <Popup
-  //       data={data}
-  //       handleClickOpen={handleClickOpen}
-  //       openDialog={openDialog}
-  //       handleCloseDialog={handleCloseDialog}
-  //       index={index}
-  //     />
-  //   ),
-  //   [data, openDialog, setToggleEditDeskripsiTask]
-  // );
-
-  // console.log(data);
-  // console.log(Object.values(data));
-  // console.log(dataTask);
-  // console.log(indexCardDrag);
-  // const divStyle = {
-  //   overflowY: "scroll",
-  //   // border: "1px solid red",
-  //   // width: "500px",
-  //   // float: "left",
-  //   max-height: "300px",
-  //   // position: "relative",
-  // };
-  // console.log(userUid, "Card");
+  
   return (
     <div ref={drop}>
       <List
         ref={drag}
         sx={{
-          // my: "auto",
+          
           mt: "100px",
           ml: "10px",
           width: "300px",
@@ -182,10 +136,10 @@ export const Card = ({
           sx={{
             overflowY: "auto",
             maxHeight: "300px",
-            // backgroundColor: "red"
+            
             "&::-webkit-scrollbar": {
               width: "7px",
-              // backgroundColor: "#F5F5F5",
+              
               position: "absolute",
             },
             "&::-webkit-scrollbar-thumb": {
@@ -194,7 +148,7 @@ export const Card = ({
               backgroundColor: "white",
             },
           }}
-          // style={divStyle}
+          
         >
           {dataTask === undefined
             ? ""
@@ -236,12 +190,11 @@ export const Card = ({
                  
                   if (data == undefined) {
                     addJudulCard(ListCard);
-                    // console.log("ini kosong");
+                    
                     setOpenField(!openField);
                   } else {
                     addJudulTask(data);
-                    // console.log(data.id_card);
-                    // console.log("ini ada isinya");
+                    
                     setOpenField(!openField);
                   }
                 
